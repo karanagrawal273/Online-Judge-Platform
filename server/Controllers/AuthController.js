@@ -7,12 +7,16 @@ module.exports.register = async (req, res, next) => {
     const { firstname, lastname, phone, email, password } = req.body;
 
     if (!(firstname && lastname && phone && email && password)) {
-      return res.json({message:"Please enter all the informations"});
+      return res
+        .status(404)
+        .json({ success: false, message: "Please enter all the informations" });
     }
 
     const user = await User.findOne({ email });
     if (user) {
-      return res.json({message:"User already exists"});
+      return res
+        .status(404)
+        .json({ success: false, message: "User already exists" });
     }
 
     const hashedPass = await bcrypt.hash(password, 10);
@@ -26,14 +30,14 @@ module.exports.register = async (req, res, next) => {
     });
 
     const token = jwt.sign({ id: existsUser._id }, process.env.SECRET_KEY, {
-      expiresIn: "1d",
+      expiresIn: "1h",
     });
 
     existsUser.token = token;
     existsUser.password = undefined;
 
     const options = {
-      expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
+      expires: new Date(Date.now() + 1 * 60 * 60 * 1000),
       httpOnly: true,
     };
 
@@ -44,7 +48,7 @@ module.exports.register = async (req, res, next) => {
     });
     next();
   } catch (error) {
-    console.error(error);
+    res.error(error.message);
   }
 };
 
@@ -53,29 +57,36 @@ module.exports.login = async (req, res, next) => {
     const { email, password } = req.body;
 
     if (!(email && password)) {
-      return res
-        .json({message:"All the Information are required to get login"});
+      return res.status(404).json({
+        success: false,
+        message: "All the Information are required to get login",
+      });
     }
 
     const existsUser = await User.findOne({ email });
     if (!existsUser) {
-      return res.json({message:"User doesn't get Registered"});
+      return res.status(404).json({
+        success: false,
+        message: "User doesn't get Registered",
+      });
     }
 
     const enteredPass = await bcrypt.compare(password, existsUser.password);
     if (!enteredPass) {
-      return res.json({message:"Invalid login credentials"});
+      return res
+        .status(404)
+        .json({ success: false, message: "Invalid login credentials" });
     }
 
     const token = jwt.sign({ id: existsUser._id }, process.env.SECRET_KEY, {
-      expiresIn: "1d",
+      expiresIn: "1h",
     });
 
     existsUser.token = token;
     existsUser.password = undefined;
     // console.log(token);
     const options = {
-      expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
+      expires: new Date(Date.now() + 1 * 60 * 60 * 1000),
       withCredentials: true,
       httpOnly: true,
     };
@@ -87,6 +98,17 @@ module.exports.login = async (req, res, next) => {
     });
     next();
   } catch (error) {
-    console.log(error.message);
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
+
+module.exports.logout = async (req, res, next) => {
+  try {
+    res
+      .clearCookie("token")
+      .status(200)
+      .json({ success: true, message: "Successfully Logout" });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
   }
 };

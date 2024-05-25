@@ -34,8 +34,15 @@ const Login = () => {
         navigate("/");
         // console.log(response);
       }
+      else{
+        // console.log(success);
+        console.log('login error');
+        // console.log(message);
+      }
     } catch (error) {
-      console.log(error);
+      // console.log(error.message);
+      // console.log(error.response.data.message);
+      console.log(error)
     }
   };
 
