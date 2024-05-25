@@ -48,7 +48,7 @@ module.exports.register = async (req, res, next) => {
     });
     next();
   } catch (error) {
-    res.error(error.message);
+    res.status(400).json({ success: false, message: error.message });
   }
 };
 

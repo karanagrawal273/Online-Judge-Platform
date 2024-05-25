@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import "../css/login.css";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -8,7 +9,20 @@ const Login = () => {
     email: "",
     password: "",
   });
+
   const { email, password } = inputValue;
+  const [errors, setErrors] = useState({});
+  const [submitError, setSubmitError] = useState("");
+  const validateForm = (data) => {
+    const errors = {};
+    if (!data.email.trim()) {
+      errors.email = "Email is required";
+    }
+    if (!data.password.trim()) {
+      errors.password = "Password is required";
+    }
+    return errors;
+  };
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setInputValue({
@@ -19,62 +33,100 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.post("http://localhost:5000/login", {
-        ...inputValue,
-        },
-        { withCredentials: true }
-      );
-      const {success,message}=response.data;
-      if (success) {
+    const newErrors = validateForm(inputValue);
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length === 0) {
+      try {
+        const response = await axios.post(
+          "http://localhost:5000/login",
+          {
+            ...inputValue,
+          },
+          { withCredentials: true }
+        );
+        const { success, message } = response.data;
+        if (success) {
+          setInputValue({
+            email: "",
+            password: "",
+          });
+          navigate("/");
+          // console.log(response);
+        } else {
+          // console.log(success);
+          setInputValue({
+            email: "",
+            password: "",
+          });
+          setSubmitError("login error");
+          console.log("login error");
+          // console.log(message);
+        }
+      } catch (error) {
         setInputValue({
           email: "",
           password: "",
         });
-        navigate("/");
-        // console.log(response);
+        setSubmitError(error.response.data.message);
+        console.log(error.response.data.message);
       }
-      else{
-        // console.log(success);
-        console.log('login error');
-        // console.log(message);
-      }
-    } catch (error) {
-      // console.log(error.message);
-      // console.log(error.response.data.message);
-      console.log(error)
+    } else {
+      setInputValue({
+        email: "",
+        password: "",
+      });
+      setSubmitError("Login submission failed");
+      console.log("Login submission failed");
     }
   };
 
   return (
     <>
-      <h2>Login Account</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            name="email"
-            value={email}
-            placeholder="Enter your Email"
-            onChange={handleOnChange}
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            name="password"
-            value={password}
-            placeholder="Enter your password"
-            onChange={handleOnChange}
-          />
-        </div>
-        <button type="submit">Submit</button>
-        <span>
-          Don't have an Account <Link to={"/signup"}>SignUp</Link>
-        </span>
-      </form>
+      <div className="form-container">
+        <h2 className="form-title">Login Account</h2>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label className="form-label" htmlFor="email">
+              Email:
+            </label>
+            <input
+              type="email"
+              name="email"
+              value={email}
+              placeholder="Enter your Email"
+              onChange={handleOnChange}
+            />
+            {errors.email && (
+              <span className="error-message">{errors.email}</span>
+            )}
+          </div>
+          <br />
+          <div>
+            <label className="form-label" htmlFor="password">
+              Password:
+            </label>
+            <input
+              type="password"
+              name="password"
+              value={password}
+              placeholder="Enter your password"
+              onChange={handleOnChange}
+            />
+            {errors.password && (
+              <span className="error-message">{errors.password}</span>
+            )}
+          </div>
+          <br />
+          <button className="submit-button" type="submit">
+            Submit
+          </button>
+          <span>
+            &nbsp; Don't have an Account <Link to={"/signup"}>SignUp</Link>
+          </span>
+          <br />
+          {submitError && <span className="error-message">{submitError}</span>}
+        </form>
+      </div>
     </>
   );
 };
