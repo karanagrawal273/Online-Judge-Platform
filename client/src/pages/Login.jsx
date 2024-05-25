@@ -20,25 +20,23 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:5000/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await axios.post("http://localhost:5000/login", {
+        ...inputValue,
         },
-        body: JSON.stringify(inputValue),
-      });
-      if (response.ok) {
+        { withCredentials: true }
+      );
+      const {success,message}=response.data;
+      if (success) {
         setInputValue({
           email: "",
           password: "",
         });
         navigate("/");
-        console.log(response);
+        // console.log(response);
       }
     } catch (error) {
-      console.log(error.message);
+      console.log(error);
     }
-    console.log(inputValue);
   };
 
   return (

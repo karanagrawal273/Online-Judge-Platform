@@ -7,14 +7,12 @@ module.exports.register = async (req, res, next) => {
     const { firstname, lastname, phone, email, password } = req.body;
 
     if (!(firstname && lastname && phone && email && password)) {
-      return res
-        .status(400)
-        .send("All the Information are required to get registered");
+      return res.json({message:"Please enter all the informations"});
     }
 
     const user = await User.findOne({ email });
     if (user) {
-      return res.status(400).send("User Already Registered");
+      return res.json({message:"User already exists"});
     }
 
     const hashedPass = await bcrypt.hash(password, 10);
@@ -28,7 +26,7 @@ module.exports.register = async (req, res, next) => {
     });
 
     const token = jwt.sign({ id: existsUser._id }, process.env.SECRET_KEY, {
-      expiresIn: "1h",
+      expiresIn: "1d",
     });
 
     existsUser.token = token;
@@ -39,14 +37,14 @@ module.exports.register = async (req, res, next) => {
       httpOnly: true,
     };
 
-    res.status(200).cookie("token", token, options).json({
+    res.status(201).cookie("token", token, options).json({
       message: "Successfully registered !!",
       success: true,
-      token,
+      existsUser,
     });
     next();
   } catch (error) {
-    console.log(error.message);
+    console.error(error);
   }
 };
 
@@ -56,33 +54,33 @@ module.exports.login = async (req, res, next) => {
 
     if (!(email && password)) {
       return res
-        .status(400)
-        .send("All the Information are required to get login");
+        .json({message:"All the Information are required to get login"});
     }
 
     const existsUser = await User.findOne({ email });
     if (!existsUser) {
-      return res.status(200).send("User doesn't get Registered");
+      return res.json({message:"User doesn't get Registered"});
     }
 
-    const enteredPass = bcrypt.compare(password, existsUser.password);
+    const enteredPass = await bcrypt.compare(password, existsUser.password);
     if (!enteredPass) {
-      return res.status(401).send("Invalid login credentials");
+      return res.json({message:"Invalid login credentials"});
     }
 
     const token = jwt.sign({ id: existsUser._id }, process.env.SECRET_KEY, {
-      expiresIn: "1h",
+      expiresIn: "1d",
     });
 
     existsUser.token = token;
     existsUser.password = undefined;
-
+    // console.log(token);
     const options = {
       expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
+      withCredentials: true,
       httpOnly: true,
     };
 
-    res.status(200).cookie("token", token, options).json({
+    res.status(201).cookie("token", token, options).json({
       message: "Successfully Logged in!!",
       success: true,
       token,

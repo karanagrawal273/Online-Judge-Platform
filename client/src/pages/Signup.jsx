@@ -25,14 +25,14 @@ const Signup = () => {
 
     console.log(inputValue);
     try {
-      const response = await fetch(`http://localhost:5000/register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await axios.post("http://localhost:5000/register", {
+        ...inputValue,
         },
-        body: JSON.stringify(inputValue),
-      });
-      if (response.ok) {
+        {withCredentials: true}
+      );
+      const {success,message}=response.data;
+
+      if (success) {
         setInputValue({
           firstname: "",
           lastname: "",
@@ -42,9 +42,13 @@ const Signup = () => {
         });
         navigate('/');
       }
+      // if (!response.ok) {
+      //   const errorData = await response.json();
+      //   throw new Error(errorData.message || "Something went wrong!");
+      // }
       console.log(response);
     } catch (error) {
-      console.log(error.message);
+      console.log(error);
     }
   };
 

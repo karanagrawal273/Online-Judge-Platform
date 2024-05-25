@@ -4,16 +4,20 @@ const jwt = require("jsonwebtoken");
 
 module.exports.userVerification = (req, res) => {
   const token = req.cookies.token;
+  console.log(token);
   if (!token) {
-    return res.status(400).send("Token not found");
+    console.log("token not found");
+    return res.json({ status: false });
   }
   jwt.verify(token, process.env.SECRET_KEY, async (error, data) => {
     if (error) {
-      return res.status(400).send(error.message);
+      return res.json({ status: false });
     } else {
       const user = await User.findById(data.id);
-      if (user) return res.status(200).send("User verified", user);
-      else return res.status(400).send("Error: User not found");
+      if (user) {
+        console.log(user.firstname);
+        return res.json({ status: true, user: user.firstname,token });
+      } else return res.json({ status: false });
     }
   });
 };
