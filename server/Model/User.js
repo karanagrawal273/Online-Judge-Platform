@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
+const Problems = require("./Problems");
 
 const userSchema = new mongoose.Schema({
   firstname: {
@@ -33,6 +34,15 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "Password is required"],
   },
+  submissions: [
+    {
+      problemId: {
+        type: mongoose.Schema.Types.ObjectId,
+        default: null,
+        //required: true,
+      },
+    },
+  ],
 });
 
 module.exports = mongoose.model("user", userSchema);
