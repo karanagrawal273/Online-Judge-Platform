@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import axios from "axios";
+import "../css/Home.css";
 const Home = () => {
   const navigate = useNavigate();
   const [cookies, removeCookie] = useCookies([]);
@@ -19,12 +20,12 @@ const Home = () => {
         // console.log(response);
         if (!response.data.success) {
           console.log("token not found");
-          navigate("/login");
+          // navigate("/login");
         } else setName(response.data.user);
       } catch (error) {
         console.log(error.response.data.message);
 
-        navigate("/login");
+        // navigate("/login");
       }
     };
     verifyCookie();
@@ -48,9 +49,32 @@ const Home = () => {
   };
   return (
     <>
-      <h1>Welcome to Online Judge</h1>
-      <h2>Hello {name}</h2>
-      <button onClick={handleLogout}>Logout</button>
+      <div className="container">
+        <h1>Welcome to Online Judge</h1>
+        <div className="navbar">
+          <div className="navbar-link">
+            <Link to={"/problems"}>Problems</Link>
+          </div>
+          {name != "" && (
+            <div>
+              <h2 className="form-title">Hello {name}</h2>{" "}
+              <button className="submit-button" onClick={handleLogout}>
+                Logout
+              </button>
+            </div>
+          )}
+          {name == "" && (
+            <div className="navbar">
+              <div className="navbar-link">
+                <Link to={"/login"}>User Login</Link>
+              </div>
+              <div className="navbar-link">
+                <Link to={"/signup"}>User SignUp</Link>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
     </>
   );
 };

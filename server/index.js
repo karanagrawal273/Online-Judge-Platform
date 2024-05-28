@@ -1,11 +1,9 @@
 const express = require("express");
 const { DBConnection } = require("./Database/db.js");
-const User = require("./Model/User.js");
 const dotenv = require("dotenv");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 const AuthRoute = require("./Routes/AuthRoute");
+const ProblemRoute = require("./Routes/ProblemRoute.js");
 const cors = require("cors");
 
 dotenv.config();
@@ -14,7 +12,7 @@ const PORT = process.env.PORT || 5000;
 
 const corsOptions = {
   origin: ["http://localhost:5173"],
-  methods: ["GET","POST","PUT","DELETE"],
+  methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
 };
 
@@ -26,10 +24,11 @@ app.use(cookieParser());
 DBConnection();
 
 app.use("/", AuthRoute);
+app.use("/problems", ProblemRoute);
 
-// app.get("/", (req, res) => {
-//   res.send("Hello World");
-// });
+app.get("/", (req, res) => {
+  res.send("Hello World");
+});
 
 app.listen(PORT, () => {
   console.log(`app is listening on port ${PORT}`);

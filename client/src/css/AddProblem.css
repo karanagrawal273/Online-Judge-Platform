@@ -1,5 +1,5 @@
 .form-container {
-    max-width: 400px;
+    max-width: 600px;
     margin: 0 auto;
   }
   
@@ -24,6 +24,10 @@
     border-radius: 5px;
   }
   
+  textarea.form-input {
+    height: 150px; /* Adjust the height of the textarea */
+  }
+  
   .submit-button {
     width: 100%;
     padding: 10px;
@@ -37,9 +41,5 @@
   
   .submit-button:hover {
     background-color: #45a049;
-  }
-  
-  .error-message {
-    color: red;
   }
   

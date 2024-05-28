@@ -1,10 +1,12 @@
-.form-container {
-    max-width: 400px;
+.update-form-container {
+    max-width: 600px;
     margin: 0 auto;
   }
   
-  .form-title {
-    text-align: center;
+  h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
   }
   
   .form-group {
@@ -24,6 +26,10 @@
     border-radius: 5px;
   }
   
+  textarea.form-input {
+    height: 150px;
+  }
+  
   .submit-button {
     width: 100%;
     padding: 10px;
@@ -37,9 +43,5 @@
   
   .submit-button:hover {
     background-color: #45a049;
-  }
-  
-  .error-message {
-    color: red;
   }
   

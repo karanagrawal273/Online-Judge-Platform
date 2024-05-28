@@ -85,11 +85,12 @@ const Login = () => {
       <div className="form-container">
         <h2 className="form-title">Login Account</h2>
         <form onSubmit={handleSubmit}>
-          <div>
+        <div className="form-group">
             <label className="form-label" htmlFor="email">
               Email:
             </label>
             <input
+            className="form-input"
               type="email"
               name="email"
               value={email}
@@ -100,12 +101,12 @@ const Login = () => {
               <span className="error-message">{errors.email}</span>
             )}
           </div>
-          <br />
-          <div>
+          <div className="form-group">
             <label className="form-label" htmlFor="password">
               Password:
             </label>
             <input
+            className="form-input"
               type="password"
               name="password"
               value={password}
@@ -116,14 +117,12 @@ const Login = () => {
               <span className="error-message">{errors.password}</span>
             )}
           </div>
-          <br />
           <button className="submit-button" type="submit">
             Submit
           </button>
           <span>
             &nbsp; Don't have an Account <Link to={"/signup"}>SignUp</Link>
           </span>
-          <br />
           {submitError && <span className="error-message">{submitError}</span>}
         </form>
       </div>

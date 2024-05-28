@@ -1,0 +1,45 @@
+.problems-section {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .section-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .add-link {
+    margin-bottom: 20px;
+  }
+  
+  .add-link a {
+    text-decoration: none;
+    color: #007bff; /* Link color */
+  }
+  
+  .add-link a:hover {
+    text-decoration: underline;
+  }
+  
+  .problem-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .problem-list li {
+    margin-bottom: 10px;
+  }
+  
+  .problem-list li a {
+    text-decoration: none;
+    color: #333; /* Link color */
+  }
+  
+  .problem-list li a:hover {
+    text-decoration: underline;
+  }
+  

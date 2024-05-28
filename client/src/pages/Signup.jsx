@@ -14,7 +14,7 @@ const Signup = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const { firstname, lastname, phone, email, password } = inputValue;
   const [errors, setErrors] = useState({});
-  const [submitError,setSubmitError]=useState('');
+  const [submitError, setSubmitError] = useState("");
   const validateForm = (data, cnfpas) => {
     const errors = {};
     if (!data.firstname.trim()) {
@@ -95,7 +95,7 @@ const Signup = () => {
           email: "",
           password: "",
         });
-        setConfirmPassword('');
+        setConfirmPassword("");
         setSubmitError(error.response.data.message);
         console.log(error.response.data.message);
       }
@@ -107,7 +107,7 @@ const Signup = () => {
         email: "",
         password: "",
       });
-      setConfirmPassword('');
+      setConfirmPassword("");
       setSubmitError("form submission failed");
       console.log("form submission failed");
     }
@@ -118,11 +118,12 @@ const Signup = () => {
       <div className="form-container">
         <h2 className="form-title">Signup Account</h2>
         <form onSubmit={handleSubmit}>
-          <div>
-            <label className="form-label" htmlFor="email">
+          <div className="form-group">
+            <label className="form-label" htmlFor="firstname">
               First Name:
             </label>
             <input
+              className="form-input"
               type="text"
               name="firstname"
               value={firstname}
@@ -133,12 +134,12 @@ const Signup = () => {
               <span className="error-message">{errors.firstname}</span>
             )}
           </div>
-          <br />
-          <div>
-            <label className="form-label" htmlFor="email">
+          <div className="form-group">
+            <label className="form-label" htmlFor="lastname">
               Last Name:
             </label>
             <input
+              className="form-input"
               type="text"
               name="lastname"
               value={lastname}
@@ -149,12 +150,12 @@ const Signup = () => {
               <span className="error-message">{errors.lastname}</span>
             )}
           </div>
-          <br />
-          <div>
-            <label className="form-label" htmlFor="email">
+          <div className="form-group">
+            <label className="form-label" htmlFor="phone">
               Phone:
             </label>
             <input
+              className="form-input"
               type="number"
               name="phone"
               value={phone}
@@ -165,12 +166,12 @@ const Signup = () => {
               <span className="error-message">{errors.phone}</span>
             )}
           </div>
-          <br />
-          <div>
+          <div className="form-group">
             <label className="form-label" htmlFor="email">
               Email:
             </label>
             <input
+              className="form-input"
               type="email"
               name="email"
               value={email}
@@ -181,12 +182,12 @@ const Signup = () => {
               <span className="error-message">{errors.email}</span>
             )}
           </div>
-          <br />
-          <div>
+          <div className="form-group">
             <label className="form-label" htmlFor="password">
               Password:
             </label>
             <input
+              className="form-input"
               type="password"
               name="password"
               value={password}
@@ -197,14 +198,14 @@ const Signup = () => {
               <span className="error-message">{errors.password}</span>
             )}
           </div>
-          <br />
-          <div>
-            <label className="form-label" htmlFor="password">
+          <div className="form-group">
+            <label className="form-label" htmlFor="confirmPassword">
               Confirm Password:
             </label>
             <input
+              className="form-input"
               type="password"
-              name="password"
+              name="confirmPassword"
               value={confirmPassword}
               placeholder="Enter the same password"
               onChange={handleOnChange1}
@@ -213,17 +214,13 @@ const Signup = () => {
               <span className="error-message">{errors.confPass}</span>
             )}
           </div>
-          <br />
           <button className="submit-button" type="submit">
             Submit
           </button>
-          <span>&nbsp;
-            Already have an account? <Link to={"/login"}>Login</Link>
+          <span>
+            &nbsp; Already have an account? <Link to={"/login"}>Login</Link>
           </span>
-          <br/>
-          {submitError && (
-              <span className="error-message">{submitError}</span>
-            )}
+          {submitError && <span className="error-message">{submitError}</span>}
         </form>
       </div>
     </>
