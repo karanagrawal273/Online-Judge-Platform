@@ -1,10 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../css/login.css";
 
 const Login = () => {
   const navigate = useNavigate();
+  useEffect(() => {
+    const verifyCookie = async () => {
+      try {
+        const response = await axios.post(
+          "http://localhost:5000",
+          {},
+          { withCredentials: true }
+        );
+        if (response.data.success) {
+          navigate("/");
+        }
+      } catch (error) {
+        console.log(error.response.data.message);
+        navigate("/login");
+      }
+    };
+    verifyCookie();
+  },[]);
   const [inputValue, setInputValue] = useState({
     email: "",
     password: "",
@@ -85,12 +103,12 @@ const Login = () => {
       <div className="form-container">
         <h2 className="form-title">Login Account</h2>
         <form onSubmit={handleSubmit}>
-        <div className="form-group">
+          <div className="form-group">
             <label className="form-label" htmlFor="email">
               Email:
             </label>
             <input
-            className="form-input"
+              className="form-input"
               type="email"
               name="email"
               value={email}
@@ -106,7 +124,7 @@ const Login = () => {
               Password:
             </label>
             <input
-            className="form-input"
+              className="form-input"
               type="password"
               name="password"
               value={password}

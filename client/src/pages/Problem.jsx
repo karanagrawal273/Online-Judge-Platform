@@ -1,23 +1,27 @@
-import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import axios from "axios";
 import "../css/Problem.css";
+
 const Problem = (props) => {
   const [problem, setProblem] = useState({});
   const id = useParams().id;
-  //   console.log(id);
-  const handle = async () => {
-    try {
-      const response = await axios.get(`http://localhost:5000/problems/${id}`);
-      setProblem(response.data.problem);
-      //   console.log(response);
-    } catch (error) {
-      console.log(error.response.data.message);
-    }
-  };
-  handle();
 
-  //   console.log(problem);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/problems/${id}`
+        );
+        setProblem(response.data.problem);
+      } catch (error) {
+        console.log(error.response.data.message);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <>
       <div className="problem">
