@@ -1,18 +1,55 @@
+.container {
+  display: flex;
+  height: 100vh;
+}
+
 .problem {
-    max-width: 600px;
-    margin: 20px auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .problem-title {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-  
-  .problem-detail {
-    margin-bottom: 10px;
-  }
-  
+  flex: 1;
+  padding: 20px;
+  margin-right: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  overflow-y: auto; /* Add scrollbar if content exceeds container height */
+}
+
+.code-editor {
+  flex: 1;
+  padding: 20px;
+  height: 100%; /* Take up full height of the container */
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.form-input {
+  width: 100%;
+  height: calc(100% - 80px); /* Adjust height as needed */
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.run-button,
+.submit-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: #fff;
+  transition: background-color 0.3s;
+}
+
+.run-button:hover,
+.submit-button:hover {
+  background-color: #0056b3;
+}

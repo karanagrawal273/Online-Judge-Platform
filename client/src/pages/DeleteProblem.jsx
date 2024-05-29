@@ -3,7 +3,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../css/DeleteProblem.css";
 const DeleteProblem = (props) => {
-  const { _id, title, statement, difficulty } = props.obj;
+  const { _id, title, difficulty } = props.obj;
   const navigate = useNavigate();
   const deleteProblem = async () => {
     try {
@@ -22,7 +22,7 @@ const DeleteProblem = (props) => {
             `http://localhost:5000/problems/${_id}`
           );
           console.log("Problem gets deleted");
-          window.location.reload();
+          window.location.reload();  
         } catch (error) {
           console.log(error.response.data.message);
         }

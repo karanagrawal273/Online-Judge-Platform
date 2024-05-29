@@ -4,7 +4,7 @@ const { findById } = require("../Model/User.js");
 module.exports.problems = async (req, res, next) => {
   try {
     const allProblems = await problems.find();
-    if (allProblems.length===0) {
+    if (allProblems.length === 0) {
       return res
         .status(404)
         .json({ success: false, message: "There is no problem list" });
@@ -19,7 +19,17 @@ module.exports.problems = async (req, res, next) => {
 };
 module.exports.addProblem = async (req, res, next) => {
   try {
-    const { title, statement, difficulty } = req.body;
+    const {
+      title,
+      statement,
+      difficulty,
+      inputConstraints,
+      sampleInput,
+      outputConstraints,
+      sampleOutput,
+      testcasesInput,
+      testcasesOutput,
+    } = req.body;
     if (!(title && statement && difficulty)) {
       return res.status(400).json({
         success: false,
@@ -30,6 +40,18 @@ module.exports.addProblem = async (req, res, next) => {
       title,
       statement,
       difficulty,
+      input: {
+        constraints: inputConstraints,
+        sample: sampleInput,
+      },
+      output: {
+        constraints: outputConstraints,
+        sample: sampleOutput,
+      },
+      testcases: {
+        input: testcasesInput,
+        output: testcasesOutput,
+      },
     });
     res.status(201).json({ success: true, message: "problem added", problem });
     next();
@@ -99,7 +121,7 @@ module.exports.deleteProblem = async (req, res, next) => {
         .status(404)
         .json({ success: false, message: "Problem not found" });
     }
-    res.status(200).json({ success: true, message:"Problem gets deleted" });
+    res.status(200).json({ success: true, message: "Problem gets deleted" });
     next();
   } catch (error) {
     return res.statu(400).json({ success: false, message: error.message });
