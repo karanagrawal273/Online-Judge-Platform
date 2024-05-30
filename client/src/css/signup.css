@@ -1,22 +1,22 @@
-.form-container {
+.sigForm-container {
     max-width: 400px;
     margin: 0 auto;
   }
   
-  .form-title {
+  .sigForm-title {
     text-align: center;
   }
   
-  .form-group {
+  .sigForm-group {
     margin-bottom: 20px;
   }
   
-  .form-label {
+  .sigForm-label {
     display: block;
     margin-bottom: 5px;
   }
   
-  .form-input {
+  .sigForm-input {
     width: 100%;
     padding: 10px;
     font-size: 16px;
@@ -24,7 +24,7 @@
     border-radius: 5px;
   }
   
-  .submit-button {
+  .sigSubmit-button {
     width: 100%;
     padding: 10px;
     font-size: 16px;
@@ -35,11 +35,11 @@
     cursor: pointer;
   }
   
-  .submit-button:hover {
+  .sigSubmit-button:hover {
     background-color: #45a049;
   }
   
-  .error-message {
+  .sigError-message {
     color: red;
   }
   

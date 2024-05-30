@@ -1,12 +1,10 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useCookies } from "react-cookie";
 import axios from "axios";
 import "../css/Home.css";
 const Home = () => {
   const navigate = useNavigate();
-  const [cookies, removeCookie] = useCookies([]);
   const [name, setName] = useState("");
 
   useEffect(() => {
@@ -29,7 +27,7 @@ const Home = () => {
       }
     };
     verifyCookie();
-  });
+  }, []);
   const handleLogout = async () => {
     try {
       const response = await axios.post(
@@ -49,31 +47,34 @@ const Home = () => {
   };
   return (
     <>
-      <div className="container">
-        <h1>Welcome to Online Judge</h1>
-        <div className="navbar">
-          <div className="navbar-link">
-            <Link to={"/problems"}>Problems</Link>
+      <div className="homeContainer">
+        <div className="homeNavbar">
+          <div className="leftLinks">
+            <div className="homeNavbar-link">
+              <Link to={"/problems"}>Problems</Link>
+            </div>
           </div>
-          {name != "" && (
-            <div>
-              <h2 className="form-title">Hello {name}</h2>{" "}
-              <button className="submit-button" onClick={handleLogout}>
-                Logout
-              </button>
-            </div>
-          )}
-          {name == "" && (
-            <div className="navbar">
-              <div className="navbar-link">
-                <Link to={"/login"}>User Login</Link>
+          <div className="rightLinks">
+            {name !== "" ? (
+              <div>
+                <h2 className="homeForm-title">Hello {name}</h2>{" "}
+                <button className="homeSubmit-button" onClick={handleLogout}>
+                  Logout
+                </button>
               </div>
-              <div className="navbar-link">
-                <Link to={"/signup"}>User SignUp</Link>
+            ) : (
+              <div className="homeNavbar">
+                <div className="homeNavbar-link">
+                  <Link to={"/login"}>User Login</Link>
+                </div>
+                <div className="homeNavbar-link">
+                  <Link to={"/signup"}>User SignUp</Link>
+                </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
+        <h1>Welcome to Online Judge</h1>
       </div>
     </>
   );

@@ -68,15 +68,15 @@ const AddProblem = (props) => {
   };
   return (
     <>
-      <div className="form-container">
+      <div className="addForm-container">
         <h2>Add Problem</h2>
         <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label className="form-label" htmlFor="title">
+          <div className="addForm-group">
+            <label className="addForm-label" htmlFor="title">
               Title:
             </label>
             <input
-              className="form-input"
+              className="addForm-input"
               type="text"
               name="title"
               value={title}
@@ -84,24 +84,24 @@ const AddProblem = (props) => {
               onChange={handleOnChange}
             />
           </div>
-          <div className="form-group">
-            <label className="form-label" htmlFor="statement">
+          <div className="addForm-group">
+            <label className="addForm-label" htmlFor="statement">
               Statement:
             </label>
             <textarea
-              className="form-input"
+              className="addForm-input"
               name="statement"
               value={statement}
               placeholder="Enter statement"
               onChange={handleOnChange}
             />
           </div>
-          <div className="form-group">
-            <label className="form-label" htmlFor="difficulty">
+          <div className="addForm-group">
+            <label className="addForm-label" htmlFor="difficulty">
               Difficulty:
             </label>
             <select
-              className="form-select"
+              className="addForm-select"
               name="difficulty"
               value={difficulty}
               onChange={handleOnChange}
@@ -112,79 +112,79 @@ const AddProblem = (props) => {
               <option value="hard">Hard</option>
             </select>
           </div>
-          <div className="form-group">
-            <label className="form-label" htmlFor="inputConstraints">
+          <div className="addForm-group">
+            <label className="addForm-label" htmlFor="inputConstraints">
               Input Constraints:
             </label>
             <textarea
-              className="form-input"
+              className="addForm-input"
               name="inputConstraints"
               value={inputConstraints}
               placeholder="Enter Input Constraints"
               onChange={handleOnChange}
             />
           </div>
-          <div className="form-group">
-            <label className="form-label" htmlFor="sampleInput">
+          <div className="addForm-group">
+            <label className="addForm-label" htmlFor="sampleInput">
               Sample Input:
             </label>
             <textarea
-              className="form-input"
+              className="addForm-input"
               name="sampleInput"
               value={sampleInput}
               placeholder="Enter Sample Input"
               onChange={handleOnChange}
             />
           </div>
-          <div className="form-group">
-            <label className="form-label" htmlFor="outputConstraints">
+          <div className="addForm-group">
+            <label className="addForm-label" htmlFor="outputConstraints">
               Output Constraints:
             </label>
             <textarea
-              className="form-input"
+              className="addForm-input"
               name="outputConstraints"
               value={outputConstraints}
               placeholder="Enter Output Constraints"
               onChange={handleOnChange}
             />
           </div>
-          <div className="form-group">
-            <label className="form-label" htmlFor="sampleOutput">
+          <div className="addForm-group">
+            <label className="addForm-label" htmlFor="sampleOutput">
               Sample Output:
             </label>
             <textarea
-              className="form-input"
+              className="addForm-input"
               name="sampleOutput"
               value={sampleOutput}
               placeholder="Enter Sample Output"
               onChange={handleOnChange}
             />
           </div>
-          <div className="form-group">
-            <label className="form-label" htmlFor="testcasesInput">
+          <div className="addForm-group">
+            <label className="addForm-label" htmlFor="testcasesInput">
               Testcases Input:
             </label>
             <textarea
-              className="form-input"
+              className="addForm-input"
               name="testcasesInput"
               value={testcasesInput}
               placeholder="Enter Testcase Input"
               onChange={handleOnChange}
             />
           </div>
-          <div className="form-group">
-            <label className="form-label" htmlFor="testcasesOutput">
-              testcases Output:
+          <div className="addForm-group">
+            <label className="addForm-label" htmlFor="testcasesOutput">
+              Testcases Output:
             </label>
             <textarea
-              className="form-input"
+              className="addForm-input"
               name="testcasesOutput"
               value={testcasesOutput}
               placeholder="Enter Testcases Output"
               onChange={handleOnChange}
             />
           </div>
-          <button className="submit-button" type="submit">
+          <button className="addSubmit-button" type="submit">
             Submit
           </button>
         </form>

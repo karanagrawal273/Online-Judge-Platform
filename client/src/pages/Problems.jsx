@@ -28,12 +28,12 @@ const Problems = () => {
   };
 
   return (
-    <div className="problems-section">
-      <div className="section-title">Problems</div>
-      <div className="add-link">
+    <div className="probsProblems-section">
+      <div className="probsSection-title">Problems</div>
+      <div className="probsAdd-link">
         <Link to={"/addProblem"}>Add Problems</Link>
       </div>
-      <ul className="problem-list">{problemList()}</ul>
+      <ul className="probsProblem-list">{problemList()}</ul>
     </div>
   );
 };

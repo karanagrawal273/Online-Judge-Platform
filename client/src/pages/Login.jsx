@@ -100,15 +100,15 @@ const Login = () => {
 
   return (
     <>
-      <div className="form-container">
-        <h2 className="form-title">Login Account</h2>
+      <div className="logForm-container">
+        <h2 className="logForm-title">Login Account</h2>
         <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label className="form-label" htmlFor="email">
+          <div className="logForm-group">
+            <label className="logForm-label" htmlFor="email">
               Email:
             </label>
             <input
-              className="form-input"
+              className="logForm-input"
               type="email"
               name="email"
               value={email}
@@ -116,15 +116,15 @@ const Login = () => {
               onChange={handleOnChange}
             />
             {errors.email && (
-              <span className="error-message">{errors.email}</span>
+              <span className="logError-message">{errors.email}</span>
             )}
           </div>
-          <div className="form-group">
-            <label className="form-label" htmlFor="password">
+          <div className="logForm-group">
+            <label className="logForm-label" htmlFor="password">
               Password:
             </label>
             <input
-              className="form-input"
+              className="logForm-input"
               type="password"
               name="password"
               value={password}
@@ -132,16 +132,16 @@ const Login = () => {
               onChange={handleOnChange}
             />
             {errors.password && (
-              <span className="error-message">{errors.password}</span>
+              <span className="logError-message">{errors.password}</span>
             )}
           </div>
-          <button className="submit-button" type="submit">
+          <button className="logSubmit-button" type="submit">
             Submit
           </button>
           <span>
             &nbsp; Don't have an Account <Link to={"/signup"}>SignUp</Link>
           </span>
-          {submitError && <span className="error-message">{submitError}</span>}
+          {submitError && <span className="logError-message">{submitError}</span>}
         </form>
       </div>
     </>

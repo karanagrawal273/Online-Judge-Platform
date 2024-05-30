@@ -1,4 +1,4 @@
-.problems-section {
+.probsProblems-section {
     max-width: 600px;
     margin: 20px auto;
     padding: 20px;
@@ -6,40 +6,40 @@
     border-radius: 5px;
   }
   
-  .section-title {
+  .probsSection-title {
     font-size: 24px;
     font-weight: bold;
     margin-bottom: 10px;
   }
   
-  .add-link {
+  .probsAdd-link {
     margin-bottom: 20px;
   }
   
-  .add-link a {
+  .probsAdd-link a {
     text-decoration: none;
     color: #007bff; /* Link color */
   }
   
-  .add-link a:hover {
+  .probsAdd-link a:hover {
     text-decoration: underline;
   }
   
-  .problem-list {
+  .probsProblem-list {
     list-style: none;
     padding: 0;
   }
   
-  .problem-list li {
+  .probsProblem-list li {
     margin-bottom: 10px;
   }
   
-  .problem-list li a {
+  .probsProblem-list li a {
     text-decoration: none;
     color: #333; /* Link color */
   }
   
-  .problem-list li a:hover {
+  .probsProblem-list li a:hover {
     text-decoration: underline;
   }
   

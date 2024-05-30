@@ -43,48 +43,48 @@ const Problem = () => {
   }, []);
   return (
     <>
-      <div className="container">
-        <div className="problem">
-          <div className="problem-title">Problem</div>
+      <div className="probContainer">
+        <div className="probProblem">
+          <div className="probProblem-title">Problem</div>
           <div>
-            <div className="problem-detail">{problem.title}</div>
-            <div className="problem-detail">{problem.statement}</div>
-            <div className="problem-detail">
+            <div className="probProblem-detail">{problem.title}</div>
+            <div className="probProblem-detail">{problem.statement}</div>
+            <div className="probProblem-detail">
               Difficulty: {problem.difficulty}
             </div>
-            <div className="problem-detail">
+            <div className="probProblem-detail">
               Input Constraints: {problem.input && problem.input.constraints}
             </div>
-            <div className="problem-detail">
+            <div className="probProblem-detail">
               Sample Input: {problem.input && problem.input.sample}
             </div>
-            <div className="problem-detail">
+            <div className="probProblem-detail">
               Output Constraints: {problem.output && problem.output.constraints}
             </div>
-            <div className="problem-detail">
+            <div className="probProblem-detail">
               Sample Output: {problem.output && problem.output.sample}
             </div>
           </div>
         </div>
-        <div className="code-editor">
-          <div className="form-group">
-            <label className="form-label" htmlFor="codeEditor">
+        <div className="probCode-editor">
+          <div className="probForm-group">
+            <label className="probForm-label" htmlFor="codeEditor">
               Write Code here:
             </label>
             <textarea
-              className="form-input"
+              className="probForm-input"
               name="code"
               value={code}
               placeholder=""
               onChange={handleOnChange}
             />
           </div>
-          <button onClick={handleRun} className="run-button" type="submit">
+          <button onClick={handleRun} className="probRun-button" type="submit">
             Run
           </button>
           <button
             onClick={handleSubmit}
-            className="submit-button"
+            className="probRun-button"
             type="submit"
           >
             Submit

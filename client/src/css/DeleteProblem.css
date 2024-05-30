@@ -1,4 +1,4 @@
-.problem-item {
+.delProblem-item {
     display: flex;
     align-items: center;
     padding: 10px;
@@ -7,29 +7,29 @@
     margin-bottom: 10px;
   }
   
-  .title {
+  .delTitle {
     flex: 1;
   }
   
-  .difficulty {
+  .delDifficulty {
     margin-right: 20px;
   }
   
-  .links {
+  .delLinks {
     display: flex;
   }
   
-  .link {
+  .delLink {
     margin-right: 10px;
     text-decoration: none;
     color: #007bff;
   }
   
-  .link:hover {
+  .delLink:hover {
     text-decoration: underline;
   }
   
-  .delete-button {
+  .delDelete-button {
     background-color: #dc3545;
     color: white;
     border: none;
@@ -38,7 +38,7 @@
     cursor: pointer;
   }
   
-  .delete-button:hover {
+  .delDelete-button:hover {
     background-color: #c82333;
   }
   

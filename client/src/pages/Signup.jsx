@@ -115,15 +115,15 @@ const Signup = () => {
 
   return (
     <>
-      <div className="form-container">
-        <h2 className="form-title">Signup Account</h2>
+      <div className="sigForm-container">
+        <h2 className="sigForm-title">Signup Account</h2>
         <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label className="form-label" htmlFor="firstname">
+          <div className="sigForm-group">
+            <label className="sigForm-label" htmlFor="firstname">
               First Name:
             </label>
             <input
-              className="form-input"
+              className="sigForm-input"
               type="text"
               name="firstname"
               value={firstname}
@@ -131,15 +131,15 @@ const Signup = () => {
               onChange={handleOnChange}
             />
             {errors.firstname && (
-              <span className="error-message">{errors.firstname}</span>
+              <span className="sigError-message">{errors.firstname}</span>
             )}
           </div>
-          <div className="form-group">
-            <label className="form-label" htmlFor="lastname">
+          <div className="sigForm-group">
+            <label className="sigForm-label" htmlFor="lastname">
               Last Name:
             </label>
             <input
-              className="form-input"
+              className="sigForm-input"
               type="text"
               name="lastname"
               value={lastname}
@@ -147,15 +147,15 @@ const Signup = () => {
               onChange={handleOnChange}
             />
             {errors.lastname && (
-              <span className="error-message">{errors.lastname}</span>
+              <span className="sigError-message">{errors.lastname}</span>
             )}
           </div>
-          <div className="form-group">
-            <label className="form-label" htmlFor="phone">
+          <div className="sigForm-group">
+            <label className="sigForm-label" htmlFor="phone">
               Phone:
             </label>
             <input
-              className="form-input"
+              className="sigForm-input"
               type="number"
               name="phone"
               value={phone}
@@ -163,15 +163,15 @@ const Signup = () => {
               onChange={handleOnChange}
             />
             {errors.phone && (
-              <span className="error-message">{errors.phone}</span>
+              <span className="sigError-message">{errors.phone}</span>
             )}
           </div>
-          <div className="form-group">
-            <label className="form-label" htmlFor="email">
+          <div className="sigForm-group">
+            <label className="sigForm-label" htmlFor="email">
               Email:
             </label>
             <input
-              className="form-input"
+              className="sigForm-input"
               type="email"
               name="email"
               value={email}
@@ -179,15 +179,15 @@ const Signup = () => {
               onChange={handleOnChange}
             />
             {errors.email && (
-              <span className="error-message">{errors.email}</span>
+              <span className="sigError-message">{errors.email}</span>
             )}
           </div>
-          <div className="form-group">
-            <label className="form-label" htmlFor="password">
+          <div className="sigForm-group">
+            <label className="sigForm-label" htmlFor="password">
               Password:
             </label>
             <input
-              className="form-input"
+              className="sigForm-input"
               type="password"
               name="password"
               value={password}
@@ -195,15 +195,15 @@ const Signup = () => {
               onChange={handleOnChange}
             />
             {errors.password && (
-              <span className="error-message">{errors.password}</span>
+              <span className="sigError-message">{errors.password}</span>
             )}
           </div>
-          <div className="form-group">
-            <label className="form-label" htmlFor="confirmPassword">
+          <div className="sigForm-group">
+            <label className="sigForm-label" htmlFor="confirmPassword">
               Confirm Password:
             </label>
             <input
-              className="form-input"
+              className="sigForm-input"
               type="password"
               name="confirmPassword"
               value={confirmPassword}
@@ -211,16 +211,16 @@ const Signup = () => {
               onChange={handleOnChange1}
             />
             {errors.confPass && (
-              <span className="error-message">{errors.confPass}</span>
+              <span className="sigError-message">{errors.confPass}</span>
             )}
           </div>
-          <button className="submit-button" type="submit">
+          <button className="sigSubmit-button" type="submit">
             Submit
           </button>
           <span>
             &nbsp; Already have an account? <Link to={"/login"}>Login</Link>
           </span>
-          {submitError && <span className="error-message">{submitError}</span>}
+          {submitError && <span className="sigError-message">{submitError}</span>}
         </form>
       </div>
     </>

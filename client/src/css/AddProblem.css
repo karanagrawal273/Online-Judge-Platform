@@ -1,22 +1,22 @@
-.form-container {
+.addForm-container {
     max-width: 600px;
     margin: 0 auto;
   }
   
-  .form-title {
+  .addForm-title {
     text-align: center;
   }
   
-  .form-group {
+  .addForm-group {
     margin-bottom: 20px;
   }
   
-  .form-label {
+  .addForm-label {
     display: block;
     margin-bottom: 5px;
   }
   
-  .form-input {
+  .addForm-input {
     width: 100%;
     padding: 10px;
     font-size: 16px;
@@ -24,11 +24,11 @@
     border-radius: 5px;
   }
   
-  textarea.form-input {
+  textarea.addForm-input {
     height: 150px; /* Adjust the height of the textarea */
   }
   
-  .submit-button {
+  .addSubmit-button {
     width: 100%;
     padding: 10px;
     font-size: 16px;
@@ -39,7 +39,7 @@
     cursor: pointer;
   }
   
-  .submit-button:hover {
+  .addSubmit-button:hover {
     background-color: #45a049;
   }
   

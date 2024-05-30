@@ -84,6 +84,18 @@ module.exports.updateProblem = async (req, res, next) => {
       title: req.body.title || upProblem.title,
       statement: req.body.statement || upProblem.statement,
       difficulty: req.body.difficulty || upProblem.difficulty,
+      input: {
+        constraints: req.body.inputConstraints || upProblem.input.constraints,
+        sample: req.body.sampleInput || upProblem.input.sample,
+      },
+      output: {
+        constraints: req.body.outputConstraints || upProblem.output.constraints,
+        sample: req.body.sampleOutput || upProblem.output.sample,
+      },
+      testcases: {
+        input: req.body.testcasesInput || upProblem.testcases.input,
+        output: req.body.testcasesOutput || upProblem.testcases.output,
+      },
     });
     if (!updatedProblem) {
       return res

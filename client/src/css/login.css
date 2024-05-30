@@ -1,22 +1,22 @@
-.form-container {
+.logForm-container {
     max-width: 400px;
     margin: 0 auto;
   }
   
-  .form-title {
+  .logForm-title {
     text-align: center;
   }
   
-  .form-group {
+  .logForm-group {
     margin-bottom: 20px;
   }
   
-  .form-label {
+  .logForm-label {
     display: block;
     margin-bottom: 5px;
   }
   
-  .form-input {
+  .logForm-input {
     width: 100%;
     padding: 10px;
     font-size: 16px;
@@ -24,7 +24,7 @@
     border-radius: 5px;
   }
   
-  .submit-button {
+  .logSubmit-button {
     width: 100%;
     padding: 10px;
     font-size: 16px;
@@ -35,11 +35,11 @@
     cursor: pointer;
   }
   
-  .submit-button:hover {
+  .logSubmit-button:hover {
     background-color: #45a049;
   }
   
-  .error-message {
+  .logError-message {
     color: red;
   }
   

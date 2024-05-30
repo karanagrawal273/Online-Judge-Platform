@@ -29,8 +29,24 @@ const UpdateProblem = (props) => {
     title: "",
     statement: "",
     difficulty: "",
+    inputConstraints: "",
+    sampleInput: "",
+    outputConstraints: "",
+    sampleOutput: "",
+    testcasesInput: "",
+    testcasesOutput: "",
   });
-  const { title, statement, difficulty } = values;
+  const {
+    title,
+    statement,
+    difficulty,
+    inputConstraints,
+    sampleInput,
+    outputConstraints,
+    sampleOutput,
+    testcasesInput,
+    testcasesOutput,
+  } = values;
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setValues({
@@ -52,15 +68,15 @@ const UpdateProblem = (props) => {
   };
   return (
     <>
-      <div className="update-form-container">
+      <div className="upForm-container">
         <h2>Update Problem</h2>
         <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label className="form-label" htmlFor="title">
+          <div className="upForm-group">
+            <label className="upForm-label" htmlFor="title">
               Title:
             </label>
             <input
-              className="form-input"
+              className="upForm-input"
               type="text"
               name="title"
               value={title}
@@ -68,24 +84,24 @@ const UpdateProblem = (props) => {
               onChange={handleOnChange}
             />
           </div>
-          <div className="form-group">
-            <label className="form-label" htmlFor="statement">
+          <div className="upForm-group">
+            <label className="upForm-label" htmlFor="statement">
               Statement:
             </label>
             <textarea
-              className="form-input"
+              className="upForm-input"
               name="statement"
               value={statement}
               placeholder="Enter update statement"
               onChange={handleOnChange}
             />
           </div>
-          <div className="form-group">
-            <label className="form-label" htmlFor="difficulty">
+          <div className="upForm-group">
+            <label className="upForm-label" htmlFor="difficulty">
               Difficulty:
             </label>
             <select
-              className="form-select"
+              className="upForm-select"
               name="difficulty"
               value={difficulty}
               onChange={handleOnChange}
@@ -96,7 +112,79 @@ const UpdateProblem = (props) => {
               <option value="hard">Hard</option>
             </select>
           </div>
-          <button className="submit-button" type="submit">
+          <div className="upForm-group">
+            <label className="upForm-label" htmlFor="statement">
+              Input Constraints:
+            </label>
+            <textarea
+              className="upForm-input"
+              name="inputConstraints"
+              value={inputConstraints}
+              placeholder="Enter update Input Constraints"
+              onChange={handleOnChange}
+            />
+          </div>
+          <div className="upForm-group">
+            <label className="upForm-label" htmlFor="sampleInput">
+              Sample Input:
+            </label>
+            <textarea
+              className="upForm-input"
+              name="sampleInput"
+              value={sampleInput}
+              placeholder="Enter update Sample Input"
+              onChange={handleOnChange}
+            />
+          </div>
+          <div className="upForm-group">
+            <label className="upForm-label" htmlFor="outputConstraints">
+              Output Constraints:
+            </label>
+            <textarea
+              className="upForm-input"
+              name="outputConstraints"
+              value={outputConstraints}
+              placeholder="Enter update Output Constraints"
+              onChange={handleOnChange}
+            />
+          </div>
+          <div className="upForm-group">
+            <label className="upForm-label" htmlFor="sampleOutput">
+              Sample Output:
+            </label>
+            <textarea
+              className="upForm-input"
+              name="sampleOutput"
+              value={sampleOutput}
+              placeholder="Enter update Sample Output"
+              onChange={handleOnChange}
+            />
+          </div>
+          <div className="upForm-group">
+            <label className="upForm-label" htmlFor="testcasesInput">
+              Testcases Input:
+            </label>
+            <textarea
+              className="upForm-input"
+              name="testcasesInput"
+              value={testcasesInput}
+              placeholder="Enter uodate Testcase Input"
+              onChange={handleOnChange}
+            />
+          </div>
+          <div className="upForm-group">
+            <label className="upForm-label" htmlFor="testcasesOutput">
+              Testcases Output:
+            </label>
+            <textarea
+              className="upForm-input"
+              name="testcasesOutput"
+              value={testcasesOutput}
+              placeholder="Enter Testcases Output"
+              onChange={handleOnChange}
+            />
+          </div>
+          <button className="upSubmit-button" type="submit">
             Submit
           </button>
         </form>

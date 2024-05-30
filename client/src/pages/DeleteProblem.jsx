@@ -33,18 +33,18 @@ const DeleteProblem = (props) => {
   };
   return (
     <>
-      <li className="problem-item">
-        <div className="title">{title}</div>
-        <div className="difficulty">{difficulty}</div>
-        <div className="links">
-          <Link className="link" to={`/problem/${_id}`}>
+      <li className="delProblem-item">
+        <div className="delTitle">{title}</div>
+        <div className="delDifficulty">{difficulty}</div>
+        <div className="delLinks">
+          <Link className="delLink" to={`/problem/${_id}`}>
             View
           </Link>
-          <Link className="link" to={`/updateProblem/${_id}`}>
+          <Link className="delLink" to={`/updateProblem/${_id}`}>
             Update
           </Link>
         </div>
-        <button className="delete-button" onClick={deleteProblem}>
+        <button className="delDelete-button" onClick={deleteProblem}>
           Delete
         </button>
       </li>

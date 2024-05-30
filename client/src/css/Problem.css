@@ -1,55 +1,59 @@
-.container {
+.probContainer {
   display: flex;
-  height: 100vh;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
 }
 
-.problem {
+.probProblem {
   flex: 1;
   padding: 20px;
-  margin-right: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  overflow-y: auto; /* Add scrollbar if content exceeds container height */
 }
 
-.code-editor {
+.probProblem-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.probProblem-detail {
+  margin-bottom: 10px;
+}
+
+.probCode-editor {
   flex: 1;
   padding: 20px;
-  height: 100%; /* Take up full height of the container */
 }
 
-.form-group {
+.probForm-group {
   margin-bottom: 20px;
 }
 
-.form-label {
-  display: block;
-  font-size: 18px;
-  margin-bottom: 5px;
+.probForm-label {
+  font-weight: bold;
+  margin-bottom: 10px;
 }
 
-.form-input {
+.probForm-input {
   width: 100%;
-  height: calc(100% - 80px); /* Adjust height as needed */
+  height: 300px; 
   padding: 10px;
-  font-size: 16px;
+  font-size: 14px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  resize: vertical;
 }
 
-.run-button,
-.submit-button {
-  padding: 10px 20px;
-  font-size: 16px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+.probRun-button {
   background-color: #007bff;
   color: #fff;
-  transition: background-color 0.3s;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
 }
 
-.run-button:hover,
-.submit-button:hover {
+.probRun-button:hover {
   background-color: #0056b3;
 }
