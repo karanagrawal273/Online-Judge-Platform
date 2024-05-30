@@ -5,17 +5,41 @@ import "../css/Problem.css";
 
 const Problem = () => {
   const [problem, setProblem] = useState({});
-  const [code, setCode] = useState("");
-
+  const [values, setValues] = useState({
+    language: "",
+    code: "",
+  });
+  const { language, code } = values;
   const id = useParams().id;
   const handleOnChange = (e) => {
-    setCode(e.target.value);
+    const { name, value } = e.target;
+    setValues({
+      ...values,
+      [name]: value,
+    });
   };
+
   const handleRun = async (e) => {
     e.preventDefault();
-    if (code === "") {
-      console.log("please write your code");
-    } else console.log(code);
+    if (language === "" || code === "") {
+      console.log("please select the language and write your code");
+    } else {
+      try {
+        const response = await axios.post(
+          `http://localhost:5000/run`,
+          {
+            ...values,
+          },
+          {
+            withCredentials: true,
+          }
+        );
+        if (response.data.success) console.log(response.data.output);
+        else console.log(response.data.message);
+      } catch (error) {
+        console.log(error.data.response.message);
+      }
+    }
     console.log("Run Clicked");
   };
   const handleSubmit = async (e) => {
@@ -67,6 +91,22 @@ const Problem = () => {
           </div>
         </div>
         <div className="probCode-editor">
+          <div className="probLanguageSelect">
+            <label className="probForm-label" htmlFor="language">
+              Language:
+            </label>
+            <select
+              className="probLang-select"
+              name="language"
+              value={language}
+              onChange={handleOnChange}
+            >
+              <option value="">Select Language</option>
+              <option value="cpp">C++</option>
+              {/* <option value="java">Java</option>
+              <option value="py">Python</option> */}
+            </select>
+          </div>
           <div className="probForm-group">
             <label className="probForm-label" htmlFor="codeEditor">
               Write Code here:
