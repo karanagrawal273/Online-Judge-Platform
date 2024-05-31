@@ -25,7 +25,7 @@
   padding: 20px;
 }
 .probLanguageSelect {
-  margin-bottom: 15px; /* Adjust spacing as needed */
+  margin-bottom: 15px; 
 }
 
 .probLang-select {
@@ -39,7 +39,7 @@
 
 .probLang-select:focus {
   outline: none;
-  border-color: #007bff; /* Adjust focus border color as needed */
+  border-color: #007bff; 
 }
 
 .probForm-group {
@@ -77,4 +77,28 @@
 
 .probError-message{
   color: red;
+}
+.probSolveArea {
+  top:10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.probInputArea,
+.probOutputArea,
+.probVerdictArea {
+  width: 100%; 
+  
+}
+
+.probInput,
+.probOutput,
+.probVerdict {
+  margin-top: 10px; 
+  
+}
+
+.probInput-input {
+  width: 100%;
+  resize: vertical; 
 }
