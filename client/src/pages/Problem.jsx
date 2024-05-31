@@ -18,12 +18,26 @@ const Problem = () => {
       [name]: value,
     });
   };
-
+  const [errors, setErrors] = useState({
+    langErr: "",
+    codeErr: "",
+    subErr: "",
+  });
+  const validateProblem = (data) => {
+    const errors = {};
+    if (!data.language.trim()) {
+      errors.langErr = "Please Select the Language";
+    }
+    if (!data.code.trim()) {
+      errors.codeErr = "Please write your code";
+    }
+    return errors;
+  };
   const handleRun = async (e) => {
     e.preventDefault();
-    if (language === "" || code === "") {
-      console.log("please select the language and write your code");
-    } else {
+    const newErrors = validateProblem(values);
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length === 0) {
       try {
         const response = await axios.post(
           `http://localhost:5000/run`,
@@ -35,18 +49,26 @@ const Problem = () => {
           }
         );
         if (response.data.success) console.log(response.data.output);
-        else console.log(response.data.message);
+        else {
+          setErrors({
+            ...errors,
+            subErr: response.data.message,
+          });
+        }
       } catch (error) {
-        console.log(error.data.response.message);
+        setErrors({
+          ...errors,
+          subErr: error.response.data.message,
+        });
       }
     }
     console.log("Run Clicked");
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (code === "") {
-      console.log("please write your code");
-    } else console.log(code);
+    const newErrors = validateProblem(values);
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length === 0) console.log(code);
     console.log("Submit Clicked");
   };
   useEffect(() => {
@@ -106,6 +128,9 @@ const Problem = () => {
               {/* <option value="java">Java</option>
               <option value="py">Python</option> */}
             </select>
+            {errors.langErr && (
+              <span className="probError-message">{errors.langErr}</span>
+            )}
           </div>
           <div className="probForm-group">
             <label className="probForm-label" htmlFor="codeEditor">
@@ -118,10 +143,16 @@ const Problem = () => {
               placeholder=""
               onChange={handleOnChange}
             />
+            {errors.codeErr && (
+              <span className="probError-message">{errors.codeErr}</span>
+            )}
           </div>
           <button onClick={handleRun} className="probRun-button" type="submit">
             Run
           </button>
+          {errors.subErr && (
+            <span className="probError-message">{errors.subErr}</span>
+          )}
           <button
             onClick={handleSubmit}
             className="probRun-button"

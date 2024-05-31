@@ -41,4 +41,7 @@
   .delDelete-button:hover {
     background-color: #c82333;
   }
+  .delError-message{
+    color: red;
+  }
   

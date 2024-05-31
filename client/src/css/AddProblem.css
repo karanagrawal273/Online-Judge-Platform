@@ -42,4 +42,6 @@
   .addSubmit-button:hover {
     background-color: #45a049;
   }
-  
+  .addError-message {
+    color: red;
+  }

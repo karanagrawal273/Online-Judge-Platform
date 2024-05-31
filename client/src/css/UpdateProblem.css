@@ -44,4 +44,7 @@
   .upSubmit-button:hover {
     background-color: #45a049;
   }
+  .upError-message{
+    color: red;
+  }
   

@@ -1,9 +1,10 @@
 import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../css/DeleteProblem.css";
 const DeleteProblem = (props) => {
   const { _id, title, difficulty } = props.obj;
+  const [errors, setErrors] = useState("");
   const navigate = useNavigate();
   const deleteProblem = async () => {
     try {
@@ -21,14 +22,13 @@ const DeleteProblem = (props) => {
           const response = await axios.delete(
             `http://localhost:5000/problems/${_id}`
           );
-          console.log("Problem gets deleted");
-          window.location.reload();  
+          window.location.reload();
         } catch (error) {
-          console.log(error.response.data.message);
+          setErrors(error.response.data.message);
         }
       }
     } catch (error) {
-      console.log("Some error occurred");
+      navigate("/login");
     }
   };
   return (
@@ -48,6 +48,7 @@ const DeleteProblem = (props) => {
           Delete
         </button>
       </li>
+      {errors && <span className="delError-message">{errors}</span>}
     </>
   );
 };

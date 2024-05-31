@@ -54,16 +54,82 @@ const UpdateProblem = (props) => {
       [name]: value,
     });
   };
+  const [errors, setErrors] = useState({});
+  const [submitError, setSubmitError] = useState("");
+
+  const validateUpdateProblem = (data) => {
+    const errors = {};
+    if (!data.title.trim()) {
+      errors.title = "Title is required";
+    }
+    if (!data.statement.trim()) {
+      errors.statement = "Statement is required";
+    }
+    if (!data.difficulty.trim()) {
+      errors.difficulty = "Difficulty is required";
+    }
+    if (!data.inputConstraints.trim()) {
+      errors.inputConstraints = "Input Constraints is required";
+    }
+    if (!data.sampleInput.trim()) {
+      errors.sampleInput = "Sample Input is required";
+    }
+    if (!data.outputConstraints.trim()) {
+      errors.outputConstraints = "Output Constraints is required";
+    }
+    if (!data.sampleOutput.trim()) {
+      errors.sampleOutput = "Sample Output is required";
+    }
+    if (!data.testcasesInput.trim()) {
+      errors.testcasesInput = "Input Testcases is required";
+    }
+    if (!data.testcasesOutput.trim()) {
+      errors.testcasesOutput = "Output Testcases is required";
+    }
+    return errors;
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.put(`http://localhost:5000/problems/${id}`, {
-        ...values,
+    const newErrors = validateUpdateProblem(values);
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length === 0) {
+      try {
+        const response = await axios.put(
+          `http://localhost:5000/problems/${id}`,
+          {
+            ...values,
+          },
+          { withCredentials: true }
+        );
+        console.log("problem Successfully Updated");
+        navigate("/problems");
+      } catch (error) {
+        setValues({
+          title: "",
+          statement: "",
+          difficulty: "",
+          inputConstraints: "",
+          sampleInput: "",
+          outputConstraints: "",
+          sampleOutput: "",
+          testcasesInput: "",
+          testcasesOutput: "",
+        });
+        setSubmitError(error.response.data.message);
+      }
+    } else {
+      setValues({
+        title: "",
+        statement: "",
+        difficulty: "",
+        inputConstraints: "",
+        sampleInput: "",
+        outputConstraints: "",
+        sampleOutput: "",
+        testcasesInput: "",
+        testcasesOutput: "",
       });
-      console.log("problem Successfully Updated");
-      navigate("/problems");
-    } catch (error) {
-      console.log(error.response.data.message);
+      setSubmitError("Updating problem is failed. Try Again");
     }
   };
   return (
@@ -83,6 +149,9 @@ const UpdateProblem = (props) => {
               placeholder="Enter Update Title"
               onChange={handleOnChange}
             />
+            {errors.title && (
+              <span className="upError-message">{errors.title}</span>
+            )}
           </div>
           <div className="upForm-group">
             <label className="upForm-label" htmlFor="statement">
@@ -95,6 +164,9 @@ const UpdateProblem = (props) => {
               placeholder="Enter update statement"
               onChange={handleOnChange}
             />
+            {errors.statement && (
+              <span className="upError-message">{errors.statement}</span>
+            )}
           </div>
           <div className="upForm-group">
             <label className="upForm-label" htmlFor="difficulty">
@@ -111,6 +183,9 @@ const UpdateProblem = (props) => {
               <option value="medium">Medium</option>
               <option value="hard">Hard</option>
             </select>
+            {errors.difficulty && (
+              <span className="upError-message">{errors.difficulty}</span>
+            )}
           </div>
           <div className="upForm-group">
             <label className="upForm-label" htmlFor="statement">
@@ -123,6 +198,9 @@ const UpdateProblem = (props) => {
               placeholder="Enter update Input Constraints"
               onChange={handleOnChange}
             />
+            {errors.inputConstraints && (
+              <span className="upError-message">{errors.inputConstraints}</span>
+            )}
           </div>
           <div className="upForm-group">
             <label className="upForm-label" htmlFor="sampleInput">
@@ -135,6 +213,9 @@ const UpdateProblem = (props) => {
               placeholder="Enter update Sample Input"
               onChange={handleOnChange}
             />
+            {errors.sampleInput && (
+              <span className="upError-message">{errors.sampleInput}</span>
+            )}
           </div>
           <div className="upForm-group">
             <label className="upForm-label" htmlFor="outputConstraints">
@@ -147,6 +228,11 @@ const UpdateProblem = (props) => {
               placeholder="Enter update Output Constraints"
               onChange={handleOnChange}
             />
+            {errors.outputConstraints && (
+              <span className="upError-message">
+                {errors.outputConstraints}
+              </span>
+            )}
           </div>
           <div className="upForm-group">
             <label className="upForm-label" htmlFor="sampleOutput">
@@ -159,6 +245,9 @@ const UpdateProblem = (props) => {
               placeholder="Enter update Sample Output"
               onChange={handleOnChange}
             />
+            {errors.sampleOutput && (
+              <span className="upError-message">{errors.sampleOutput}</span>
+            )}
           </div>
           <div className="upForm-group">
             <label className="upForm-label" htmlFor="testcasesInput">
@@ -168,9 +257,12 @@ const UpdateProblem = (props) => {
               className="upForm-input"
               name="testcasesInput"
               value={testcasesInput}
-              placeholder="Enter uodate Testcase Input"
+              placeholder="Enter update Testcase Input"
               onChange={handleOnChange}
             />
+            {errors.testcasesInput && (
+              <span className="upError-message">{errors.testcasesInput}</span>
+            )}
           </div>
           <div className="upForm-group">
             <label className="upForm-label" htmlFor="testcasesOutput">
@@ -183,10 +275,16 @@ const UpdateProblem = (props) => {
               placeholder="Enter Testcases Output"
               onChange={handleOnChange}
             />
+            {errors.testcasesOutput && (
+              <span className="upError-message">{errors.testcasesOutput}</span>
+            )}
           </div>
           <button className="upSubmit-button" type="submit">
             Submit
           </button>
+          {submitError && (
+            <span className="upError-message">{submitError}</span>
+          )}
         </form>
       </div>
     </>

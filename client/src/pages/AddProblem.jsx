@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import "../css/AddProblem.css";
 const AddProblem = (props) => {
   const navigate = useNavigate();
+
   useEffect(() => {
     const verifyCookie = async () => {
       try {
@@ -54,16 +55,81 @@ const AddProblem = (props) => {
       [name]: value,
     });
   };
+  const [errors, setErrors] = useState({});
+  const [submitError, setSubmitError] = useState("");
+  const validateAddProblem = (data) => {
+    const errors = {};
+    if (!data.title.trim()) {
+      errors.title = "Title is required";
+    }
+    if (!data.statement.trim()) {
+      errors.statement = "Statement is required";
+    }
+    if (!data.difficulty.trim()) {
+      errors.difficulty = "Difficulty is required";
+    }
+    if (!data.inputConstraints.trim()) {
+      errors.inputConstraints = "Input Constraints is required";
+    }
+    if (!data.sampleInput.trim()) {
+      errors.sampleInput = "Sample Input is required";
+    }
+    if (!data.outputConstraints.trim()) {
+      errors.outputConstraints = "Output Constraints is required";
+    }
+    if (!data.sampleOutput.trim()) {
+      errors.sampleOutput = "Sample Output is required";
+    }
+    if (!data.testcasesInput.trim()) {
+      errors.testcasesInput = "Input Testcases is required";
+    }
+    if (!data.testcasesOutput.trim()) {
+      errors.testcasesOutput = "Output Testcases is required";
+    }
+    return errors;
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.post(`http://localhost:5000/problems/`, {
-        ...values,
+    const newErrors = validateAddProblem(values);
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length === 0) {
+      try {
+        const response = await axios.post(
+          `http://localhost:5000/problems/`,
+          {
+            ...values,
+          },
+          { withCredentials: true }
+        );
+        console.log("Problem Successfully Added");
+        navigate("/problems");
+      } catch (error) {
+        setValues({
+          title: "",
+          statement: "",
+          difficulty: "",
+          inputConstraints: "",
+          sampleInput: "",
+          outputConstraints: "",
+          sampleOutput: "",
+          testcasesInput: "",
+          testcasesOutput: "",
+        });
+        setSubmitError(error.response.data.message);
+      }
+    } else {
+      setValues({
+        title: "",
+        statement: "",
+        difficulty: "",
+        inputConstraints: "",
+        sampleInput: "",
+        outputConstraints: "",
+        sampleOutput: "",
+        testcasesInput: "",
+        testcasesOutput: "",
       });
-      console.log("Problem Successfully Added");
-      navigate("/problems");
-    } catch (error) {
-      console.log(error.response.data.message);
+      setSubmitError("Adding problem is failed. Try Again");
     }
   };
   return (
@@ -83,6 +149,9 @@ const AddProblem = (props) => {
               placeholder="Enter Title"
               onChange={handleOnChange}
             />
+            {errors.title && (
+              <span className="addError-message">{errors.title}</span>
+            )}
           </div>
           <div className="addForm-group">
             <label className="addForm-label" htmlFor="statement">
@@ -95,6 +164,9 @@ const AddProblem = (props) => {
               placeholder="Enter statement"
               onChange={handleOnChange}
             />
+            {errors.statement && (
+              <span className="addError-message">{errors.statement}</span>
+            )}
           </div>
           <div className="addForm-group">
             <label className="addForm-label" htmlFor="difficulty">
@@ -111,6 +183,9 @@ const AddProblem = (props) => {
               <option value="medium">Medium</option>
               <option value="hard">Hard</option>
             </select>
+            {errors.difficulty && (
+              <span className="addError-message">{errors.difficulty}</span>
+            )}
           </div>
           <div className="addForm-group">
             <label className="addForm-label" htmlFor="inputConstraints">
@@ -123,6 +198,11 @@ const AddProblem = (props) => {
               placeholder="Enter Input Constraints"
               onChange={handleOnChange}
             />
+            {errors.inputConstraints && (
+              <span className="addError-message">
+                {errors.inputConstraints}
+              </span>
+            )}
           </div>
           <div className="addForm-group">
             <label className="addForm-label" htmlFor="sampleInput">
@@ -135,6 +215,9 @@ const AddProblem = (props) => {
               placeholder="Enter Sample Input"
               onChange={handleOnChange}
             />
+            {errors.sampleInput && (
+              <span className="addError-message">{errors.sampleInput}</span>
+            )}
           </div>
           <div className="addForm-group">
             <label className="addForm-label" htmlFor="outputConstraints">
@@ -147,6 +230,11 @@ const AddProblem = (props) => {
               placeholder="Enter Output Constraints"
               onChange={handleOnChange}
             />
+            {errors.outputConstraints && (
+              <span className="addError-message">
+                {errors.outputConstraints}
+              </span>
+            )}
           </div>
           <div className="addForm-group">
             <label className="addForm-label" htmlFor="sampleOutput">
@@ -159,6 +247,9 @@ const AddProblem = (props) => {
               placeholder="Enter Sample Output"
               onChange={handleOnChange}
             />
+            {errors.sampleOutput && (
+              <span className="addError-message">{errors.sampleOutput}</span>
+            )}
           </div>
           <div className="addForm-group">
             <label className="addForm-label" htmlFor="testcasesInput">
@@ -171,6 +262,9 @@ const AddProblem = (props) => {
               placeholder="Enter Testcase Input"
               onChange={handleOnChange}
             />
+            {errors.testcasesInput && (
+              <span className="addError-message">{errors.testcasesInput}</span>
+            )}
           </div>
           <div className="addForm-group">
             <label className="addForm-label" htmlFor="testcasesOutput">
@@ -183,10 +277,16 @@ const AddProblem = (props) => {
               placeholder="Enter Testcases Output"
               onChange={handleOnChange}
             />
+            {errors.testcasesOutput && (
+              <span className="addError-message">{errors.testcasesOutput}</span>
+            )}
           </div>
           <button className="addSubmit-button" type="submit">
             Submit
           </button>
+          {submitError && (
+            <span className="addError-message">{submitError}</span>
+          )}
         </form>
       </div>
     </>
