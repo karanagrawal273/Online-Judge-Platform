@@ -14,7 +14,18 @@ const generateFile = async (format, code) => {
   await fs.writeFileSync(filePath, code);
   return filePath;
 };
-const executeCode = async (filePath) => {
+const generateInputFile = async (input) => {
+  const dirInputs = path.join(__dirname, "../Inputs");
+  if (!fs.existsSync(dirInputs)) {
+    fs.mkdirSync(dirInputs, { recursive: true });
+  }
+  const jobId = uuid();
+  const inputFileName = `${jobId}.txt`;
+  const inputFilePath = path.join(dirInputs, inputFileName);
+  await fs.writeFileSync(inputFilePath, input);
+  return inputFilePath;
+};
+const executeCode = async (filePath,inputPath) => {
   const outputPath = path.join(__dirname, "../Outputs");
   if (!fs.existsSync(outputPath)) {
     fs.mkdirSync(outputPath, { recursive: true });
@@ -24,7 +35,7 @@ const executeCode = async (filePath) => {
 
   return new Promise((resolve, reject) => {
     exec(
-      `g++ ${filePath} -o ${outPath} && cd ${outputPath} && .\\${jobId}.exe`,
+      `g++ ${filePath} -o ${outPath} && cd ${outputPath} && .\\${jobId}.exe < ${inputPath}`,
       (error, stdout, stderr) => {
         if (error) {
           reject(error);
@@ -38,7 +49,7 @@ const executeCode = async (filePath) => {
   });
 };
 module.exports.runCode = async (req, res, next) => {
-  const { language = "cpp", code } = req.body;
+  const { language = "cpp", code, input } = req.body;
   if (code === undefined) {
     return res
       .status(404)
@@ -46,7 +57,8 @@ module.exports.runCode = async (req, res, next) => {
   }
   try {
     const filePath = await generateFile(language, code);
-    const output = await executeCode(filePath);
+    const inputPath = await generateInputFile(input);
+    const output = await executeCode(filePath, inputPath);
     res.status(200).json({ success: true, output });
   } catch (error) {
     return res.status(400).json({ success: false, message: error.message });
