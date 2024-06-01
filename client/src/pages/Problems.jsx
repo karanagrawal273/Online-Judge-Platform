@@ -6,20 +6,34 @@ import "../css/Problems.css";
 
 const Problems = () => {
   const [problems, setProblems] = useState([]);
+  const [difficulty, setDifficulty] = useState("");
 
+  const handleOnChange = (e) => {
+    setDifficulty(e.target.value);
+  };
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const response = await axios.get("http://localhost:5000/problems");
-        const prob = response.data.allProblems;
-        setProblems(prob);
-      } catch (error) {
-        console.log(error.response.data.message);
+      if (difficulty === "") {
+        try {
+          const response = await axios.get("http://localhost:5000/problems");
+          const prob = response.data.allProblems;
+          setProblems(prob);
+        } catch (error) {
+          console.log(error.response.data.message);
+        }
+      } else {
+        try {
+          const response = await axios.get(`http://localhost:5000/problems/diff/${difficulty}`);
+          const prob = response.data.allProblems;
+          setProblems(prob);
+        } catch (error) {
+          console.log(error.response.data.message);
+        }
       }
     };
 
     fetchData();
-  }, []);
+  }, [difficulty]);
 
   const problemList = () => {
     return problems.map((res, i) => {
@@ -28,13 +42,30 @@ const Problems = () => {
   };
 
   return (
-    <div className="probsProblems-section">
-      <div className="probsSection-title">Problems</div>
-      <div className="probsAdd-link">
-        <Link to={"/addProblem"}>Add Problems</Link>
+    <>
+      <div className="SearchFilter">
+        <label className="probForm-label" htmlFor="difficulty">
+          Filter by Difficulty:
+        </label>
+        <select
+          className="probsSelectDifficulty"
+          name="difficulty"
+          onChange={handleOnChange}
+        >
+          <option value="">Select Difficulty</option>
+          <option value="easy">Easy</option>
+          <option value="medium">Medium</option>
+          <option value="hard">Hard</option>
+        </select>
       </div>
-      <ul className="probsProblem-list">{problemList()}</ul>
-    </div>
+      <div className="probsProblems-section">
+        <div className="probsSection-title">Problems</div>
+        <div className="probsAdd-link">
+          <Link to={"/addProblem"}>Add Problems</Link>
+        </div>
+        <ul className="probsProblem-list">{problemList()}</ul>
+      </div>
+    </>
   );
 };
 

@@ -111,14 +111,14 @@ module.exports.updateProblem = async (req, res, next) => {
 module.exports.filterProblem = async (req, res, next) => {
   try {
     const diff = req.params.diff;
-    const filteredProblems = await problems.find({ difficulty: diff });
-    if (!filteredProblems) {
+    const allProblems = await problems.find({ difficulty: diff });
+    if (!allProblems) {
       return res.status(404).json({
         success: false,
         message: "This difficulty problem is not found",
       });
     }
-    res.status(200).json({ success: true, filteredProblems });
+    res.status(200).json({ success: true, allProblems });
     next();
   } catch (error) {
     return res.status(400).json({ success: true, message: error.message });
