@@ -4,7 +4,6 @@ const dotenv = require("dotenv");
 const cookieParser = require("cookie-parser");
 const AuthRoute = require("./Routes/AuthRoute");
 const ProblemRoute = require("./Routes/ProblemRoute.js");
-const CompilerRoute = require("./Routes/CompilerRoute.js");
 const cors = require("cors");
 
 dotenv.config();
@@ -26,7 +25,6 @@ DBConnection();
 
 app.use("/", AuthRoute);
 app.use("/problems", ProblemRoute);
-app.use("/run", CompilerRoute);
 
 app.get("/", (req, res) => {
   res.send("Hello World");
