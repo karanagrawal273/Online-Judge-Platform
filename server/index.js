@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 const cookieParser = require("cookie-parser");
 const AuthRoute = require("./Routes/AuthRoute");
 const ProblemRoute = require("./Routes/ProblemRoute.js");
+const AdminRoute = require("./Routes/AdminRoute.js");
 const cors = require("cors");
 
 dotenv.config();
@@ -25,6 +26,7 @@ DBConnection();
 
 app.use("/", AuthRoute);
 app.use("/problems", ProblemRoute);
+app.use("/admin", AdminRoute);
 
 app.get("/", (req, res) => {
   res.send("Hello World");
