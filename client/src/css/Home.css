@@ -1,58 +1,45 @@
 .homeContainer {
-  display: flex;
-  flex-direction: column;
+  text-align: center;
 }
 
 .homeNavbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #333; /* Change the background color as needed */
-  color: #fff; /* Change the text color as needed */
-  padding: 10px;
+  background-color: #f0f0f0; /* Change the background color as needed */
+  padding: 10px 20px;
+}
+
+.leftLinks, .rightLinks {
+  display: flex;
 }
 
 .homeNavbar-link {
-  margin-right: 20px;
+  margin-right: 20px; /* Adjust spacing between links */
 }
 
 .homeNavbar-link a {
   text-decoration: none;
-  color: inherit;
-  font-size: 16px;
+  color: #333; /* Link color */
 }
 
-.homeNavbar-link:hover {
-  text-decoration: underline;
+.homeNavbar-link a:hover {
+  color: #666; /* Link color on hover */
 }
 
 .homeForm-title {
-  margin: 0;
-  font-size: 18px;
+  margin-right: 10px; /* Adjust spacing between title and button */
 }
 
 .homeSubmit-button {
-  background-color: #007bff; /* Change button color as needed */
-  color: #fff;
+  background-color: #007bff; /* Button background color */
+  color: #fff; /* Button text color */
   border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
+  padding: 8px 16px;
+  border-radius: 4px;
   cursor: pointer;
 }
 
 .homeSubmit-button:hover {
-  background-color: #0056b3; /* Change button hover color as needed */
-}
-
-h1 {
-  margin-top: 0;
-  padding: 20px;
-}
-
-.leftLinks {
-  display: flex;
-}
-
-.rightLinks {
-  display: flex;
+  background-color: #0056b3; /* Button background color on hover */
 }

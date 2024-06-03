@@ -8,17 +8,17 @@ const UpdateProblem = (props) => {
     const verifyCookie = async () => {
       try {
         const response = await axios.post(
-          "http://localhost:5000",
+          "http://localhost:5000/admin/",
           {},
           { withCredentials: true }
         );
         if (!response.data.success) {
-          console.log("token not found Please login first");
-          navigate("/login");
+          console.log("Admin token not found Please login first");
+          navigate("/adminlogin");
         }
       } catch (error) {
         console.log(error.response.data.message);
-        navigate("/login");
+        navigate("/adminlogin");
       }
     };
     verifyCookie();

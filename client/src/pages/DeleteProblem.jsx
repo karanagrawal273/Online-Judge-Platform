@@ -9,14 +9,14 @@ const DeleteProblem = (props) => {
   const deleteProblem = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:5000",
+        "http://localhost:5000/admin/",
         {},
         { withCredentials: true }
       );
       // console.log(response);
       if (!response.data.success) {
-        console.log("token not found Please login first");
-        navigate("/login");
+        console.log("Admin token not found Please login first");
+        navigate("/adminlogin");
       } else {
         try {
           const response = await axios.delete(
@@ -28,7 +28,7 @@ const DeleteProblem = (props) => {
         }
       }
     } catch (error) {
-      navigate("/login");
+      navigate("/adminlogin");
     }
   };
   return (

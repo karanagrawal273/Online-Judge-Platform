@@ -6,6 +6,7 @@ import "../css/Home.css";
 const Home = () => {
   const navigate = useNavigate();
   const [name, setName] = useState("");
+  const [admin, setAdmin] = useState("");
 
   useEffect(() => {
     const verifyCookie = async () => {
@@ -26,7 +27,27 @@ const Home = () => {
         // navigate("/login");
       }
     };
+    const verifyAdminCookie = async () => {
+      try {
+        const response = await axios.post(
+          "http://localhost:5000/admin/",
+          {},
+          { withCredentials: true }
+        );
+        // console.log(response);
+        if (!response.data.success) {
+          console.log("Admin token not found");
+          // navigate("/login");
+        } else setAdmin(response.data.user);
+      } catch (error) {
+        console.log(error.response.data.message);
+
+        // navigate("/login");
+      }
+    };
+
     verifyCookie();
+    verifyAdminCookie();
   }, []);
   const handleLogout = async () => {
     try {
@@ -45,6 +66,22 @@ const Home = () => {
       console.log(error);
     }
   };
+  const handleAdminLogout = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/admin/logout",
+        {},
+        { withCredentials: true }
+      );
+      if (!response.data.success) {
+        console.log("Some Error Occurred");
+      } else {
+        navigate("/adminlogin");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       <div className="homeContainer">
@@ -57,7 +94,7 @@ const Home = () => {
           <div className="rightLinks">
             {name !== "" ? (
               <div>
-                <h2 className="homeForm-title">Hello {name}</h2>{" "}
+                <h2 className="homeForm-title"> {name}</h2>{" "}
                 <button className="homeSubmit-button" onClick={handleLogout}>
                   Logout
                 </button>
@@ -69,6 +106,26 @@ const Home = () => {
                 </div>
                 <div className="homeNavbar-link">
                   <Link to={"/signup"}>User SignUp</Link>
+                </div>
+              </div>
+            )}
+            {admin !== "" ? (
+              <div>
+                <h2 className="homeForm-title">Admin </h2>{" "}
+                <button
+                  className="homeSubmit-button"
+                  onClick={handleAdminLogout}
+                >
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <div className="homeNavbar">
+                <div className="homeNavbar-link">
+                  <Link to={"/adminlogin"}>Admin Login</Link>
+                </div>
+                <div className="homeNavbar-link">
+                  <Link to={"/adminsignup"}>Admin SignUp</Link>
                 </div>
               </div>
             )}

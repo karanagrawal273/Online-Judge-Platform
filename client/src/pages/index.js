@@ -6,3 +6,5 @@ export { default as Problem } from "./Problem";
 export { default as AddProblem } from "./AddProblem";
 export { default as UpdateProblem } from "./UpdateProblem";
 export { default as DeleteProblem } from "./DeleteProblem";
+export { default as AdminLogin } from "./AdminLogin";
+export { default as AdminSignup } from "./AdminSignup";
