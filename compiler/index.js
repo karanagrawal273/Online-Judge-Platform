@@ -1,10 +1,12 @@
 const express = require("express");
-const {generateFile} = require("./generateFile.js");
-const {generateInputFile} = require("./generateInputFile.js");
-const {executeCode} = require("./executeCode.js");
+const { generateFile } = require("./generateFile.js");
+const { generateInputFile } = require("./generateInputFile.js");
+const { executeCode } = require("./executeCode.js");
+const { executeSubmitCode } = require("./executeSubmitCode.js");
+const problems = require("../server/Model/Problems.js");
+
 const dotenv = require("dotenv");
 const cors = require("cors");
-
 
 dotenv.config();
 
@@ -19,7 +21,6 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 app.get("/", (req, res) => {
   res.send("Hello from Compiler");
 });
@@ -35,6 +36,26 @@ app.post("/run", async (req, res) => {
     const filePath = await generateFile(language, code);
     const inputPath = await generateInputFile(input);
     const output = await executeCode(filePath, inputPath);
+    res.status(200).json({ success: true, output });
+  } catch (error) {
+    return res.status(400).json({ success: false, message: error.message });
+  }
+});
+
+app.post("/submit", async (req, res) => {
+  const { language = "cpp", code, inputTestcases, outputTestcases } = req.body;
+  if (code === "") {
+    return res
+      .status(404)
+      .json({ success: false, message: "Please Enter your code" });
+  }
+  try {
+    const filePath = await generateFile(language, code);
+    const output = await executeSubmitCode(
+      filePath,
+      inputTestcases,
+      outputTestcases
+    );
     res.status(200).json({ success: true, output });
   } catch (error) {
     return res.status(400).json({ success: false, message: error.message });

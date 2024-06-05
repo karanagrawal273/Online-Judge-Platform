@@ -13,12 +13,25 @@ const Problem = () => {
     output: "",
     verdict: "",
   });
+  const [submitValues, setSubmitValues] = useState({
+    language: "",
+    code: "",
+    inputTestcases: " ",
+    outputTestcases: "",
+  });
   const { language, code, input, output, verdict } = values;
+  // const { language, code, inputTestcases, outputTestcases } = submitValues;
   const id = useParams().id;
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setValues({
       ...values,
+      [name]: value,
+    });
+    setSubmitValues({
+      ...submitValues,
+      inputTestcases: problem.testcases.input,
+      outputTestcases: problem.testcases.output,
       [name]: value,
     });
   };
@@ -37,6 +50,23 @@ const Problem = () => {
     }
     return errors;
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/problems/${id}`,
+          {
+            withCredentials: true,
+          }
+        );
+        setProblem(response.data.problem);
+      } catch (error) {
+        console.log(error.response.data.message);
+      }
+    };
+    fetchData();
+  }, []);
   const handleRun = async (e) => {
     e.preventDefault();
     try {
@@ -59,7 +89,11 @@ const Problem = () => {
             }
           );
           if (response.data.success)
-            setValues({ ...values, output: response.data.output,verdict:response.data.output });
+            setValues({
+              ...values,
+              output: response.data.output,
+              verdict: response.data.output,
+            });
           else {
             setErrors({
               ...errors,
@@ -73,11 +107,11 @@ const Problem = () => {
           });
         }
       }
-      console.log("Run Clicked");
     } catch (error) {
       navigate("/login");
     }
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -88,28 +122,39 @@ const Problem = () => {
       );
       const newErrors = validateProblem(values);
       setErrors(newErrors);
-      if (Object.keys(newErrors).length === 0) console.log(code);
-      console.log("Submit Clicked");
+      if (Object.keys(newErrors).length === 0) {
+        try {
+          setSubmitValues({
+            ...submitValues,
+            inputTestcases: problem.testcases.input,
+            outputTestcases: problem.testcases.output,
+          });
+          console.log(values);
+          console.log(submitValues);
+          const response = await axios.post(
+            `http://localhost:4000/submit`,
+            { ...submitValues },
+            { withCredentials: true }
+          );
+          if (response.data.success) {
+            setValues({
+              ...values,
+              output: "",
+              verdict: response.data.output,
+            });
+          }
+        } catch (error) {
+          setErrors({
+            ...errors,
+            subErr: error.response,
+          });
+        }
+      }
     } catch (error) {
       navigate("/login");
     }
   };
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:5000/problems/${id}`,
-          {
-            withCredentials: true,
-          }
-        );
-        setProblem(response.data.problem);
-      } catch (error) {
-        console.log(error.response.data.message);
-      }
-    };
-    fetchData();
-  }, []);
+
   return (
     <>
       <div className="probContainer">
