@@ -2,17 +2,13 @@ const fs = require("fs");
 const path = require("path");
 const { exec } = require("child_process");
 
-const executeSubmitCode = async (filePath, inputTestcases, outputTestcases) => {
-  const outputPath = path.join(__dirname, "./Outputs");
-  const inputPath = path.join(__dirname, "./Inputs");
-  if (!fs.existsSync(outputPath)) {
-    fs.mkdirSync(outputPath, { recursive: true });
-  }
+const executePySubmitCode = async (filePath, inputTestcases, outputTestcases) => {
+  const inputPath = path.join(__dirname, "../Inputs");
+  const codePath = path.dirname(filePath);
   if (!fs.existsSync(inputPath)) {
     fs.mkdirSync(inputPath, { recursive: true });
   }
   const jobId = path.basename(filePath).split(".")[0];
-  const outPath = path.join(outputPath, `${jobId}.exe`);
   const inPath = path.join(inputPath, `${jobId}.txt`);
 
   try {
@@ -27,7 +23,7 @@ const executeSubmitCode = async (filePath, inputTestcases, outputTestcases) => {
     await fs.writeFileSync(inPath, inputs[0]);
     const out = await new Promise((resolve, reject) => {
       exec(
-        `g++ ${filePath} -o ${outPath} && cd ${outputPath} && .\\${jobId}.exe < ${inPath}`,
+        `cd ${codePath} && python ${jobId}.py < ${inPath}`,
         (error, stdout, stderr) => {
           if (error) {
             reject(error);
@@ -52,7 +48,7 @@ const executeSubmitCode = async (filePath, inputTestcases, outputTestcases) => {
       await fs.writeFileSync(inPath, inputs[i]);
       const out = await new Promise((resolve, reject) => {
         exec(
-          `cd ${outputPath} && .\\${jobId}.exe < ${inPath}`,
+          `cd ${codePath} && python ${jobId}.py < ${inPath}`,
           (error, stdout, stderr) => {
             if (error) {
               reject(error);
@@ -80,4 +76,4 @@ const executeSubmitCode = async (filePath, inputTestcases, outputTestcases) => {
     return error;
   }
 };
-module.exports = { executeSubmitCode };
+module.exports = { executePySubmitCode };

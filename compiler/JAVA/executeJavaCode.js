@@ -1,17 +1,16 @@
 const fs = require("fs");
 const path = require("path");
 const { exec } = require("child_process");
-const executeCode = async (filePath, inputPath) => {
-  const outputPath = path.join(__dirname, "./Outputs");
+const executeJavaCode = async (filePath, inputPath) => {
+  const outputPath = path.join(__dirname, "../Outputs");
+  const codePath = path.dirname(filePath);
   if (!fs.existsSync(outputPath)) {
     fs.mkdirSync(outputPath, { recursive: true });
   }
   const jobId = path.basename(filePath).split(".")[0];
-  const outPath = path.join(outputPath, `${jobId}.exe`);
-
   return new Promise((resolve, reject) => {
     exec(
-      `g++ ${filePath} -o ${outPath} && cd ${outputPath} && .\\${jobId}.exe < ${inputPath}`,
+      `javac ${filePath} -d ${outputPath} && cd ${codePath} && java ${jobId}.java < ${inputPath}`,
       (error, stdout, stderr) => {
         if (error) {
           reject(error);
@@ -24,4 +23,4 @@ const executeCode = async (filePath, inputPath) => {
     );
   });
 };
-module.exports = { executeCode };
+module.exports = { executeJavaCode };
