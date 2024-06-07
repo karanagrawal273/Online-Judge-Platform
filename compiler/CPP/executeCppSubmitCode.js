@@ -2,7 +2,11 @@ const fs = require("fs");
 const path = require("path");
 const { exec } = require("child_process");
 
-const executeCppSubmitCode = async (filePath, inputTestcases, outputTestcases) => {
+const executeCppSubmitCode = async (
+  filePath,
+  inputTestcases,
+  outputTestcases
+) => {
   const outputPath = path.join(__dirname, "../Outputs");
   const inputPath = path.join(__dirname, "../Inputs");
   if (!fs.existsSync(outputPath)) {
@@ -77,7 +81,7 @@ const executeCppSubmitCode = async (filePath, inputTestcases, outputTestcases) =
     const result = "All testcases are passed. Code accepted successfully";
     return result;
   } catch (error) {
-    return error;
+    throw error;
   }
 };
 module.exports = { executeCppSubmitCode };
