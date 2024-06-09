@@ -8,3 +8,4 @@ export { default as UpdateProblem } from "./UpdateProblem";
 export { default as DeleteProblem } from "./DeleteProblem";
 export { default as AdminLogin } from "./AdminLogin";
 export { default as AdminSignup } from "./AdminSignup";
+export { default as UserProfile } from "./UserProfile";

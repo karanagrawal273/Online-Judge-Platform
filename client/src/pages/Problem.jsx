@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import "../css/Problem.css";
 
 const Problem = () => {
   const navigate = useNavigate();
   const [problem, setProblem] = useState({});
+  const [seconds, setSeconds] = useState(0);
   const [values, setValues] = useState({
     language: "",
     code: "",
@@ -52,6 +53,9 @@ const Problem = () => {
   };
 
   useEffect(() => {
+    const interval = setInterval(() => {
+      setSeconds((prevSeconds) => prevSeconds + 1);
+    }, 1000);
     const fetchData = async () => {
       try {
         const response = await axios.get(
@@ -66,6 +70,8 @@ const Problem = () => {
       }
     };
     fetchData();
+
+    return () => clearInterval(interval);
   }, []);
   const handleRun = async (e) => {
     e.preventDefault();
@@ -92,7 +98,6 @@ const Problem = () => {
             setValues({
               ...values,
               output: response.data.output,
-              verdict: response.data.output,
             });
           else {
             setErrors({
@@ -111,11 +116,11 @@ const Problem = () => {
       navigate("/login");
     }
   };
-
+  // const [userId, setUserId] = useState("");
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
+      const userResponse = await axios.post(
         `http://localhost:5000/`,
         {},
         { withCredentials: true }
@@ -142,6 +147,21 @@ const Problem = () => {
               output: "",
               verdict: response.data.output,
             });
+            try {
+              const submissionResponse = await axios.post(
+                `http://localhost:5000/problems/${problem._id}/${userResponse.data.user._id}`,
+                {
+                  language:language,
+                  solution: code,
+                  verdict: response.data.output,
+                  timeTaken: seconds,
+                },
+                { withCredentials: true }
+              );
+              console.log(submissionResponse.data.message);
+            } catch (error) {
+              console.log('some error occured',error);
+            }
           } else {
             setErrors({
               ...errors,
@@ -160,9 +180,24 @@ const Problem = () => {
       navigate("/login");
     }
   };
-
+  const formatTime = (time) => {
+    const minutes = Math.floor(time / 60);
+    const hour = Math.floor(time / 3600);
+    const seconds = time % 60;
+    return `${hour < 10 ? "0" : ""}${hour}:${
+      minutes < 10 ? "0" : ""
+    }${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+  };
   return (
     <>
+      <div className="probNavbar">
+        <div className="probHomeLink">
+          <Link to={"/"}>Home</Link>
+        </div>
+        <div className="probProblemsLink">
+          <Link to={"/problems"}>Problems</Link>
+        </div>
+      </div>
       <div className="probContainer">
         <div className="probProblem">
           <div className="probProblem-title">Problem</div>
@@ -259,6 +294,9 @@ const Problem = () => {
             </div>
           </div>
         </div>
+      </div>
+      <div>
+        <p>Time Elapsed: {formatTime(seconds)}</p>
       </div>
     </>
   );

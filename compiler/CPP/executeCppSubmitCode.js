@@ -78,7 +78,7 @@ const executeCppSubmitCode = async (
         }
       }
     }
-    const result = "All testcases are passed. Code accepted successfully";
+    const result = "Accepted";
     return result;
   } catch (error) {
     throw error;

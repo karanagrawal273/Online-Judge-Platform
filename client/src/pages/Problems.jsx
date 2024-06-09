@@ -43,6 +43,11 @@ const Problems = () => {
 
   return (
     <>
+    <div className="probsNavbar">
+      <div>
+        <Link to={'/'}>Home</Link>
+      </div>
+    </div>
       <div className="SearchFilter">
         <label className="probForm-label" htmlFor="difficulty">
           Filter by Difficulty:

@@ -1,3 +1,38 @@
+.probsNavbar {
+  background-color: #333; /* Background color */
+  color: #fff; /* Text color */
+  padding: 10px 20px; /* Padding */
+}
+
+.probsNavbar a {
+  text-decoration: none; /* Remove default underline */
+  color: inherit; /* Inherit text color from parent */
+}
+
+.probsNavbar a:hover {
+  text-decoration: underline; /* Underline on hover */
+}
+
+.SearchFilter {
+  margin-bottom: 20px;
+}
+
+.probForm-label {
+  display: inline-block;
+  margin-bottom: 5px;
+}
+
+.probsSelectDifficulty {
+  width: 200px;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.probsSelectDifficulty option {
+  padding: 8px;
+}
+
 .probsProblems-section {
     max-width: 600px;
     margin: 20px auto;

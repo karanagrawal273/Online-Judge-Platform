@@ -70,10 +70,10 @@ const executePySubmitCode = async (filePath, inputTestcases, outputTestcases) =>
         }
       }
     }
-    const result = "All testcases are passed. Code accepted successfully";
+    const result = "Accepted";
     return result;
   } catch (error) {
-    return error;
+    throw error;
   }
 };
 module.exports = { executePySubmitCode };

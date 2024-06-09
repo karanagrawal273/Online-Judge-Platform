@@ -10,6 +10,7 @@ import {
   DeleteProblem,
   AdminLogin,
   AdminSignup,
+  UserProfile,
 } from "./pages";
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path="/deleteProblem" element={<DeleteProblem />} />
         <Route path="/adminLogin" element={<AdminLogin />} />
         <Route path="/adminSignup" element={<AdminSignup />} />
+        <Route path="/userProfile" element={<UserProfile />} />
       </Routes>
     </div>
   );

@@ -6,7 +6,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #f0f0f0; /* Change the background color as needed */
+  background-color: #f0f0f0; 
   padding: 10px 20px;
 }
 
@@ -15,31 +15,44 @@
 }
 
 .homeNavbar-link {
-  margin-right: 20px; /* Adjust spacing between links */
+  margin-right: 20px; 
 }
 
 .homeNavbar-link a {
   text-decoration: none;
-  color: #333; /* Link color */
+  color: #333; 
 }
 
 .homeNavbar-link a:hover {
-  color: #666; /* Link color on hover */
+  color: #666; 
 }
 
 .homeForm-title {
-  margin-right: 10px; /* Adjust spacing between title and button */
+  margin-right: 10px; 
 }
 
 .homeSubmit-button {
-  background-color: #007bff; /* Button background color */
-  color: #fff; /* Button text color */
+  background-color: #007bff; 
+  color: #fff; 
   border: none;
-  padding: 8px 16px;
+  padding: 4px 8px;
   border-radius: 4px;
   cursor: pointer;
+  
 }
 
 .homeSubmit-button:hover {
-  background-color: #0056b3; /* Button background color on hover */
+  background-color: #0056b3; 
+}
+.homeOjPic {
+  display: flex;
+  align-items: center; 
+}
+
+.homeOjPic p {
+  flex: 1; 
+}
+.homeFlex{
+  display: flex;
+  align-items: center;
 }

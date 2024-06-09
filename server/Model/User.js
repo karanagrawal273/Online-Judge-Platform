@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
-const Problems = require("./Problems");
 
 const userSchema = new mongoose.Schema({
   firstname: {
@@ -37,9 +36,20 @@ const userSchema = new mongoose.Schema({
   submissions: [
     {
       problemId: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: String,
         default: null,
-        //required: true,
+      },
+      language:{
+        type:String,
+        default:null,
+      },
+      verdict: {
+        type: String,
+        default: null,
+      },
+      timeTaken: {
+        type: Number,
+        default: null,
       },
     },
   ],

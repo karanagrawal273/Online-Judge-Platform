@@ -22,7 +22,8 @@ module.exports.userVerification = (req, res) => {
         const user = await User.findById(data.id);
         if (user) {
           // console.log(user.firstname);
-          return res.status(200).json({ success: true, user: user.firstname });
+          user.password=undefined;
+          return res.status(200).json({ success: true, user});
         } else
           return res
             .status(404)

@@ -1,5 +1,5 @@
 const problems = require("../Model/Problems.js");
-const { findById } = require("../Model/User.js");
+const User = require("../Model/User.js");
 
 module.exports.problems = async (req, res, next) => {
   try {
@@ -137,5 +137,38 @@ module.exports.deleteProblem = async (req, res, next) => {
     next();
   } catch (error) {
     return res.statu(400).json({ success: false, message: error.message });
+  }
+};
+module.exports.addSubmission = async (req, res, next) => {
+  const problemId = req.params.problemId;
+  const userId = req.params.userId;
+  const { language, solution, verdict, timeTaken } = req.body;
+  const problemSubmission = { userId, language, solution, verdict, timeTaken };
+  const userSubmission = { problemId, language, verdict, timeTaken };
+  try {
+    const problem = await problems.findById(problemId);
+    if (!problem) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Problem not found" });
+    }
+    // console.log(problem);
+    const user = await User.findById(userId);
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+    // console.log(user);
+    problem.submissions.push(problemSubmission);
+    await problem.save();
+    user.submissions.push(userSubmission);
+    await user.save();
+    res
+      .status(201)
+      .json({ success: true, message: "Submission added successfully" });
+    next();
+  } catch (error) {
+    return res.status(400).json({ success: false, message: error.message });
   }
 };

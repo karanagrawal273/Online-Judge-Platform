@@ -54,35 +54,29 @@ const problemsSchema = new mongoose.Schema({
   submissions: [
     {
       userId: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: String,
         default: null,
         //required: true,
       },
-      submission: {
-        type: [
-          {
-            language: {
-              type: String,
-              default: null,
-            },
-            solution: {
-              type: String,
-              default: null,
-            },
-            verdict: {
-              type: String,
-              default: null,
-            },
-            submissionDateTime: {
-              type: Date,
-              default: Date.now,
-            },
-            timeTaken: {
-              type: Number,
-              default: 0,
-            },
-          },
-        ],
+      language: {
+        type: String,
+        default: null,
+      },
+      solution: {
+        type: String,
+        default: null,
+      },
+      verdict: {
+        type: String,
+        default: null,
+      },
+      submissionDateTime: {
+        type: Date,
+        default: new Date(),
+      },
+      timeTaken: {
+        type: Number,
+        default: 0,
       },
     },
   ],

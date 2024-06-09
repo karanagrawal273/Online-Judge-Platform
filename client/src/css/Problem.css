@@ -1,3 +1,20 @@
+.probNavbar {
+  display: flex;
+  justify-content: space-between;
+  background-color: #333; 
+  color: #fff; 
+  padding: 10px 20px; 
+}
+
+.probNavbar a {
+  text-decoration: none; 
+  color: inherit; 
+}
+
+.probNavbar a:hover {
+  text-decoration: underline; 
+}
+
 .probContainer {
   display: flex;
   flex-direction: row;
