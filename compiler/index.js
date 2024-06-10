@@ -1,5 +1,4 @@
 const express = require("express");
-const { DBConnection } = require("./Database/db.js");
 const { generateFile } = require("./generateFile.js");
 const { generateInputFile } = require("./generateInputFile.js");
 const { executeCppCode } = require("./CPP/executeCppCode.js");
@@ -8,7 +7,6 @@ const { executeJavaCode } = require("./JAVA/executeJavaCode.js");
 const { executeJavaSubmitCode } = require("./JAVA/executeJavaSubmitCode.js");
 const { executePyCode } = require("./Python/executePyCode.js");
 const { executePySubmitCode } = require("./Python/executePySubmitCode.js");
-const problems = require("../server/Model/Problems.js");
 
 const dotenv = require("dotenv");
 const cors = require("cors");
@@ -29,7 +27,7 @@ app.use(express.urlencoded({ extended: true }));
 app.get("/", (req, res) => {
   res.send("Hello from Compiler");
 });
-DBConnection();
+
 app.post("/run", async (req, res) => {
   const { language, code, input } = req.body;
   if (code === undefined) {
@@ -74,11 +72,6 @@ app.post("/submit", async (req, res) => {
       .json({ success: false, message: "Please Enter your code" });
   }
   try {
-    // const existsProblem = await problems.findOne({ _id: problemId });
-    // console.log(existsProblem);
-    // return res
-    //   .status(200)
-    //   .json({ success: true, message: "Problem gets fetched" });
     const filePath = await generateFile(language, code);
     if (language === "cpp") {
       const output = await executeCppSubmitCode(
