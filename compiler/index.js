@@ -7,7 +7,6 @@ const { executeJavaCode } = require("./JAVA/executeJavaCode.js");
 const { executeJavaSubmitCode } = require("./JAVA/executeJavaSubmitCode.js");
 const { executePyCode } = require("./Python/executePyCode.js");
 const { executePySubmitCode } = require("./Python/executePySubmitCode.js");
-
 const dotenv = require("dotenv");
 const cors = require("cors");
 
@@ -64,7 +63,6 @@ app.post("/submit", async (req, res) => {
     code,
     inputTestcases,
     outputTestcases,
-    problemId,
   } = req.body;
   if (code === "") {
     return res

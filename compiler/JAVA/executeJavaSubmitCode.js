@@ -2,7 +2,11 @@ const fs = require("fs");
 const path = require("path");
 const { exec } = require("child_process");
 
-const executeJavaSubmitCode = async (filePath, inputTestcases, outputTestcases) => {
+const executeJavaSubmitCode = async (
+  filePath,
+  inputTestcases,
+  outputTestcases
+) => {
   const outputPath = path.join(__dirname, "../Outputs");
   const inputPath = path.join(__dirname, "../Inputs");
   const codePath = path.dirname(filePath);
@@ -26,7 +30,7 @@ const executeJavaSubmitCode = async (filePath, inputTestcases, outputTestcases) 
     const outputs = outputTestcases.split(",");
     await fs.writeFileSync(inPath, inputs[0]);
     const out = await new Promise((resolve, reject) => {
-      exec(
+      const process = exec(
         `javac ${filePath} -d ${outputPath} && cd ${codePath} && java ${jobId}.java < ${inPath}`,
         (error, stdout, stderr) => {
           if (error) {
@@ -38,6 +42,10 @@ const executeJavaSubmitCode = async (filePath, inputTestcases, outputTestcases) 
           resolve(stdout);
         }
       );
+      setTimeout(() => {
+        process.kill();
+        reject(new Error("TLE,  process terminated"));
+      }, 2000);
     });
     if (!outputs.length) {
       if (out != "") {
@@ -51,7 +59,7 @@ const executeJavaSubmitCode = async (filePath, inputTestcases, outputTestcases) 
     for (let i = 1; i < inputs.length; i++) {
       await fs.writeFileSync(inPath, inputs[i]);
       const out = await new Promise((resolve, reject) => {
-        exec(
+        const process = exec(
           `cd ${codePath} && java ${jobId}.java < ${inPath}`,
           (error, stdout, stderr) => {
             if (error) {
@@ -63,6 +71,10 @@ const executeJavaSubmitCode = async (filePath, inputTestcases, outputTestcases) 
             resolve(stdout);
           }
         );
+        setTimeout(() => {
+          process.kill();
+          reject(new Error("TLE,  process terminated"));
+        }, 2000);
       });
       if (!outputs.length) {
         if (out != "") {

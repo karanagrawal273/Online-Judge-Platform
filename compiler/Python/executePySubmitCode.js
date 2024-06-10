@@ -2,7 +2,11 @@ const fs = require("fs");
 const path = require("path");
 const { exec } = require("child_process");
 
-const executePySubmitCode = async (filePath, inputTestcases, outputTestcases) => {
+const executePySubmitCode = async (
+  filePath,
+  inputTestcases,
+  outputTestcases
+) => {
   const inputPath = path.join(__dirname, "../Inputs");
   const codePath = path.dirname(filePath);
   if (!fs.existsSync(inputPath)) {
@@ -22,7 +26,7 @@ const executePySubmitCode = async (filePath, inputTestcases, outputTestcases) =>
     const outputs = outputTestcases.split(",");
     await fs.writeFileSync(inPath, inputs[0]);
     const out = await new Promise((resolve, reject) => {
-      exec(
+      const process = exec(
         `cd ${codePath} && python ${jobId}.py < ${inPath}`,
         (error, stdout, stderr) => {
           if (error) {
@@ -34,6 +38,10 @@ const executePySubmitCode = async (filePath, inputTestcases, outputTestcases) =>
           resolve(stdout);
         }
       );
+      setTimeout(() => {
+        process.kill();
+        reject(new Error("TLE,  process terminated"));
+      }, 1000);
     });
     if (!outputs.length) {
       if (out != "") {
@@ -47,7 +55,7 @@ const executePySubmitCode = async (filePath, inputTestcases, outputTestcases) =>
     for (let i = 1; i < inputs.length; i++) {
       await fs.writeFileSync(inPath, inputs[i]);
       const out = await new Promise((resolve, reject) => {
-        exec(
+        const process = exec(
           `cd ${codePath} && python ${jobId}.py < ${inPath}`,
           (error, stdout, stderr) => {
             if (error) {
@@ -59,6 +67,10 @@ const executePySubmitCode = async (filePath, inputTestcases, outputTestcases) =>
             resolve(stdout);
           }
         );
+        setTimeout(() => {
+          process.kill();
+          reject(new Error("TLE,  process terminated"));
+        }, 1000);
       });
       if (!outputs.length) {
         if (out != "") {

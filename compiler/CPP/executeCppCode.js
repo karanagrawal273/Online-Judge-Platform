@@ -10,7 +10,7 @@ const executeCppCode = async (filePath, inputPath) => {
   const outPath = path.join(outputPath, `${jobId}.exe`);
 
   return new Promise((resolve, reject) => {
-    exec(
+    const process = exec(
       `g++ ${filePath} -o ${outPath} && cd ${outputPath} && .\\${jobId}.exe < ${inputPath}`,
       (error, stdout, stderr) => {
         if (error) {
@@ -22,6 +22,10 @@ const executeCppCode = async (filePath, inputPath) => {
         resolve(stdout);
       }
     );
+    setTimeout(() => {
+      process.kill();
+      reject(new Error("TLE,  process terminated"));
+    }, 1000);
   });
 };
 module.exports = { executeCppCode };

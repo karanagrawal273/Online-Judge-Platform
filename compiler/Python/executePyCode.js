@@ -6,7 +6,7 @@ const executePyCode = async (filePath, inputPath) => {
   const jobId = path.basename(filePath).split(".")[0];
 
   return new Promise((resolve, reject) => {
-    exec(
+    const process = exec(
       `cd ${codePath} && python ${jobId}.py < ${inputPath}`,
       (error, stdout, stderr) => {
         if (error) {
@@ -18,6 +18,10 @@ const executePyCode = async (filePath, inputPath) => {
         resolve(stdout);
       }
     );
+    setTimeout(() => {
+      process.kill();
+      reject(new Error("TLE,  process terminated"));
+    }, 1000);
   });
 };
 module.exports = { executePyCode };

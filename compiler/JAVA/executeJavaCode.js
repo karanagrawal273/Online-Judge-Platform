@@ -9,7 +9,7 @@ const executeJavaCode = async (filePath, inputPath) => {
   }
   const jobId = path.basename(filePath).split(".")[0];
   return new Promise((resolve, reject) => {
-    exec(
+    const process = exec(
       `javac ${filePath} -d ${outputPath} && cd ${codePath} && java ${jobId}.java < ${inputPath}`,
       (error, stdout, stderr) => {
         if (error) {
@@ -21,6 +21,10 @@ const executeJavaCode = async (filePath, inputPath) => {
         resolve(stdout);
       }
     );
+    setTimeout(() => {
+      process.kill();
+      reject(new Error("TLE,  process terminated"));
+    }, 2000);
   });
 };
 module.exports = { executeJavaCode };
