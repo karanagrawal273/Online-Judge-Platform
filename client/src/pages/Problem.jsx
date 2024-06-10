@@ -202,23 +202,23 @@ const Problem = () => {
         <div className="probProblem">
           <div className="probProblem-title">Problem</div>
           <div>
-            <div className="probProblem-detail">{problem.title}</div>
+            <div className="probProblem-detail"><h3>{problem.title}</h3></div>
             <div className="probProblem-detail">{problem.statement}</div>
             <div className="probProblem-detail">
               Difficulty: {problem.difficulty}
             </div>
-            <div className="probProblem-detail">
+            {(problem.input && problem.input.constraints) && (<div className="probProblem-detail">
               Input Constraints: {problem.input && problem.input.constraints}
-            </div>
-            <div className="probProblem-detail">
+            </div>)}
+            {(problem.input && problem.input.sample) && (<div className="probProblem-detail">
               Sample Input: {problem.input && problem.input.sample}
-            </div>
-            <div className="probProblem-detail">
+            </div>)}
+            {(problem.output && problem.output.constraints) && (<div className="probProblem-detail">
               Output Constraints: {problem.output && problem.output.constraints}
-            </div>
-            <div className="probProblem-detail">
+            </div>)}
+            {(problem.output && problem.output.sample) && (<div className="probProblem-detail">
               Sample Output: {problem.output && problem.output.sample}
-            </div>
+            </div>)}
           </div>
         </div>
         <div className="probCode-editor">

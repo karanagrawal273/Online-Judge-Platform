@@ -1,3 +1,19 @@
+.upNavbar {
+  display: flex;
+  background-color: #333; 
+  color: #fff;
+  padding: 10px 20px; 
+}
+
+.upNavbar a {
+  text-decoration: none;
+  color: inherit; 
+  margin-right: 20px; 
+}
+
+.upNavbar a:hover {
+  text-decoration: underline;
+}
 .upForm-container {
     max-width: 600px;
     margin: 0 auto;

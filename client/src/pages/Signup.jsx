@@ -115,6 +115,9 @@ const Signup = () => {
 
   return (
     <>
+    <div className="sigNavbar">
+      <Link to={'/'}>Home</Link>
+    </div>
       <div className="sigForm-container">
         <h2 className="sigForm-title">Signup Account</h2>
         <form onSubmit={handleSubmit}>

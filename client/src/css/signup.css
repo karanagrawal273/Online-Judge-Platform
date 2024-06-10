@@ -1,3 +1,19 @@
+.sigNavbar {
+  display: flex;
+  background-color: #333; 
+  color: #fff;
+  padding: 10px 20px; 
+}
+
+.sigNavbar a {
+  text-decoration: none;
+  color: inherit; 
+  margin-right: 20px; 
+}
+
+.sigNavbar a:hover {
+  text-decoration: underline;
+}
 .sigForm-container {
     max-width: 400px;
     margin: 0 auto;

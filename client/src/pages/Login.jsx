@@ -100,6 +100,9 @@ const Login = () => {
 
   return (
     <>
+    <div className="logNavbar">
+      <Link to={'/'}>Home</Link>
+    </div>
       <div className="logForm-container">
         <h2 className="logForm-title">Login Account</h2>
         <form onSubmit={handleSubmit}>

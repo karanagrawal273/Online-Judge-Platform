@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import "../css/UpdateProblem.css";
 const UpdateProblem = (props) => {
   const navigate = useNavigate();
@@ -134,6 +134,9 @@ const UpdateProblem = (props) => {
   };
   return (
     <>
+    <div className="upNavbar">
+      <Link to={'/'}>Home</Link>
+    </div>
       <div className="upForm-container">
         <h2>Update Problem</h2>
         <form onSubmit={handleSubmit}>

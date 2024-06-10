@@ -1,3 +1,19 @@
+.addNavbar {
+  display: flex;
+  background-color: #333; 
+  color: #fff;
+  padding: 10px 20px; 
+}
+
+.addNavbar a {
+  text-decoration: none;
+  color: inherit; 
+  margin-right: 20px; 
+}
+
+.addNavbar a:hover {
+  text-decoration: underline;
+}
 .addForm-container {
     max-width: 600px;
     margin: 0 auto;
