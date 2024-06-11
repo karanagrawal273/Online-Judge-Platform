@@ -144,7 +144,7 @@ const Home = () => {
             are then compiled and executed against a set of test cases to
             evaluate correctness and efficiency.
           </p>
-          <img src="../OnlineJudge.png" alt="ImageNotFound"></img>
+          <img src="../assets/OnlineJudge.png" alt="ImageNotFound"></img>
         </div>
       </div>
     </>
