@@ -58,12 +58,9 @@ const Problem = () => {
     }, 1000);
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:5000/problems/${id}`,
-          {
-            withCredentials: true,
-          }
-        );
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/problems/${id}`, {
+          withCredentials: true,
+        });
         setProblem(response.data.problem);
       } catch (error) {
         console.log(error.response.data.message);
@@ -77,7 +74,7 @@ const Problem = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `http://localhost:5000/`,
+        `${import.meta.env.VITE_BACKEND_URL}/`,
         {},
         { withCredentials: true }
       );
@@ -86,7 +83,7 @@ const Problem = () => {
       if (Object.keys(newErrors).length === 0) {
         try {
           const response = await axios.post(
-            `http://localhost:4000/run`,
+            `${import.meta.env.VITE_COMPILER_URL}/run`,
             {
               ...values,
             },
@@ -98,6 +95,7 @@ const Problem = () => {
             setValues({
               ...values,
               output: response.data.output,
+              verdict: "",
             });
           else {
             setErrors({
@@ -121,7 +119,7 @@ const Problem = () => {
     e.preventDefault();
     try {
       const userResponse = await axios.post(
-        `http://localhost:5000/`,
+        `${import.meta.env.VITE_BACKEND_URL}/`,
         {},
         { withCredentials: true }
       );
@@ -134,10 +132,10 @@ const Problem = () => {
             inputTestcases: problem.testcases.input,
             outputTestcases: problem.testcases.output,
           });
-          console.log(values);
-          console.log(submitValues);
+          // console.log(values);
+          // console.log(submitValues);
           const response = await axios.post(
-            `http://localhost:4000/submit`,
+            `${import.meta.env.VITE_COMPILER_URL}/submit`,
             { ...submitValues },
             { withCredentials: true }
           );
@@ -149,9 +147,9 @@ const Problem = () => {
             });
             try {
               const submissionResponse = await axios.post(
-                `http://localhost:5000/problems/${problem._id}/${userResponse.data.user._id}`,
+                `${import.meta.env.VITE_BACKEND_URL}/problems/${problem._id}/${userResponse.data.user._id}`,
                 {
-                  language:language,
+                  language: language,
                   solution: code,
                   verdict: response.data.output,
                   timeTaken: seconds,
@@ -160,7 +158,7 @@ const Problem = () => {
               );
               console.log(submissionResponse.data.message);
             } catch (error) {
-              console.log('some error occured',error);
+              console.log("some error occured", error);
             }
           } else {
             setErrors({
@@ -202,23 +200,36 @@ const Problem = () => {
         <div className="probProblem">
           <div className="probProblem-title">Problem</div>
           <div>
-            <div className="probProblem-detail"><h3>{problem.title}</h3></div>
+            <div className="probProblem-detail">
+              <h3>{problem.title}</h3>
+            </div>
             <div className="probProblem-detail">{problem.statement}</div>
             <div className="probProblem-detail">
-              Difficulty: {problem.difficulty}
+              <h3>Difficulty:</h3> {problem.difficulty}
             </div>
-            {(problem.input && problem.input.constraints) && (<div className="probProblem-detail">
-              Input Constraints: {problem.input && problem.input.constraints}
-            </div>)}
-            {(problem.input && problem.input.sample) && (<div className="probProblem-detail">
-              Sample Input: {problem.input && problem.input.sample}
-            </div>)}
-            {(problem.output && problem.output.constraints) && (<div className="probProblem-detail">
-              Output Constraints: {problem.output && problem.output.constraints}
-            </div>)}
-            {(problem.output && problem.output.sample) && (<div className="probProblem-detail">
-              Sample Output: {problem.output && problem.output.sample}
-            </div>)}
+            {problem.input && problem.input.constraints && (
+              <div className="probProblem-detail">
+                <h3>Input Constraints:</h3>{" "}
+                {problem.input && problem.input.constraints}
+              </div>
+            )}
+            {problem.input && problem.input.sample && (
+              <div className="probProblem-detail">
+                <h3>Sample Input:</h3> {problem.input && problem.input.sample}
+              </div>
+            )}
+            {problem.output && problem.output.constraints && (
+              <div className="probProblem-detail">
+                <h3>Output Constraints:</h3>{" "}
+                {problem.output && problem.output.constraints}
+              </div>
+            )}
+            {problem.output && problem.output.sample && (
+              <div className="probProblem-detail">
+                <h3>Sample Output:</h3>{" "}
+                {problem.output && problem.output.sample}
+              </div>
+            )}
           </div>
         </div>
         <div className="probCode-editor">

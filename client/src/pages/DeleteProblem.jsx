@@ -9,7 +9,7 @@ const DeleteProblem = (props) => {
   const deleteProblem = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/admin/",
+        `${import.meta.env.VITE_BACKEND_URL}/admin/`,
         {},
         { withCredentials: true }
       );
@@ -20,7 +20,7 @@ const DeleteProblem = (props) => {
       } else {
         try {
           const response = await axios.delete(
-            `http://localhost:5000/problems/${_id}`
+            `${import.meta.env.VITE_BACKEND_URL}/problems/${_id}`
           );
           window.location.reload();
         } catch (error) {

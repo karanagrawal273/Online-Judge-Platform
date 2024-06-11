@@ -15,7 +15,7 @@ const Problems = () => {
     const fetchData = async () => {
       if (difficulty === "") {
         try {
-          const response = await axios.get("http://localhost:5000/problems");
+          const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/problems/`);
           const prob = response.data.allProblems;
           setProblems(prob);
         } catch (error) {
@@ -23,7 +23,7 @@ const Problems = () => {
         }
       } else {
         try {
-          const response = await axios.get(`http://localhost:5000/problems/diff/${difficulty}`);
+          const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/problems/diff/${difficulty}`);
           const prob = response.data.allProblems;
           setProblems(prob);
         } catch (error) {

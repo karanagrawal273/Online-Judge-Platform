@@ -64,7 +64,7 @@ const Signup = () => {
       // console.log(inputValue);
       try {
         const response = await axios.post(
-          "http://localhost:5000/register",
+          `${import.meta.env.VITE_BACKEND_URL}/register`,
           {
             ...inputValue,
           },

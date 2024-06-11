@@ -12,7 +12,7 @@ const Home = () => {
     const verifyCookie = async () => {
       try {
         const response = await axios.post(
-          "http://localhost:5000",
+          `${import.meta.env.VITE_BACKEND_URL}/`,
           {},
           { withCredentials: true }
         );
@@ -32,7 +32,7 @@ const Home = () => {
     const verifyAdminCookie = async () => {
       try {
         const response = await axios.post(
-          "http://localhost:5000/admin/",
+          `${import.meta.env.VITE_BACKEND_URL}/admin/`,
           {},
           { withCredentials: true }
         );
@@ -54,7 +54,7 @@ const Home = () => {
   const handleLogout = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/logout",
+        `${import.meta.env.VITE_BACKEND_URL}/logout`,
         {},
         { withCredentials: true }
       );
@@ -71,7 +71,7 @@ const Home = () => {
   const handleAdminLogout = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/admin/logout",
+        `${import.meta.env.VITE_BACKEND_URL}/admin/logout`,
         {},
         { withCredentials: true }
       );

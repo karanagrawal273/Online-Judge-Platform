@@ -9,7 +9,7 @@ const Login = () => {
     const verifyAdminCookie = async () => {
       try {
         const response = await axios.post(
-          "http://localhost:5000/admin/",
+          `${import.meta.env.VITE_BACKEND_URL}/admin/`,
           {},
           { withCredentials: true }
         );
@@ -56,7 +56,7 @@ const Login = () => {
     if (Object.keys(newErrors).length === 0) {
       try {
         const response = await axios.post(
-          "http://localhost:5000/admin/login",
+          `${import.meta.env.VITE_BACKEND_URL}/admin/login`,
           {
             ...inputValue,
           },

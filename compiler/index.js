@@ -13,9 +13,10 @@ const cors = require("cors");
 dotenv.config();
 
 const PORT = process.env.PORT || 4000;
+const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173";
 const app = express();
 const corsOptions = {
-  origin: ["http://localhost:5173"],
+  origin: [FRONTEND_URL],
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
 };
@@ -58,12 +59,7 @@ app.post("/run", async (req, res) => {
 });
 
 app.post("/submit", async (req, res) => {
-  const {
-    language = "cpp",
-    code,
-    inputTestcases,
-    outputTestcases,
-  } = req.body;
+  const { language = "cpp", code, inputTestcases, outputTestcases } = req.body;
   if (code === "") {
     return res
       .status(404)

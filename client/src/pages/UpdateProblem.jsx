@@ -8,7 +8,7 @@ const UpdateProblem = (props) => {
     const verifyCookie = async () => {
       try {
         const response = await axios.post(
-          "http://localhost:5000/admin/",
+          `${import.meta.env.VITE_BACKEND_URL}/admin/`,
           {},
           { withCredentials: true }
         );
@@ -95,7 +95,7 @@ const UpdateProblem = (props) => {
     if (Object.keys(newErrors).length === 0) {
       try {
         const response = await axios.put(
-          `http://localhost:5000/problems/${id}`,
+          `${import.meta.env.VITE_BACKEND_URL}/problems/${id}`,
           {
             ...values,
           },

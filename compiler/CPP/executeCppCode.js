@@ -7,11 +7,11 @@ const executeCppCode = async (filePath, inputPath) => {
     fs.mkdirSync(outputPath, { recursive: true });
   }
   const jobId = path.basename(filePath).split(".")[0];
-  const outPath = path.join(outputPath, `${jobId}.exe`);
+  const outPath = path.join(outputPath, `${jobId}.out`);
 
   return new Promise((resolve, reject) => {
     const process = exec(
-      `g++ ${filePath} -o ${outPath} && cd ${outputPath} && .\\${jobId}.exe < ${inputPath}`,
+      `g++ ${filePath} -o ${outPath} && cd ${outputPath} && ./${jobId}.out < ${inputPath}`,
       (error, stdout, stderr) => {
         if (error) {
           reject(error);

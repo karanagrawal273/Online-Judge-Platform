@@ -9,7 +9,7 @@ const Login = () => {
     const verifyCookie = async () => {
       try {
         const response = await axios.post(
-          "http://localhost:5000",
+          `${import.meta.env.VITE_BACKEND_URL}`,
           {},
           { withCredentials: true }
         );
@@ -56,7 +56,7 @@ const Login = () => {
     if (Object.keys(newErrors).length === 0) {
       try {
         const response = await axios.post(
-          "http://localhost:5000/login",
+          `${import.meta.env.VITE_BACKEND_URL}/login`,
           {
             ...inputValue,
           },

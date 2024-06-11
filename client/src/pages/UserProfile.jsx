@@ -10,7 +10,7 @@ const UserProfile = () => {
     const fetchData = async () => {
       try {
         const response = await axios.post(
-          `http://localhost:5000`,
+          `${import.meta.env.VITE_BACKEND_URL}`,
           {},
           { withCredentials: true }
         );
