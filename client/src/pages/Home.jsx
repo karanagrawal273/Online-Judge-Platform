@@ -95,13 +95,18 @@ const Home = () => {
           </div>
           <div className="rightLinks">
             {name !== "" ? (
+              <div>
               <div className="homeFlex">
-                <Link to={`/userprofile/`}>
+                <Link to={`/userprofile`}>
                   <h3 className="homeForm-title"> {name}</h3>{" "}
                 </Link>
                 <button className="homeSubmit-button" onClick={handleLogout}>
                   Logout
                 </button>
+              </div>
+              <Link to={'/leaderboard'}>
+                Leaderboard
+              </Link>
               </div>
             ) : (
               <div className="homeNavbar">

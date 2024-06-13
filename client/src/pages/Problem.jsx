@@ -246,7 +246,7 @@ const Problem = () => {
               <option value="">Select Language</option>
               <option value="cpp">C++</option>
               <option value="java">Java</option>
-              <option value="py">Python</option>
+              {/* <option value="py">Python</option> */}
             </select>
             {errors.langErr && (
               <span className="probError-message">{errors.langErr}</span>

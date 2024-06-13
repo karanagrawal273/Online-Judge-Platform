@@ -1,0 +1,41 @@
+.leadNavbar {
+    display: flex;
+    justify-content: space-between;
+    background-color: #333; /* Background color */
+    color: #fff; /* Text color */
+    padding: 10px 20px; /* Padding */
+  }
+  
+  .leadNavbar a {
+    text-decoration: none; /* Remove default underline */
+    color: inherit; /* Inherit text color from parent */
+  }
+  
+  .leadNavbar a:hover {
+    text-decoration: underline; /* Underline on hover */
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  /* Table header styles */
+  th {
+    background-color: #f2f2f2;
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  /* Table row styles */
+  tr {
+    border: 1px solid #ddd;
+  }
+  
+  /* Table cell styles */
+  td {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }

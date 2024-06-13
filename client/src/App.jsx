@@ -11,6 +11,7 @@ import {
   AdminLogin,
   AdminSignup,
   UserProfile,
+  Leaderboard,
 } from "./pages";
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path="/adminLogin" element={<AdminLogin />} />
         <Route path="/adminSignup" element={<AdminSignup />} />
         <Route path="/userProfile" element={<UserProfile />} />
+        <Route path="/leaderboard" element={<Leaderboard />} />
       </Routes>
     </div>
   );

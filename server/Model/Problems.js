@@ -54,7 +54,7 @@ const problemsSchema = new mongoose.Schema({
   submissions: [
     {
       userId: {
-        type: String,
+        type: mongoose.Types.ObjectId,
         default: null,
         //required: true,
       },
