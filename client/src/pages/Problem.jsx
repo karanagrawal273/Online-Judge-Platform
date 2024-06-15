@@ -149,8 +149,8 @@ const Problem = () => {
               const submissionResponse = await axios.post(
                 `${import.meta.env.VITE_BACKEND_URL}/problems/${problem._id}/${userResponse.data.user._id}`,
                 {
-                  language: language,
-                  solution: code,
+                  language: values.language,
+                  solution: values.code,
                   verdict: response.data.output,
                   timeTaken: seconds,
                 },

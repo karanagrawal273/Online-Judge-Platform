@@ -39,6 +39,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: null,
       },
+      problemTitle:{
+        type:String,
+        default:null,
+      },
       language:{
         type:String,
         default:null,

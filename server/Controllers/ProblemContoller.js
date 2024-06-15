@@ -143,8 +143,7 @@ module.exports.addSubmission = async (req, res, next) => {
   const problemId = req.params.problemId;
   const userId = req.params.userId;
   const { language, solution, verdict, timeTaken } = req.body;
-  const problemSubmission = { userId, language, solution, verdict, timeTaken };
-  const userSubmission = { problemId, language, verdict, timeTaken };
+
   try {
     const problem = await problems.findById(problemId);
     if (!problem) {
@@ -159,6 +158,19 @@ module.exports.addSubmission = async (req, res, next) => {
         .status(404)
         .json({ success: false, message: "User not found" });
     }
+    const problemTitle = problem.title;
+    const firstname = user.firstname;
+    const lastname = user.lastname;
+    const problemSubmission = {
+      userId,
+      firstname,
+      lastname,
+      language,
+      solution,
+      verdict,
+      timeTaken,
+    };
+    const userSubmission = { problemId, problemTitle, language, verdict, timeTaken };
     // console.log(user);
     problem.submissions.push(problemSubmission);
     await problem.save();

@@ -58,6 +58,14 @@ const problemsSchema = new mongoose.Schema({
         default: null,
         //required: true,
       },
+      firstname: {
+        type: String,
+        default: null,
+      },
+      lastname: {
+        type: String,
+        default: null,
+      },
       language: {
         type: String,
         default: null,
