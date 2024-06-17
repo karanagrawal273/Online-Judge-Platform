@@ -61,6 +61,8 @@ const Home = () => {
       if (!response.data.success) {
         console.log("Some Error Occurred");
       } else {
+        document.cookie =
+          "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         // removeCookie('token');
         navigate("/login");
       }
@@ -158,7 +160,10 @@ const Home = () => {
               style={{ width: "500px", height: "400px" }}
             >
               <div className="card-body d-flex justify-content-center align-items-center bg-primary text-white p-3">
-                <p className="card-text text-center" style={{fontSize:"20px"}}>
+                <p
+                  className="card-text text-center"
+                  style={{ fontSize: "20px" }}
+                >
                   An online judge is a platform or system that provides a
                   programming environment to users for solving programming
                   problems and challenges. It allows users to submit their code
