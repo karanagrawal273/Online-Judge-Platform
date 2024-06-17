@@ -35,10 +35,11 @@ module.exports.register = async (req, res, next) => {
     const options = {
       expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
       // secure: true,
-      sameSite: "none",
+      // sameSite: "none",
     };
 
-    res.status(201).cookie("adminToken", token, options).json({
+    res.cookie("adminToken", token, options);
+    res.status(200).json({
       message: "Successfully registered !!",
       success: true,
       existsAdmin,
@@ -85,10 +86,11 @@ module.exports.login = async (req, res, next) => {
       expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
       withCredentials: true,
       // secure: true,
-      sameSite: "none",
+      // sameSite: "none",
     };
 
-    res.status(201).cookie("adminToken", token, options).json({
+    res.cookie("adminToken", token, options);
+    res.status(200).json({
       message: "Successfully Logged in!!",
       success: true,
       token,
@@ -100,8 +102,8 @@ module.exports.login = async (req, res, next) => {
 };
 module.exports.logout = async (req, res, next) => {
   try {
+    res.clearCookie("adminToken");
     res
-      .clearCookie("adminToken")
       .status(200)
       .json({ success: true, message: "Admin Successfully Logout" });
   } catch (error) {
