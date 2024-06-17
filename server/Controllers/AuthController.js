@@ -38,7 +38,7 @@ module.exports.register = async (req, res, next) => {
 
     const options = {
       expires: new Date(Date.now() + 1 * 60 * 60 * 1000),
-      secure: true,
+      // secure: true,
       sameSite: "none",
     };
 
@@ -88,7 +88,7 @@ module.exports.login = async (req, res, next) => {
     const options = {
       expires: new Date(Date.now() + 1 * 60 * 60 * 1000),
       withCredentials: true,
-      secure: true,
+      // secure: true,
       sameSite: "none",
     };
 
