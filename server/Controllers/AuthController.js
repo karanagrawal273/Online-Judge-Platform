@@ -83,8 +83,7 @@ module.exports.login = async (req, res, next) => {
       expiresIn: "1h",
     });
 
-    existsUser.token = token;
-    existsUser.password = undefined;
+    
     // console.log(token);
     const options = {
       expires: new Date(Date.now() + 1 * 60 * 60 * 1000),
@@ -107,7 +106,7 @@ module.exports.login = async (req, res, next) => {
 module.exports.logout = async (req, res, next) => {
   try {
     res
-      .clearCookie("token", { path: "/" })
+      .clearCookie("token")
       .status(200)
       .json({ success: true, message: "Successfully Logout" });
   } catch (error) {
