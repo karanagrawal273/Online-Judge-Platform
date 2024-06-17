@@ -39,7 +39,7 @@ module.exports.register = async (req, res, next) => {
     const options = {
       expires: new Date(Date.now() + 1 * 60 * 60 * 1000),
       // secure: true,
-      // sameSite: "none",
+      // sameSite: "None",
     };
 
     res.cookie("token", token, options);
@@ -89,7 +89,7 @@ module.exports.login = async (req, res, next) => {
       expires: new Date(Date.now() + 1 * 60 * 60 * 1000),
       withCredentials: true,
       // secure: true,
-      // sameSite: "none",
+      // sameSite: "None",
     };
 
     res.cookie("token", token, options);
