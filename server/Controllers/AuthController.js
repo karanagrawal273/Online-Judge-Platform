@@ -38,15 +38,15 @@ module.exports.register = async (req, res, next) => {
 
     const options = {
       expires: new Date(Date.now() + 1 * 60 * 60 * 1000),
-      // secure: true,
-      // sameSite: "None",
+      secure: true,
+      sameSite: "None",
     };
 
     res.cookie("token", token, options);
     res.status(200).json({
       message: "Successfully registered !!",
       success: true,
-      existsUser,
+      // existsUser,
     });
     next();
   } catch (error) {
@@ -88,15 +88,15 @@ module.exports.login = async (req, res, next) => {
     const options = {
       expires: new Date(Date.now() + 1 * 60 * 60 * 1000),
       withCredentials: true,
-      // secure: true,
-      // sameSite: "None",
+      secure: true,
+      sameSite: "None",
     };
 
     res.cookie("token", token, options);
     res.status(200).json({
       message: "Successfully Logged in!!",
       success: true,
-      token,
+      // token,
     });
     next();
   } catch (error) {
