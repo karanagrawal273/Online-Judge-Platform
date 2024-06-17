@@ -107,6 +107,7 @@ module.exports.login = async (req, res, next) => {
 module.exports.logout = async (req, res, next) => {
   try {
     res.clearCookie("token");
+    console.log(res.cookie.token);
     res.status(200).json({ success: true, message: "Successfully Logout" });
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });

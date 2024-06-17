@@ -14,6 +14,7 @@ const Login = () => {
           {},
           { withCredentials: true }
         );
+        console.log(response);
         if (response.data.success) {
           navigate("/");
         }
