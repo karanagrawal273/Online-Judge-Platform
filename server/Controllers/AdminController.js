@@ -11,7 +11,7 @@ module.exports.register = async (req, res, next) => {
         .json({ success: false, message: "Please enter all the informations" });
     }
     const admin = await Admin.find({});
-    if (admin.length>0) {
+    if (admin.length > 0) {
       return res.status(400).json({
         success: false,
         message: "One Admin is already there, only one admin get registered",
@@ -35,6 +35,7 @@ module.exports.register = async (req, res, next) => {
     const options = {
       expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
       httpOnly: true,
+      sameSite: "None",
     };
 
     res.status(201).cookie("adminToken", token, options).json({
@@ -84,6 +85,7 @@ module.exports.login = async (req, res, next) => {
       expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
       withCredentials: true,
       httpOnly: true,
+      sameSite: "None",
     };
 
     res.status(201).cookie("adminToken", token, options).json({
@@ -97,12 +99,12 @@ module.exports.login = async (req, res, next) => {
   }
 };
 module.exports.logout = async (req, res, next) => {
-    try {
-      res
-        .clearCookie("adminToken")
-        .status(200)
-        .json({ success: true, message: "Admin Successfully Logout" });
-    } catch (error) {
-      res.status(400).json({ success: false, message: error.message });
-    }
-  };
+  try {
+    res
+      .clearCookie("adminToken")
+      .status(200)
+      .json({ success: true, message: "Admin Successfully Logout" });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
