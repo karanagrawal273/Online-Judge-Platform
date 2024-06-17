@@ -106,7 +106,7 @@ module.exports.login = async (req, res, next) => {
 
 module.exports.logout = async (req, res, next) => {
   try {
-    await res.clearCookie("token", { path: "/", domain: "https://online-judge-plum.vercel.app" });
+    res.clearCookie("token", { path: "/", domain: "https://online-judge-plum.vercel.app" });
     console.log(res.cookie.token);
     res.status(200).json({ success: true, message: "Successfully Logout" });
   } catch (error) {
