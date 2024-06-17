@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "../css/DeleteProblem.css";
+import "bootstrap/dist/css/bootstrap.css";
 const DeleteProblem = (props) => {
   const { _id, title, difficulty } = props.obj;
   const [errors, setErrors] = useState("");
@@ -31,24 +31,41 @@ const DeleteProblem = (props) => {
       navigate("/adminlogin");
     }
   };
+  let badgeColor;
+  switch (difficulty) {
+    case "easy":
+      badgeColor = "success";
+      break;
+    case "medium":
+      badgeColor = "warning";
+      break;
+    case "hard":
+      badgeColor = "danger";
+      break;
+    default:
+      badgeColor = "secondary";
+  }
   return (
     <>
-      <li className="delProblem-item">
-        <div className="delTitle">{title}</div>
-        <div className="delDifficulty">{difficulty}</div>
-        <div className="delLinks">
-          <Link className="delLink" to={`/problem/${_id}`}>
+      <li className="list-group-item d-flex justify-content-between align-items-center mb-3">
+        <h5 className="mb-0">{title}</h5>
+
+        <div>
+          <div className={`badge bg-${badgeColor} text-white me-2`} style={{ minWidth: '4em' }}>
+            {difficulty}
+          </div>
+          <Link className="btn btn-info btn-sm me-2" to={`/problem/${_id}`}>
             View
           </Link>
-          <Link className="delLink" to={`/updateProblem/${_id}`}>
+          <Link className="btn btn-warning btn-sm me-2" to={`/updateProblem/${_id}`}>
             Update
           </Link>
+          <button className="btn btn-danger btn-sm" onClick={deleteProblem}>
+            Delete
+          </button>
         </div>
-        <button className="delDelete-button" onClick={deleteProblem}>
-          Delete
-        </button>
+        {errors && <div className="text-danger">{errors}</div>}
       </li>
-      {errors && <span className="delError-message">{errors}</span>}
     </>
   );
 };

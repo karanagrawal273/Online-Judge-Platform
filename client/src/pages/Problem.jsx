@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import "../css/Problem.css";
+import Navbar from "../components/Navbar.jsx";
+import "bootstrap/dist/css/bootstrap.css";
 
 const Problem = () => {
   const navigate = useNavigate();
@@ -25,10 +26,18 @@ const Problem = () => {
   const id = useParams().id;
   const handleOnChange = (e) => {
     const { name, value } = e.target;
-    setValues({
-      ...values,
-      [name]: value,
-    });
+    if (name == "language") {
+      setValues({
+        ...values,
+        code: "",
+        [name]: value,
+      });
+    } else {
+      setValues({
+        ...values,
+        [name]: value,
+      });
+    }
     setSubmitValues({
       ...submitValues,
       inputTestcases: problem.testcases.input,
@@ -58,9 +67,12 @@ const Problem = () => {
     }, 1000);
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/problems/${id}`, {
-          withCredentials: true,
-        });
+        const response = await axios.get(
+          `${import.meta.env.VITE_BACKEND_URL}/problems/${id}`,
+          {
+            withCredentials: true,
+          }
+        );
         setProblem(response.data.problem);
       } catch (error) {
         console.log(error.response.data.message);
@@ -147,7 +159,9 @@ const Problem = () => {
             });
             try {
               const submissionResponse = await axios.post(
-                `${import.meta.env.VITE_BACKEND_URL}/problems/${problem._id}/${userResponse.data.user._id}`,
+                `${import.meta.env.VITE_BACKEND_URL}/problems/${problem._id}/${
+                  userResponse.data.user._id
+                }`,
                 {
                   language: values.language,
                   solution: values.code,
@@ -188,126 +202,139 @@ const Problem = () => {
   };
   return (
     <>
-      <div className="probNavbar">
-        <div className="probHomeLink">
-          <Link to={"/"}>Home</Link>
-        </div>
-        <div className="probProblemsLink">
-          <Link to={"/problems"}>Problems</Link>
-        </div>
-      </div>
-      <div className="probContainer">
-        <div className="probProblem">
-          <div className="probProblem-title">Problem</div>
-          <div>
-            <div className="probProblem-detail">
-              <h3>{problem.title}</h3>
+      <Navbar />
+      <div className="container mt-4">
+        <div className="row">
+          {/* Problem Details Section */}
+          <div className="col-lg-6 mb-4">
+            <div className="card bg-primary bg-opacity-50 "style={{ color: "black" }}>
+              <div className="card-body">
+                <div className="mb-4">
+                  <h3>{problem.title}</h3>
+                  <p>{problem.statement}</p>
+                </div>
+                <div className="mb-3">
+                  <h4>Difficulty:</h4> {problem.difficulty}
+                </div>
+                {problem.input && problem.input.constraints && (
+                  <div className="mb-3">
+                    <h4>Input Constraints:</h4> {problem.input.constraints}
+                  </div>
+                )}
+                {problem.input && problem.input.sample && (
+                  <div className="mb-3">
+                    <h4>Sample Input:</h4> {problem.input.sample}
+                  </div>
+                )}
+                {problem.output && problem.output.constraints && (
+                  <div className="mb-3">
+                    <h4>Output Constraints:</h4> {problem.output.constraints}
+                  </div>
+                )}
+                {problem.output && problem.output.sample && (
+                  <div className="mb-3">
+                    <h4>Sample Output:</h4> {problem.output.sample}
+                  </div>
+                )}
+              </div>
             </div>
-            <div className="probProblem-detail">{problem.statement}</div>
-            <div className="probProblem-detail">
-              <h3>Difficulty:</h3> {problem.difficulty}
-            </div>
-            {problem.input && problem.input.constraints && (
-              <div className="probProblem-detail">
-                <h3>Input Constraints:</h3>{" "}
-                {problem.input && problem.input.constraints}
-              </div>
-            )}
-            {problem.input && problem.input.sample && (
-              <div className="probProblem-detail">
-                <h3>Sample Input:</h3> {problem.input && problem.input.sample}
-              </div>
-            )}
-            {problem.output && problem.output.constraints && (
-              <div className="probProblem-detail">
-                <h3>Output Constraints:</h3>{" "}
-                {problem.output && problem.output.constraints}
-              </div>
-            )}
-            {problem.output && problem.output.sample && (
-              <div className="probProblem-detail">
-                <h3>Sample Output:</h3>{" "}
-                {problem.output && problem.output.sample}
-              </div>
-            )}
           </div>
-        </div>
-        <div className="probCode-editor">
-          <div className="probLanguageSelect">
-            <label className="probForm-label" htmlFor="language">
-              Language:
-            </label>
-            <select
-              className="probLang-select"
-              name="language"
-              value={language}
-              onChange={handleOnChange}
+
+          {/* Code Editor Section */}
+          <div className="col-lg-6">
+            <div
+              className="card bg-primary bg-opacity-50 "
+              style={{ color: "black" }}
             >
-              <option value="">Select Language</option>
-              <option value="cpp">C++</option>
-              <option value="java">Java</option>
-              {/* <option value="py">Python</option> */}
-            </select>
-            {errors.langErr && (
-              <span className="probError-message">{errors.langErr}</span>
-            )}
-          </div>
-          <div className="probForm-group">
-            <label className="probForm-label" htmlFor="codeEditor">
-              Write Code here:
-            </label>
-            <textarea
-              className="probForm-input"
-              name="code"
-              value={code}
-              placeholder=""
-              onChange={handleOnChange}
-            />
-            {errors.codeErr && (
-              <span className="probError-message">{errors.codeErr}</span>
-            )}
-          </div>
-          <button onClick={handleRun} className="probRun-button" type="submit">
-            Run
-          </button>
-          {errors.subErr && (
-            <span className="probError-message">{errors.subErr}</span>
-          )}
-          <button
-            onClick={handleSubmit}
-            className="probRun-button"
-            type="submit"
-          >
-            Submit
-          </button>
-          <div className="probSolveArea">
-            <div className="probInputArea">
-              <label className="probInput" htmlFor="input">
-                Input:
-              </label>
-              <textarea
-                className="probInput-input"
-                name="input"
-                value={input}
-                placeholder="Enter your Input"
-                onChange={handleOnChange}
-              />
+              <div className="card-body">
+                <div className="mb-3">
+                  <label className="form-label">Language:</label>
+                  <select
+                    className="form-select mb-2"
+                    name="language"
+                    value={language}
+                    onChange={handleOnChange}
+                  >
+                    <option value="">Select Language</option>
+                    <option value="cpp">C++</option>
+                    <option value="java">Java</option>
+                    {/* <option value="py">Python</option> */}
+                  </select>
+                  {errors.langErr && (
+                    <div className="text-danger">{errors.langErr}</div>
+                  )}
+                </div>
+                <div className="mb-3" style={{ minHeight: "300px" }}>
+                  {" "}
+                  {/* Increased height */}
+                  <label className="form-label">Write Code here:</label>
+                  <textarea
+                    className="form-control"
+                    style={{ minHeight: "300px" }} // Ensures a minimum height
+                    name="code"
+                    value={code}
+                    placeholder=""
+                    onChange={handleOnChange}
+                  />
+                  {errors.codeErr && (
+                    <div className="text-danger">{errors.codeErr}</div>
+                  )}
+                </div>
+                <button
+                  onClick={handleRun}
+                  className="btn btn-light mb-2"
+                  type="button"
+                >
+                  Run
+                </button>
+                <button
+                  onClick={handleSubmit}
+                  className="btn btn-light mb-2 ms-2"
+                  type="button"
+                >
+                  Submit
+                </button>
+                {errors.subErr && (
+                  <div className="text-danger">{errors.subErr}</div>
+                )}
+              </div>
             </div>
-            <div className="probOutputArea">
-              {values.output && (
-                <div className="probOutput">Output: {values.output}</div>
-              )}
-            </div>
-            <div className="probVerdictArea">
-              {values.verdict && (
-                <div className="probVerdict">Verdict: {values.verdict}</div>
-              )}
+
+            {/* Solve Area Section */}
+            <div className="card bg-primary bg-opacity-50 mt-4"style={{ color: "black" }}>
+              <div className="card-body row">
+                <div className="col">
+                  <div className="mb-3">
+                    <label className="form-label">Input:</label>
+                    <textarea
+                      className="form-control"
+                      style={{ minHeight: "100px" }}
+                      name="input"
+                      value={input}
+                      placeholder="Enter your Input"
+                      onChange={handleOnChange}
+                    />
+                  </div>
+                </div>
+                {values.output && (
+                  <div className="col">
+                    <div className="mb-3">Output: {values.output}</div>
+                  </div>
+                )}
+                {values.verdict && (
+                  <div className="col">
+                    <div className="mb-3">Verdict: {values.verdict}</div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div>
-        <p>Time Elapsed: {formatTime(seconds)}</p>
+
+        {/* Time Elapsed Section */}
+        <div className="fixed-bottom mb-4">
+          <p className="text-primary">Time Elapsed: {formatTime(seconds)}</p>
+        </div>
       </div>
     </>
   );

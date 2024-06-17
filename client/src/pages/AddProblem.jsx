@@ -1,7 +1,8 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import "../css/AddProblem.css";
+import { useNavigate, useParams } from "react-router-dom";
+import Navbar from "../components/Navbar.jsx";
+import "bootstrap/dist/css/bootstrap.css";
 const AddProblem = (props) => {
   const navigate = useNavigate();
 
@@ -134,163 +135,195 @@ const AddProblem = (props) => {
   };
   return (
     <>
-    <div className="addNavbar">
-      <Link to={'/'}>Home</Link>
-    </div>
-      <div className="addForm-container">
-        <h2>Add Problem</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="addForm-group">
-            <label className="addForm-label" htmlFor="title">
-              Title:
-            </label>
-            <input
-              className="addForm-input"
-              type="text"
-              name="title"
-              value={title}
-              placeholder="Enter Title"
-              onChange={handleOnChange}
-            />
-            {errors.title && (
-              <span className="addError-message">{errors.title}</span>
-            )}
+      <Navbar />
+      <div className="container-fluid ">
+        <div className="row justify-content-center align-items-center vh-100">
+          <div className="col-md-8 col-lg-6 col-xl-4">
+            <div className="card shadow-lg rounded-3 border-primary">
+              <div className="card-body p-4 p-md-5">
+                <h2 className="display-6 text-center mb-4">Add Problem</h2>
+                <form onSubmit={handleSubmit}>
+                  <div class="mb-3">
+                    <label for="title" class="form-label">
+                      Title:
+                    </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="title"
+                      value={title}
+                      placeholder="Enter Title"
+                      onChange={handleOnChange}
+                    />
+                    {errors.title && (
+                      <div className="invalid-feedback d-block">
+                        {errors.title}
+                      </div>
+                    )}
+                  </div>
+                  <div class="mb-3">
+                    <label for="statement" class="form-label">
+                      Statement:
+                    </label>
+                    <textarea
+                      class="form-control"
+                      rows="3"
+                      name="statement"
+                      value={statement}
+                      placeholder="Enter statement"
+                      onChange={handleOnChange}
+                    ></textarea>
+                    {errors.statement && (
+                      <div className="invalid-feedback d-block">
+                        {errors.statement}
+                      </div>
+                    )}
+                  </div>
+                  <div class="mb-3">
+                    <label for="difficulty" class="form-label">
+                      Difficulty:
+                    </label>
+                    <select
+                      className="addForm-select"
+                      name="difficulty"
+                      value={difficulty}
+                      onChange={handleOnChange}
+                    >
+                      <option value="">Select difficulty</option>
+                      <option value="easy">Easy</option>
+                      <option value="medium">Medium</option>
+                      <option value="hard">Hard</option>
+                    </select>
+                    {errors.difficulty && (
+                      <div className="invalid-feedback d-block">
+                        {errors.difficulty}
+                      </div>
+                    )}
+                  </div>
+                  <div class="mb-3">
+                    <label for="inputConstraints" class="form-label">
+                      Input Constraints:
+                    </label>
+                    <textarea
+                      class="form-control"
+                      rows="3"
+                      name="inputConstraints"
+                      value={inputConstraints}
+                      placeholder="Enter Input Constraints"
+                      onChange={handleOnChange}
+                    ></textarea>
+                    {errors.inputConstraints && (
+                      <div className="invalid-feedback d-block">
+                        {errors.inputConstraints}
+                      </div>
+                    )}
+                  </div>
+                  <div class="mb-3">
+                    <label for="sampleInput" class="form-label">
+                      Sample Input:
+                    </label>
+                    <textarea
+                      class="form-control"
+                      rows="3"
+                      name="sampleInput"
+                      value={sampleInput}
+                      placeholder="Enter Sample Input"
+                      onChange={handleOnChange}
+                    ></textarea>
+                    {errors.sampleInput && (
+                      <div className="invalid-feedback d-block">
+                        {errors.sampleInput}
+                      </div>
+                    )}
+                  </div>
+                  <div class="mb-3">
+                    <label for="outputConstraints" class="form-label">
+                      Output Constraints:
+                    </label>
+                    <textarea
+                      class="form-control"
+                      rows="3"
+                      name="outputConstraints"
+                      value={outputConstraints}
+                      placeholder="Enter Output Constraints"
+                      onChange={handleOnChange}
+                    ></textarea>
+                    {errors.outputConstraints && (
+                      <div className="invalid-feedback d-block">
+                        {errors.outputConstraints}
+                      </div>
+                    )}
+                  </div>
+                  <div class="mb-3">
+                    <label for="sampleOutput" class="form-label">
+                      Sample Output:
+                    </label>
+                    <textarea
+                      class="form-control"
+                      rows="3"
+                      name="sampleOutput"
+                      value={sampleOutput}
+                      placeholder="Enter Sample Output"
+                      onChange={handleOnChange}
+                    ></textarea>
+                    {errors.sampleOutput && (
+                      <div className="invalid-feedback d-block">
+                        {errors.sampleOutput}
+                      </div>
+                    )}
+                  </div>
+                  <div class="mb-3">
+                    <label for="testcasesInput" class="form-label">
+                      Testcases Input:
+                    </label>
+                    <textarea
+                      class="form-control"
+                      rows="3"
+                      name="testcasesInput"
+                      value={testcasesInput}
+                      placeholder="Enter Testcases Input"
+                      onChange={handleOnChange}
+                    ></textarea>
+                    {errors.testcasesInput && (
+                      <div className="invalid-feedback d-block">
+                        {errors.testcasesInput}
+                      </div>
+                    )}
+                  </div>
+                  <div class="mb-3">
+                    <label for="testcasesOutput" class="form-label">
+                      Testcases Output:
+                    </label>
+                    <textarea
+                      class="form-control"
+                      rows="3"
+                      name="testcasesOutput"
+                      value={testcasesOutput}
+                      placeholder="Enter Testcases Output"
+                      onChange={handleOnChange}
+                    ></textarea>
+                    {errors.testcasesOutput && (
+                      <div className="invalid-feedback d-block">
+                        {errors.testcasesOutput}
+                      </div>
+                    )}
+                  </div>
+                  <button
+                    type="submit"
+                    className="btn btn-primary btn-block mt-4"
+                  >
+                    Submit
+                  </button>
+                  {submitError && (
+                    <div className="text-danger mt-3 text-center">
+                      {submitError}
+                    </div>
+                  )}
+                </form>
+              </div>
+            </div>
           </div>
-          <div className="addForm-group">
-            <label className="addForm-label" htmlFor="statement">
-              Statement:
-            </label>
-            <textarea
-              className="addForm-input"
-              name="statement"
-              value={statement}
-              placeholder="Enter statement"
-              onChange={handleOnChange}
-            />
-            {errors.statement && (
-              <span className="addError-message">{errors.statement}</span>
-            )}
-          </div>
-          <div className="addForm-group">
-            <label className="addForm-label" htmlFor="difficulty">
-              Difficulty:
-            </label>
-            <select
-              className="addForm-select"
-              name="difficulty"
-              value={difficulty}
-              onChange={handleOnChange}
-            >
-              <option value="">Select difficulty</option>
-              <option value="easy">Easy</option>
-              <option value="medium">Medium</option>
-              <option value="hard">Hard</option>
-            </select>
-            {errors.difficulty && (
-              <span className="addError-message">{errors.difficulty}</span>
-            )}
-          </div>
-          <div className="addForm-group">
-            <label className="addForm-label" htmlFor="inputConstraints">
-              Input Constraints:
-            </label>
-            <textarea
-              className="addForm-input"
-              name="inputConstraints"
-              value={inputConstraints}
-              placeholder="Enter Input Constraints"
-              onChange={handleOnChange}
-            />
-            {errors.inputConstraints && (
-              <span className="addError-message">
-                {errors.inputConstraints}
-              </span>
-            )}
-          </div>
-          <div className="addForm-group">
-            <label className="addForm-label" htmlFor="sampleInput">
-              Sample Input:
-            </label>
-            <textarea
-              className="addForm-input"
-              name="sampleInput"
-              value={sampleInput}
-              placeholder="Enter Sample Input"
-              onChange={handleOnChange}
-            />
-            {errors.sampleInput && (
-              <span className="addError-message">{errors.sampleInput}</span>
-            )}
-          </div>
-          <div className="addForm-group">
-            <label className="addForm-label" htmlFor="outputConstraints">
-              Output Constraints:
-            </label>
-            <textarea
-              className="addForm-input"
-              name="outputConstraints"
-              value={outputConstraints}
-              placeholder="Enter Output Constraints"
-              onChange={handleOnChange}
-            />
-            {errors.outputConstraints && (
-              <span className="addError-message">
-                {errors.outputConstraints}
-              </span>
-            )}
-          </div>
-          <div className="addForm-group">
-            <label className="addForm-label" htmlFor="sampleOutput">
-              Sample Output:
-            </label>
-            <textarea
-              className="addForm-input"
-              name="sampleOutput"
-              value={sampleOutput}
-              placeholder="Enter Sample Output"
-              onChange={handleOnChange}
-            />
-            {errors.sampleOutput && (
-              <span className="addError-message">{errors.sampleOutput}</span>
-            )}
-          </div>
-          <div className="addForm-group">
-            <label className="addForm-label" htmlFor="testcasesInput">
-              Testcases Input:
-            </label>
-            <textarea
-              className="addForm-input"
-              name="testcasesInput"
-              value={testcasesInput}
-              placeholder="Enter Testcase Input"
-              onChange={handleOnChange}
-            />
-            {errors.testcasesInput && (
-              <span className="addError-message">{errors.testcasesInput}</span>
-            )}
-          </div>
-          <div className="addForm-group">
-            <label className="addForm-label" htmlFor="testcasesOutput">
-              Testcases Output:
-            </label>
-            <textarea
-              className="addForm-input"
-              name="testcasesOutput"
-              value={testcasesOutput}
-              placeholder="Enter Testcases Output"
-              onChange={handleOnChange}
-            />
-            {errors.testcasesOutput && (
-              <span className="addError-message">{errors.testcasesOutput}</span>
-            )}
-          </div>
-          <button className="addSubmit-button" type="submit">
-            Submit
-          </button>
-          {submitError && (
-            <span className="addError-message">{submitError}</span>
-          )}
-        </form>
+        </div>
       </div>
     </>
   );

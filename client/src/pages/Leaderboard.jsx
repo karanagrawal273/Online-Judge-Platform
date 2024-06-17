@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import '../css/Leaderboard.css';
+import Navbar from "../components/Navbar.jsx";
+import "bootstrap/dist/css/bootstrap.css";
 
 const Leaderboard = () => {
   const [leaderboardData, setLeaderBoardData] = useState([]);
@@ -30,35 +30,38 @@ const Leaderboard = () => {
 
   return (
     <>
-    <div className="leadNavbar">
-      <Link to={'/'}>
-        Home
-      </Link>
-      <Link to={'/problems'}>
-        Problems
-      </Link>
-    </div>
-    <h2>Leaderboard</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Rank</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Total Problems Solved</th>
-          </tr>
-        </thead>
-        <tbody>
-          {leaderboardData.map((user, index) => (
-            <tr key={index}>
-              <td>{index + 1}</td>
-              <td>{user.firstname}</td>
-              <td>{user.lastname}</td>
-              <td>{user.totalProblemsSolved}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <Navbar />
+      <div className="container mt-4">
+        <div className="card">
+          <div className="card-header bg-primary text-white">
+            <h2 className="mb-0">Leaderboard</h2>
+          </div>
+          <div className="card-body">
+            <div className="table-responsive">
+              <table className="table table-bordered table-hover">
+                <thead className="thead-dark">
+                  <tr>
+                    <th scope="col">Rank</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Total Problems Solved</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {leaderboardData.map((user, index) => (
+                    <tr key={index}>
+                      <td>{index + 1}</td>
+                      <td>{user.firstname}</td>
+                      <td>{user.lastname}</td>
+                      <td>{user.totalProblemsSolved}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
 };

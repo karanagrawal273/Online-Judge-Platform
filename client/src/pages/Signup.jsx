@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import "../css/signup.css";
+import Navbar from "../components/Navbar.jsx";
+import "bootstrap/dist/css/bootstrap.css";
 const Signup = () => {
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState({
@@ -39,7 +40,7 @@ const Signup = () => {
       errors.password = "Password must be at least 8 characters long";
     }
     if (!cnfpas.trim()) {
-      errors.confPass = "Cofirm Password is required";
+      errors.confPass = "Confirm Password is required";
     } else if (cnfpas !== data.password) {
       errors.confPass = "Passwords do not match";
     }
@@ -115,116 +116,141 @@ const Signup = () => {
 
   return (
     <>
-    <div className="sigNavbar">
-      <Link to={'/'}>Home</Link>
-    </div>
-      <div className="sigForm-container">
-        <h2 className="sigForm-title">Signup Account</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="sigForm-group">
-            <label className="sigForm-label" htmlFor="firstname">
-              First Name:
-            </label>
-            <input
-              className="sigForm-input"
-              type="text"
-              name="firstname"
-              value={firstname}
-              placeholder="Enter your First Name"
-              onChange={handleOnChange}
-            />
-            {errors.firstname && (
-              <span className="sigError-message">{errors.firstname}</span>
-            )}
+      <Navbar />
+      <div className="container-fluid">
+        <div className="row justify-content-center align-items-center mt-3">
+          <div className="col-md-6 col-lg-4">
+            <div className="card shadow rounded-3 border-primary">
+              <div className="card-body p-4 p-md-5">
+                <h2 className="display-5 text-center mb-4">Signup Account</h2>
+                <form onSubmit={handleSubmit}>
+                  <div className="mb-3">
+                    <label htmlFor="firstname" className="form-label">
+                      First Name:
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      name="firstname"
+                      value={firstname}
+                      placeholder="Enter your First Name"
+                      onChange={handleOnChange}
+                    />
+                    {errors.firstname && (
+                      <div className="invalid-feedback d-block">
+                        {errors.firstname}
+                      </div>
+                    )}
+                  </div>
+                  <div className="mb-3">
+                    <label htmlFor="lastname" className="form-label">
+                      Last Name:
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      name="lastname"
+                      value={lastname}
+                      placeholder="Enter your Last Name"
+                      onChange={handleOnChange}
+                    />
+                    {errors.lastname && (
+                      <div className="invalid-feedback d-block">
+                        {errors.lastname}
+                      </div>
+                    )}
+                  </div>
+                  <div className="mb-3">
+                    <label htmlFor="phone" className="form-label">
+                      Phone Number:
+                    </label>
+                    <input
+                      type="tel"
+                      className="form-control"
+                      name="phone"
+                      value={phone}
+                      placeholder="Enter your Phone Number"
+                      onChange={handleOnChange}
+                    />
+                    {errors.phone && (
+                      <div className="invalid-feedback d-block">
+                        {errors.phone}
+                      </div>
+                    )}
+                  </div>
+                  <div className="mb-3">
+                    <label htmlFor="email" className="form-label">
+                      Email:
+                    </label>
+                    <input
+                      type="email"
+                      className="form-control"
+                      name="email"
+                      value={email}
+                      placeholder="Enter your Email"
+                      onChange={handleOnChange}
+                    />
+                    {errors.email && (
+                      <div className="invalid-feedback d-block">
+                        {errors.email}
+                      </div>
+                    )}
+                  </div>
+                  <div className="mb-3">
+                    <label htmlFor="password" className="form-label">
+                      Password:
+                    </label>
+                    <input
+                      type="password"
+                      className={`form-control ${
+                        errors.password ? "is-invalid" : ""
+                      }`}
+                      name="password"
+                      value={password}
+                      placeholder="Enter your password"
+                      onChange={handleOnChange}
+                    />
+                    {errors.password && (
+                      <div className="invalid-feedback d-block">
+                        {errors.password}
+                      </div>
+                    )}
+                  </div>
+                  <div className="mb-3">
+                    <label htmlFor="confirmPassword" className="form-label">
+                      Confirm Password:
+                    </label>
+                    <input
+                      type="password"
+                      className="form-control"
+                      name="confirmPassword"
+                      value={confirmPassword}
+                      placeholder="Enter the same Password"
+                      onChange={handleOnChange1}
+                    />
+                    {errors.confPass && (
+                      <div className="invalid-feedback d-block">
+                        {errors.confPass}
+                      </div>
+                    )}
+                  </div>
+                  <button type="submit" className="btn btn-primary btn-block">
+                    Submit
+                  </button>
+                </form>
+                <div className="mt-3 text-center">
+                  <p className="mb-0">Already have an account? </p>
+                  <Link to={"/login"}>Login</Link>
+                </div>
+                {submitError && (
+                  <div className="text-danger mt-3 text-center">
+                    {submitError}
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
-          <div className="sigForm-group">
-            <label className="sigForm-label" htmlFor="lastname">
-              Last Name:
-            </label>
-            <input
-              className="sigForm-input"
-              type="text"
-              name="lastname"
-              value={lastname}
-              placeholder="Enter your Last Name"
-              onChange={handleOnChange}
-            />
-            {errors.lastname && (
-              <span className="sigError-message">{errors.lastname}</span>
-            )}
-          </div>
-          <div className="sigForm-group">
-            <label className="sigForm-label" htmlFor="phone">
-              Phone:
-            </label>
-            <input
-              className="sigForm-input"
-              type="number"
-              name="phone"
-              value={phone}
-              placeholder="Enter your Phone Number"
-              onChange={handleOnChange}
-            />
-            {errors.phone && (
-              <span className="sigError-message">{errors.phone}</span>
-            )}
-          </div>
-          <div className="sigForm-group">
-            <label className="sigForm-label" htmlFor="email">
-              Email:
-            </label>
-            <input
-              className="sigForm-input"
-              type="email"
-              name="email"
-              value={email}
-              placeholder="Enter your Email"
-              onChange={handleOnChange}
-            />
-            {errors.email && (
-              <span className="sigError-message">{errors.email}</span>
-            )}
-          </div>
-          <div className="sigForm-group">
-            <label className="sigForm-label" htmlFor="password">
-              Password:
-            </label>
-            <input
-              className="sigForm-input"
-              type="password"
-              name="password"
-              value={password}
-              placeholder="Enter your password"
-              onChange={handleOnChange}
-            />
-            {errors.password && (
-              <span className="sigError-message">{errors.password}</span>
-            )}
-          </div>
-          <div className="sigForm-group">
-            <label className="sigForm-label" htmlFor="confirmPassword">
-              Confirm Password:
-            </label>
-            <input
-              className="sigForm-input"
-              type="password"
-              name="confirmPassword"
-              value={confirmPassword}
-              placeholder="Enter the same password"
-              onChange={handleOnChange1}
-            />
-            {errors.confPass && (
-              <span className="sigError-message">{errors.confPass}</span>
-            )}
-          </div>
-          <button className="sigSubmit-button" type="submit">
-            Submit
-          </button>
-          <span>
-            &nbsp; Already have an account? <Link to={"/login"}>Login</Link>
-          </span>
-          {submitError && <span className="sigError-message">{submitError}</span>}
-        </form>
+        </div>
       </div>
     </>
   );

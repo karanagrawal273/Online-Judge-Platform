@@ -1,8 +1,8 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import "../css/Home.css";
+import "bootstrap/dist/css/bootstrap.css";
 const Home = () => {
   const navigate = useNavigate();
   const [name, setName] = useState("");
@@ -86,70 +86,95 @@ const Home = () => {
   };
   return (
     <>
-      <div className="homeContainer">
-        <div className="homeNavbar">
-          <div className="leftLinks">
-            <div className="homeNavbar-link">
-              <Link to={"/problems"}>Problems</Link>
-            </div>
+      <nav className="navbar bg-primary navbar-expand-lg" data-bs-theme="dark">
+        <div className="container-fluid">
+          <a className="navbar-brand text-white" href="/">
+            Online Judge
+          </a>
+          <div className="navbar-nav me-auto ">
+            <a className="nav-link text-white" href="/problems">
+              Problems
+            </a>
           </div>
-          <div className="rightLinks">
+          <div className="d-flex align-items-center">
             {name !== "" ? (
-              <div>
-              <div className="homeFlex">
-                <Link to={`/userprofile`}>
-                  <h3 className="homeForm-title"> {name}</h3>{" "}
-                </Link>
-                <button className="homeSubmit-button" onClick={handleLogout}>
+              <>
+                <a className="nav-link me-3 text-white" href="/userprofile">
+                  {name}
+                </a>
+                <a className="nav-link me-3 text-white" href="/leaderboard">
+                  Leaderboard
+                </a>
+                <button
+                  type="button"
+                  className="nav-link me-3 btn btn-sm btn-outline-warning text-white"
+                  onClick={handleLogout}
+                >
                   Logout
                 </button>
-              </div>
-              <Link to={'/leaderboard'}>
-                Leaderboard
-              </Link>
-              </div>
+              </>
             ) : (
-              <div className="homeNavbar">
-                <div className="homeNavbar-link">
-                  <Link to={"/login"}>User Login</Link>
-                </div>
-                <div className="homeNavbar-link">
-                  <Link to={"/signup"}>User SignUp</Link>
-                </div>
-              </div>
+              <>
+                <a className="nav-link me-3 text-white" href="/login">
+                  UserLogin
+                </a>
+                <a className="nav-link me-3 text-white" href="/signup">
+                  UserSignup
+                </a>
+              </>
             )}
             {admin !== "" ? (
-              <div className="homeFlex">
-                <h2 className="homeForm-title">Admin </h2>{" "}
+              <>
+                <a className="nav-link me-3 text-white" href="/admin">
+                  Admin
+                </a>
                 <button
-                  className="homeSubmit-button"
+                  type="button"
+                  className="nav-link btn btn-sm btn-outline-warning text-white"
                   onClick={handleAdminLogout}
                 >
                   Logout
                 </button>
-              </div>
+              </>
             ) : (
-              <div className="homeNavbar">
-                <div className="homeNavbar-link">
-                  <Link to={"/adminlogin"}>Admin Login</Link>
-                </div>
-                <div className="homeNavbar-link">
-                  <Link to={"/adminsignup"}>Admin SignUp</Link>
-                </div>
-              </div>
+              <>
+                <a className="nav-link text-white" href="/adminlogin">
+                  AdminLogin
+                </a>
+              </>
             )}
           </div>
         </div>
-        <h1>Welcome to Online Judge</h1>
-        <div className="homeOjPic">
-          <p>
-            An online judge is a platform or system that provides a programming
-            environment to users for solving programming problems and
-            challenges. It allows users to submit their code solutions, which
-            are then compiled and executed against a set of test cases to
-            evaluate correctness and efficiency.
-          </p>
-          <img src="./OnlineJudge.png" alt="ImageNotFound"></img>
+      </nav>
+      <h1 className="display-1 text-center mt-5 mb-4">
+        Welcome to <span className="text-primary fw-bold">Online Judge</span>
+      </h1>
+
+      <div className="container mt-5 ">
+        <div className="row justify-content-center align-items-center">
+          <div className="col-lg-6 d-flex justify-content-center">
+            <div
+              className="card shadow rounded-3 "
+              style={{ width: "500px", height: "400px" }}
+            >
+              <div className="card-body d-flex justify-content-center align-items-center bg-primary text-white p-3">
+                <p className="card-text text-center" style={{fontSize:"20px"}}>
+                  An online judge is a platform or system that provides a
+                  programming environment to users for solving programming
+                  problems and challenges. It allows users to submit their code
+                  solutions, which are then compiled and executed against a set
+                  of test cases to evaluate correctness and efficiency.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="col-lg-6">
+            <img
+              src="./OnlineJudge.png"
+              className="img-fluid rounded mx-auto d-block"
+              alt="ImageNotFound"
+            />
+          </div>
         </div>
       </div>
     </>
