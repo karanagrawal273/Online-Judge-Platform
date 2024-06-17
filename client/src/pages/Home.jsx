@@ -62,8 +62,6 @@ const Home = () => {
       if (!response.data.success) {
         console.log("Some Error Occurred");
       } else {
-        document.cookie =
-          "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         // removeCookie('token');
         navigate("/login");
       }
@@ -81,7 +79,6 @@ const Home = () => {
       if (!response.data.success) {
         console.log("Some Error Occurred");
       } else {
-        document.cookie = `admin= ""; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
         navigate("/adminlogin");
       }
     } catch (error) {
