@@ -143,13 +143,13 @@ const AddProblem = (props) => {
               <div className="card-body p-4 p-md-5">
                 <h2 className="display-6 text-center mb-4">Add Problem</h2>
                 <form onSubmit={handleSubmit}>
-                  <div class="mb-3">
-                    <label for="title" class="form-label">
+                  <div className="mb-3">
+                    <label htmlFor="title" className="form-label">
                       Title:
                     </label>
                     <input
                       type="text"
-                      class="form-control"
+                      className="form-control"
                       name="title"
                       value={title}
                       placeholder="Enter Title"
@@ -161,12 +161,12 @@ const AddProblem = (props) => {
                       </div>
                     )}
                   </div>
-                  <div class="mb-3">
-                    <label for="statement" class="form-label">
+                  <div className="mb-3">
+                    <label htmlFor="statement" className="form-label">
                       Statement:
                     </label>
                     <textarea
-                      class="form-control"
+                      className="form-control"
                       rows="3"
                       name="statement"
                       value={statement}
@@ -179,8 +179,8 @@ const AddProblem = (props) => {
                       </div>
                     )}
                   </div>
-                  <div class="mb-3">
-                    <label for="difficulty" class="form-label">
+                  <div className="mb-3">
+                    <label htmlFor="difficulty" className="form-label">
                       Difficulty:
                     </label>
                     <select
@@ -200,12 +200,12 @@ const AddProblem = (props) => {
                       </div>
                     )}
                   </div>
-                  <div class="mb-3">
-                    <label for="inputConstraints" class="form-label">
+                  <div className="mb-3">
+                    <label htmlFor="inputConstraints" className="form-label">
                       Input Constraints:
                     </label>
                     <textarea
-                      class="form-control"
+                      className="form-control"
                       rows="3"
                       name="inputConstraints"
                       value={inputConstraints}
@@ -218,12 +218,12 @@ const AddProblem = (props) => {
                       </div>
                     )}
                   </div>
-                  <div class="mb-3">
-                    <label for="sampleInput" class="form-label">
+                  <div className="mb-3">
+                    <label htmlFor="sampleInput" className="form-label">
                       Sample Input:
                     </label>
                     <textarea
-                      class="form-control"
+                      className="form-control"
                       rows="3"
                       name="sampleInput"
                       value={sampleInput}
@@ -236,12 +236,12 @@ const AddProblem = (props) => {
                       </div>
                     )}
                   </div>
-                  <div class="mb-3">
-                    <label for="outputConstraints" class="form-label">
+                  <div className="mb-3">
+                    <label htmlFor="outputConstraints" className="form-label">
                       Output Constraints:
                     </label>
                     <textarea
-                      class="form-control"
+                      className="form-control"
                       rows="3"
                       name="outputConstraints"
                       value={outputConstraints}
@@ -254,12 +254,12 @@ const AddProblem = (props) => {
                       </div>
                     )}
                   </div>
-                  <div class="mb-3">
-                    <label for="sampleOutput" class="form-label">
+                  <div className="mb-3">
+                    <label htmlFor="sampleOutput" className="form-label">
                       Sample Output:
                     </label>
                     <textarea
-                      class="form-control"
+                      className="form-control"
                       rows="3"
                       name="sampleOutput"
                       value={sampleOutput}
@@ -272,12 +272,12 @@ const AddProblem = (props) => {
                       </div>
                     )}
                   </div>
-                  <div class="mb-3">
-                    <label for="testcasesInput" class="form-label">
+                  <div className="mb-3">
+                    <label htmlFor="testcasesInput" className="form-label">
                       Testcases Input:
                     </label>
                     <textarea
-                      class="form-control"
+                      className="form-control"
                       rows="3"
                       name="testcasesInput"
                       value={testcasesInput}
@@ -290,12 +290,12 @@ const AddProblem = (props) => {
                       </div>
                     )}
                   </div>
-                  <div class="mb-3">
-                    <label for="testcasesOutput" class="form-label">
+                  <div className="mb-3">
+                    <label htmlFor="testcasesOutput" className="form-label">
                       Testcases Output:
                     </label>
                     <textarea
-                      class="form-control"
+                      className="form-control"
                       rows="3"
                       name="testcasesOutput"
                       value={testcasesOutput}
