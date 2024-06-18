@@ -90,7 +90,7 @@ module.exports.login = async (req, res, next) => {
       withCredentials: true,
       httpOnly: true,
       // secure: true,
-      // sameSite: "None",
+      sameSite: "None",
       path: "/",
       domain: "online-judge-plum.vercel.app",
     };
