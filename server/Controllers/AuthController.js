@@ -91,15 +91,15 @@ module.exports.login = async (req, res, next) => {
       httpOnly: true,
       // secure: true,
       sameSite: "None",
-      path: "/",
-      domain: "online-judge-plum.vercel.app",
+      // path: "/",
+      // domain: "http://localhost:5173",
     };
 
     res.cookie("token", token, options);
     res.status(200).json({
       message: "Successfully Logged in!!",
       success: true,
-      // token,
+      // token, 
     });
     next();
   } catch (error) {
@@ -110,8 +110,8 @@ module.exports.login = async (req, res, next) => {
 module.exports.logout = async (req, res, next) => {
   try {
     res.clearCookie("token", {
-      path: "/",
-      domain: "online-judge-plum.vercel.app",
+      // path: "/",
+      // domain: "http://localhost:5173",
     });
     // console.log(res.cookie.token);
     res.status(200).json({ success: true, message: "Successfully Logout" });
