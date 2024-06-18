@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 module.exports.userVerification = (req, res) => {
   try {
     const token = req.cookies.token;
-    console.log(token + "here");
+    // console.log(token + "here");
     if (!token) {
       // console.log("token not found 1");
       return res.status(404).json({

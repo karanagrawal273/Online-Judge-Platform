@@ -16,7 +16,7 @@ const Home = () => {
           {},
           { withCredentials: true }
         );
-        console.log('here'+response);
+        // console.log('here'+response);
         if (!response.data.success) {
           console.log("token not found");
           // navigate("/login");
@@ -58,7 +58,7 @@ const Home = () => {
         {},
         { withCredentials: true }
       );
-      console.log(response);
+      // console.log(response);
       if (!response.data.success) {
         console.log("Some Error Occurred");
       } else {
