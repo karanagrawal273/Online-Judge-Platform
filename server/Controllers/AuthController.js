@@ -111,7 +111,7 @@ module.exports.logout = async (req, res, next) => {
   try {
     res.clearCookie("token", {
       path: "/",
-      domain: "online-judge-qh0m.onrender.com",
+      domain: "https://online-judge-qh0m.onrender.com",
       // secure: true,
     });
     // console.log(res.cookie.token);
