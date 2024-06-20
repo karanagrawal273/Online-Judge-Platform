@@ -22,8 +22,8 @@ const UserProfile = () => {
         } else {
           setUserDetails(response.data.user);
           setUserSubmissions(response.data.user.submissions);
-          console.log(response.data.user);
-          console.log(userSubmissions);
+          // console.log(response.data.user);
+          // console.log(userSubmissions);
         }
       } catch (error) {
         console.log(error);
@@ -84,7 +84,7 @@ const UserProfile = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {userSubmissions.map((submission, index) => (
+                  {userSubmissions.slice().reverse().map((submission, index) => (
                     <tr key={index}>
                       <td>{submission.problemTitle}</td>
                       <td>{submission.verdict}</td>

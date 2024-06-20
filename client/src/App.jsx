@@ -12,6 +12,9 @@ import {
   AdminSignup,
   UserProfile,
   Leaderboard,
+  ForgotPassword,
+  OtpFillForm,
+  UpdatePassword,
 } from "./pages";
 function App() {
   return (
@@ -21,7 +24,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/problems" element={<Problems />} />
-        <Route path="/problem/:id" element={<Problem />} />
+        <Route path="/problem/:title" element={<Problem />} />
         <Route path="/addProblem" element={<AddProblem />} />
         <Route path="/updateProblem/:id" element={<UpdateProblem />} />
         <Route path="/deleteProblem" element={<DeleteProblem />} />
@@ -29,6 +32,9 @@ function App() {
         <Route path="/adminSignup" element={<AdminSignup />} />
         <Route path="/userProfile" element={<UserProfile />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
+        <Route path="/forgotpassword" element={<ForgotPassword />} />
+        <Route path="/otp" element={<OtpFillForm />} />
+        <Route path="/passwordupdate" element={<UpdatePassword />} />
       </Routes>
     </div>
   );

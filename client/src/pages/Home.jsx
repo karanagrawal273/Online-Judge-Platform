@@ -1,7 +1,9 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Cookies from 'js-cookie';
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 import "bootstrap/dist/css/bootstrap.css";
 const Home = () => {
   const navigate = useNavigate();
@@ -63,6 +65,7 @@ const Home = () => {
         console.log("Some Error Occurred");
       } else {
         // removeCookie('token');
+        Cookies.remove('token');
         navigate("/login");
       }
     } catch (error) {
@@ -181,6 +184,46 @@ const Home = () => {
           </div>
         </div>
       </div>
+      <br></br>
+      <footer className="footer bg-primary text-light">
+        <div className="container">
+          <div className="row" style={{ paddingTop: "30px" }}>
+            {/* Left column */}
+            <div className="col-md-6">
+              <h5>Online Judge</h5>
+              <p className="text-white">
+                A platform for coding challenges and submissions.
+              </p>
+            </div>
+
+            {/* Middle column */}
+            <div className="col-md-3">
+              <h5>Connect</h5>
+              <ul className="list-unstyled">
+                <li>
+                  <a href="#" className="text-white">
+                    Contact Us
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="text-white">
+                    About Us
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            {/* Right column */}
+            <div className="col-md-3">
+              <p className="text-white text-right">
+                &copy; {new Date().getFullYear()} Online Judge. All rights
+                reserved.
+              </p>
+            </div>
+          </div>
+          <hr className="bg-light" />
+        </div>
+      </footer>
     </>
   );
 };

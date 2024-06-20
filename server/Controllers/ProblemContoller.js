@@ -170,7 +170,13 @@ module.exports.addSubmission = async (req, res, next) => {
       verdict,
       timeTaken,
     };
-    const userSubmission = { problemId, problemTitle, language, verdict, timeTaken };
+    const userSubmission = {
+      problemId,
+      problemTitle,
+      language,
+      verdict,
+      timeTaken,
+    };
     // console.log(user);
     problem.submissions.push(problemSubmission);
     await problem.save();

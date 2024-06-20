@@ -51,13 +51,24 @@ const DeleteProblem = (props) => {
         <h5 className="mb-0">{title}</h5>
 
         <div>
-          <div className={`badge bg-${badgeColor} text-white me-2`} style={{ minWidth: '4em' }}>
+          <div
+            className={`badge bg-${badgeColor} text-white me-2`}
+            style={{ minWidth: "4em" }}
+          >
             {difficulty}
           </div>
-          <Link className="btn btn-info btn-sm me-2" to={`/problem/${_id}`}>
+          <button
+            className="btn btn-info btn-sm me-2"
+            onClick={() =>
+              navigate(`/problem/${title}`, { state: { id: _id } })
+            }
+          >
             View
-          </Link>
-          <Link className="btn btn-warning btn-sm me-2" to={`/updateProblem/${_id}`}>
+          </button>
+          <Link
+            className="btn btn-warning btn-sm me-2"
+            to={`/updateProblem/${_id}`}
+          >
             Update
           </Link>
           <button className="btn btn-danger btn-sm" onClick={deleteProblem}>

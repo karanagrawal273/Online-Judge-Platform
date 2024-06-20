@@ -33,19 +33,28 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "Password is required"],
   },
+  otp: {
+    trim: true,
+    type: String,
+    default: null,
+  },
+  verified: {
+    type: Boolean,
+    default: false,
+  },
   submissions: [
     {
       problemId: {
         type: String,
         default: null,
       },
-      problemTitle:{
-        type:String,
-        default:null,
+      problemTitle: {
+        type: String,
+        default: null,
       },
-      language:{
-        type:String,
-        default:null,
+      language: {
+        type: String,
+        default: null,
       },
       verdict: {
         type: String,

@@ -1,50 +1,33 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import {
+  useLoaderData,
+  useLocation,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 import axios from "axios";
+import Editor from "react-simple-code-editor";
+import { highlight, languages } from "prismjs/components/prism-core";
+import "prismjs/components/prism-clike";
+import "prismjs/components/prism-javascript";
+import "prismjs/themes/prism.css";
 import Navbar from "../components/Navbar.jsx";
 import "bootstrap/dist/css/bootstrap.css";
 
 const Problem = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const [showProblem, setShowProblem] = useState(true);
   const [problem, setProblem] = useState({});
+  const [submissions, setSubmissions] = useState([]);
   const [seconds, setSeconds] = useState(0);
-  const [values, setValues] = useState({
-    language: "",
-    code: "",
-    input: "",
-    output: "",
-    verdict: "",
-  });
-  const [submitValues, setSubmitValues] = useState({
-    language: "",
-    code: "",
-    inputTestcases: " ",
-    outputTestcases: "",
-  });
-  const { language, code, input, output, verdict } = values;
-  // const { language, code, inputTestcases, outputTestcases } = submitValues;
-  const id = useParams().id;
-  const handleOnChange = (e) => {
-    const { name, value } = e.target;
-    if (name == "language") {
-      setValues({
-        ...values,
-        code: "",
-        [name]: value,
-      });
-    } else {
-      setValues({
-        ...values,
-        [name]: value,
-      });
-    }
-    setSubmitValues({
-      ...submitValues,
-      inputTestcases: problem.testcases.input,
-      outputTestcases: problem.testcases.output,
-      [name]: value,
-    });
-  };
+  const [language, setLanguage] = useState("cpp");
+  const [code, setCode] = useState("");
+  const [input, setInput] = useState("");
+  const [output, setOutput] = useState("");
+  const [verdict, setVerdict] = useState("");
+
+  const id = location.state.id;
   const [errors, setErrors] = useState({
     langErr: "",
     codeErr: "",
@@ -82,6 +65,23 @@ const Problem = () => {
 
     return () => clearInterval(interval);
   }, []);
+  useEffect(() => {
+    const preCodes = {
+      cpp: `#include <iostream>
+using namespace std;
+int main() { 
+  cout << "Hello World"; 
+  return 0; 
+}`,
+
+      java: `class HelloWorld {
+      public static void main(String[] args) {
+      System.out.println("Hello World");
+      }
+    }`,
+    };
+    setCode(preCodes[language]);
+  }, [language]);
   const handleRun = async (e) => {
     e.preventDefault();
     try {
@@ -90,26 +90,27 @@ const Problem = () => {
         {},
         { withCredentials: true }
       );
+      const values = { language, code };
       const newErrors = validateProblem(values);
       setErrors(newErrors);
       if (Object.keys(newErrors).length === 0) {
         try {
+          const load = {
+            language,
+            code,
+            input,
+          };
           const response = await axios.post(
             `${import.meta.env.VITE_COMPILER_URL}/run`,
-            {
-              ...values,
-            },
+            load,
             {
               withCredentials: true,
             }
           );
-          if (response.data.success)
-            setValues({
-              ...values,
-              output: response.data.output,
-              verdict: "",
-            });
-          else {
+          if (response.data.success) {
+            setOutput(response.data.output);
+            setVerdict("");
+          } else {
             setErrors({
               ...errors,
               subErr: response.data.message,
@@ -135,39 +136,37 @@ const Problem = () => {
         {},
         { withCredentials: true }
       );
+      const values = { language, code };
       const newErrors = validateProblem(values);
       setErrors(newErrors);
       if (Object.keys(newErrors).length === 0) {
         try {
-          setSubmitValues({
-            ...submitValues,
+          const load = {
+            language,
+            code,
             inputTestcases: problem.testcases.input,
             outputTestcases: problem.testcases.output,
-          });
-          // console.log(values);
-          // console.log(submitValues);
+          };
           const response = await axios.post(
             `${import.meta.env.VITE_COMPILER_URL}/submit`,
-            { ...submitValues },
+            load,
             { withCredentials: true }
           );
           if (response.data.success) {
-            setValues({
-              ...values,
-              output: "",
-              verdict: response.data.output,
-            });
+            setVerdict(response.data.output);
+            setOutput("");
             try {
+              const submission = {
+                language,
+                solution: code,
+                verdict: response.data.output,
+                timeTaken: seconds,
+              };
               const submissionResponse = await axios.post(
                 `${import.meta.env.VITE_BACKEND_URL}/problems/${problem._id}/${
                   userResponse.data.user._id
                 }`,
-                {
-                  language: values.language,
-                  solution: values.code,
-                  verdict: response.data.output,
-                  timeTaken: seconds,
-                },
+                submission,
                 { withCredentials: true }
               );
               console.log(submissionResponse.data.message);
@@ -200,6 +199,28 @@ const Problem = () => {
       minutes < 10 ? "0" : ""
     }${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   };
+  const userSubmissions = async () => {
+    setShowProblem(false);
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}`,
+        {},
+        {
+          withCredentials: true,
+        }
+      );
+      // const userId = response.data.user._id;
+      // console.log(userId);
+      setSubmissions(response.data.user.submissions);
+      // console.log(response.data.user.submissions);
+    } catch (error) {
+      navigate(`/login`);
+      console.log(error.response.data.message);
+    }
+  };
+  const problemDetail = () => {
+    setShowProblem(true);
+  };
   return (
     <>
       <Navbar />
@@ -207,34 +228,85 @@ const Problem = () => {
         <div className="row">
           {/* Problem Details Section */}
           <div className="col-lg-6 mb-4">
-            <div className="card bg-primary bg-opacity-50 "style={{ color: "black" }}>
+            <div
+              className="card bg-primary bg-opacity-50 "
+              style={{ color: "black" }}
+            >
               <div className="card-body">
                 <div className="mb-4">
                   <h3>{problem.title}</h3>
-                  <p>{problem.statement}</p>
                 </div>
-                <div className="mb-3">
-                  <h4>Difficulty:</h4> {problem.difficulty}
+                <div>
+                  <button onClick={problemDetail}>Problem</button>
+                  <button onClick={userSubmissions}>Submissions</button>
                 </div>
-                {problem.input && problem.input.constraints && (
-                  <div className="mb-3">
-                    <h4>Input Constraints:</h4> {problem.input.constraints}
+                <br></br>
+                {showProblem ? (
+                  <div>
+                    <p>{problem.statement}</p>
+                    <div className="mb-3">
+                      <h4>Difficulty:</h4> {problem.difficulty}
+                    </div>
+                    {((problem.input && problem.input.constraints) ||
+                      (problem.output && problem.output.constraints)) && (
+                      <div className="mb-3">
+                        <h4>Constraints:</h4> {problem.input.constraints}{" "}
+                        <br></br> {problem.output.constraints}
+                      </div>
+                    )}
+                    {((problem.input && problem.input.sample) ||
+                      (problem.output && problem.output.sample)) && (
+                      <>
+                        <div className="mb-3">
+                          <h4>Sample Input and Output:</h4>
+                        </div>
+                        <table className="table table-bordered">
+                          <thead className="thead-dark">
+                            <tr>
+                              <th scope="col">Input</th>
+                              <th scope="col">Output</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>{problem.input.sample}</td>
+                              <td>{problem.output.sample}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </>
+                    )}
                   </div>
-                )}
-                {problem.input && problem.input.sample && (
-                  <div className="mb-3">
-                    <h4>Sample Input:</h4> {problem.input.sample}
-                  </div>
-                )}
-                {problem.output && problem.output.constraints && (
-                  <div className="mb-3">
-                    <h4>Output Constraints:</h4> {problem.output.constraints}
-                  </div>
-                )}
-                {problem.output && problem.output.sample && (
-                  <div className="mb-3">
-                    <h4>Sample Output:</h4> {problem.output.sample}
-                  </div>
+                ) : (
+                  <>
+                    <h4>Your Submissions</h4>
+                    <div className="card-body">
+                      <div className="table-responsive">
+                        <table className="table table-bordered table-hover">
+                          <thead className="thead-dark">
+                            <tr>
+                              <th scope="col">Language</th>
+                              <th scope="col">Status</th>
+                              <th scope="col">Time Taken</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {submissions
+                              .slice()
+                              .reverse()
+                              .filter(submission => submission.problemId === id)
+                              .map((sub, index) => (
+                                <tr key={index}>
+                                  <td>{((sub.language==='cpp') && (<>C++</>)) || ((sub.language==='java') && (<>Java</>))}</td>
+                                  <td>{sub.verdict}</td>
+                                  <td>{sub.timeTaken}</td>
+                                </tr>
+                              ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </>
                 )}
               </div>
             </div>
@@ -253,9 +325,10 @@ const Problem = () => {
                     className="form-select mb-2"
                     name="language"
                     value={language}
-                    onChange={handleOnChange}
+                    onChange={(e) => {
+                      setLanguage(e.target.value);
+                    }}
                   >
-                    <option value="">Select Language</option>
                     <option value="cpp">C++</option>
                     <option value="java">Java</option>
                     {/* <option value="py">Python</option> */}
@@ -268,13 +341,20 @@ const Problem = () => {
                   {" "}
                   {/* Increased height */}
                   <label className="form-label">Write Code here:</label>
-                  <textarea
+                  <Editor
                     className="form-control"
-                    style={{ minHeight: "300px" }} // Ensures a minimum height
-                    name="code"
+                    style={{
+                      minHeight: "300px",
+                      fontFamily: '"Fira code", "Fira Mono", monospace',
+                      fontSize: 13,
+                      outline: "none",
+                      border: "none",
+                      overflow: "auto",
+                    }} // Ensures a minimum height
+                    // name="code"
                     value={code}
-                    placeholder=""
-                    onChange={handleOnChange}
+                    onValueChange={(code) => setCode(code)}
+                    highlight={(code) => highlight(code, languages.js)}
                   />
                   {errors.codeErr && (
                     <div className="text-danger">{errors.codeErr}</div>
@@ -301,7 +381,10 @@ const Problem = () => {
             </div>
 
             {/* Solve Area Section */}
-            <div className="card bg-primary bg-opacity-50 mt-4"style={{ color: "black" }}>
+            <div
+              className="card bg-primary bg-opacity-50 mt-4"
+              style={{ color: "black" }}
+            >
               <div className="card-body row">
                 <div className="col">
                   <div className="mb-3">
@@ -312,18 +395,20 @@ const Problem = () => {
                       name="input"
                       value={input}
                       placeholder="Enter your Input"
-                      onChange={handleOnChange}
+                      onChange={(e) => {
+                        setInput(e.target.value);
+                      }}
                     />
                   </div>
                 </div>
-                {values.output && (
+                {output && (
                   <div className="col">
-                    <div className="mb-3">Output: {values.output}</div>
+                    <div className="mb-3">Output: {output}</div>
                   </div>
                 )}
-                {values.verdict && (
+                {verdict && (
                   <div className="col">
-                    <div className="mb-3">Verdict: {values.verdict}</div>
+                    <div className="mb-3">Verdict: {verdict}</div>
                   </div>
                 )}
               </div>
@@ -332,9 +417,11 @@ const Problem = () => {
         </div>
 
         {/* Time Elapsed Section */}
-        <div className="fixed-bottom mb-4">
-          <p className="text-primary">Time Elapsed: {formatTime(seconds)}</p>
-        </div>
+        { (showProblem) && (<div className="fixed-bottom mb-4">
+          <p className="text-primary">
+            &emsp;Time Elapsed: {formatTime(seconds)}
+          </p>
+        </div>)}
       </div>
     </>
   );

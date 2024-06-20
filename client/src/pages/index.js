@@ -10,3 +10,6 @@ export { default as AdminLogin } from "./AdminLogin";
 export { default as AdminSignup } from "./AdminSignup";
 export { default as UserProfile } from "./UserProfile";
 export { default as Leaderboard } from "./Leaderboard";
+export { default as ForgotPassword } from "./ForgotPassword";
+export { default as OtpFillForm } from "./OtpFillForm";
+export { default as UpdatePassword } from "./UpdatePassword";
