@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "bootstrap/dist/css/bootstrap.css";
@@ -9,7 +9,16 @@ const Home = () => {
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [admin, setAdmin] = useState("");
-
+  const handleSuccess = (msg) => {
+    toast.success(msg, {
+      position: "top-right",
+    });
+  };
+  const handleError = (err) => {
+    toast.error(err, {
+      position: "bottom-left",
+    });
+  };
   useEffect(() => {
     const verifyCookie = async () => {
       try {
@@ -23,11 +32,11 @@ const Home = () => {
           console.log("token not found");
           // navigate("/login");
         } else {
+          handleSuccess(`Hello ${response.data.user.firstname}`);
           setName(response.data.user.firstname);
         }
       } catch (error) {
         console.log(error.response.data.message);
-
         // navigate("/login");
       }
     };
@@ -42,7 +51,10 @@ const Home = () => {
         if (!response.data.success) {
           console.log("Admin token not found");
           // navigate("/login");
-        } else setAdmin(response.data.user);
+        } else {
+          setAdmin(response.data.user);
+          handleSuccess(`Hello Admin ${response.data.user}`);
+        }
       } catch (error) {
         console.log(error.response.data.message);
 
@@ -62,11 +74,14 @@ const Home = () => {
       );
       // console.log(response);
       if (!response.data.success) {
-        console.log("Some Error Occurred");
+        handleError("Some Error Occurred. While logout");
       } else {
         // removeCookie('token');
-        Cookies.remove('token');
-        navigate("/login");
+        Cookies.remove("token");
+        handleSuccess(response.data.message);
+        setTimeout(() => {
+          navigate("/login");
+        }, 1500);
       }
     } catch (error) {
       console.log(error);
@@ -80,12 +95,15 @@ const Home = () => {
         { withCredentials: true }
       );
       if (!response.data.success) {
-        console.log("Some Error Occurred");
+        handleError("Some Error Occurred. While logout");
       } else {
-        navigate("/adminlogin");
+        handleSuccess(response.data.message);
+        setTimeout(() => {
+          navigate("/adminlogin");
+        }, 1500);
       }
     } catch (error) {
-      console.log(error);
+      handleError(error.message);
     }
   };
   return (
@@ -150,39 +168,42 @@ const Home = () => {
           </div>
         </div>
       </nav>
-      <h1 className="display-1 text-center mt-5 mb-4">
-        Welcome to <span className="text-primary fw-bold">Online Judge</span>
-      </h1>
+      <div>
+        <h1 className="display-1 text-center mt-5 mb-4">
+          Welcome to <span className="text-primary fw-bold">Online Judge</span>
+        </h1>
 
-      <div className="container mt-5 ">
-        <div className="row justify-content-center align-items-center">
-          <div className="col-lg-6 d-flex justify-content-center">
-            <div
-              className="card shadow rounded-3 "
-              style={{ width: "500px", height: "400px" }}
-            >
-              <div className="card-body d-flex justify-content-center align-items-center bg-primary text-white p-3">
-                <p
-                  className="card-text text-center"
-                  style={{ fontSize: "20px" }}
-                >
-                  An online judge is a platform or system that provides a
-                  programming environment to users for solving programming
-                  problems and challenges. It allows users to submit their code
-                  solutions, which are then compiled and executed against a set
-                  of test cases to evaluate correctness and efficiency.
-                </p>
+        <div className="container mt-5 ">
+          <div className="row justify-content-center align-items-center">
+            <div className="col-lg-6 d-flex justify-content-center">
+              <div
+                className="card shadow rounded-3 "
+                style={{ width: "500px", height: "400px" }}
+              >
+                <div className="card-body d-flex justify-content-center align-items-center bg-primary text-white p-3">
+                  <p
+                    className="card-text text-center"
+                    style={{ fontSize: "20px" }}
+                  >
+                    An online judge is a platform or system that provides a
+                    programming environment to users for solving programming
+                    problems and challenges. It allows users to submit their
+                    code solutions, which are then compiled and executed against
+                    a set of test cases to evaluate correctness and efficiency.
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
-          <div className="col-lg-6">
-            <img
-              src="./OnlineJudge.png"
-              className="img-fluid rounded mx-auto d-block"
-              alt="ImageNotFound"
-            />
+            <div className="col-lg-6">
+              <img
+                src="./OnlineJudge.png"
+                className="img-fluid rounded mx-auto d-block"
+                alt="ImageNotFound"
+              />
+            </div>
           </div>
         </div>
+        <ToastContainer />
       </div>
       <br></br>
       <footer className="footer bg-primary text-light">

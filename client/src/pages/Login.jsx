@@ -7,6 +7,21 @@ import "bootstrap/dist/css/bootstrap.css";
 
 const Login = () => {
   const navigate = useNavigate();
+  const handleSuccess = (msg) => {
+    toast.success(msg, {
+      position: "top-right",
+    });
+  };
+  const handleError = (err) => {
+    toast.warning(err, {
+      position: "bottom-left",
+    });
+  };
+  const handleWarning = (war) => {
+    toast.error(war, {
+      position: "top-center",
+    });
+  };
   useEffect(() => {
     const verifyCookie = async () => {
       try {
@@ -15,13 +30,11 @@ const Login = () => {
           {},
           { withCredentials: true }
         );
-        // console.log(response);
         if (response.data.success) {
           navigate("/");
         }
       } catch (error) {
         console.log(error.response.data.message);
-        navigate("/login");
       }
     };
     verifyCookie();
@@ -65,31 +78,38 @@ const Login = () => {
           },
           { withCredentials: true }
         );
-        const { success, message } = response.data;
+        const { success, message, id } = response.data;
         if (success) {
           setInputValue({
             email: "",
             password: "",
           });
-          navigate("/");
-          // console.log(response);
+          if (id) {
+            handleWarning(`Please verify first ${message}`);
+            setTimeout(() => {
+              navigate("/");
+            }, 1500);
+          } else {
+            handleSuccess("Successfully logged in");
+            setTimeout(() => {
+              navigate("/");
+            }, 1500);
+          }
         } else {
-          // console.log(success);
           setInputValue({
             email: "",
             password: "",
           });
           setSubmitError("login error");
-          console.log("login error");
-          // console.log(message);
+          handleError(message);
         }
       } catch (error) {
         setInputValue({
           email: "",
           password: "",
         });
+        handleError(error.response.data.message);
         setSubmitError(error.response.data.message);
-        console.log(error.response.data.message);
       }
     } else {
       setInputValue({
@@ -97,78 +117,80 @@ const Login = () => {
         password: "",
       });
       setSubmitError("Login submission failed");
-      console.log("Login submission failed");
     }
   };
 
   return (
     <>
       <Navbar />
-      <div className="container-fluid ">
-        <div
-          className="row justify-content-center align-items-center"
-          style={{ marginTop: "100px" }}
-        >
-          <div className="col-md-6 col-lg-4">
-            <div className="card shadow-lg rounded-3 border-primary">
-              <div className="card-body p-4 p-md-5">
-                <h2 className="display-5 text-center mb-4">Login Account</h2>
-                <form onSubmit={handleSubmit}>
-                  <div className="mb-3">
-                    <label htmlFor="email" className="form-label">
-                      Email:
-                    </label>
-                    <input
-                      type="email"
-                      className="form-control"
-                      name="email"
-                      value={email}
-                      placeholder="Enter your Email"
-                      onChange={handleOnChange}
-                    />
-                    {errors.email && (
-                      <div className="invalid-feedback d-block">
-                        {errors.email}
-                      </div>
-                    )}
+      <div>
+        <div className="container-fluid ">
+          <div
+            className="row justify-content-center align-items-center"
+            style={{ marginTop: "100px" }}
+          >
+            <div className="col-md-6 col-lg-4">
+              <div className="card shadow-lg rounded-3 border-primary">
+                <div className="card-body p-4 p-md-5">
+                  <h2 className="display-5 text-center mb-4">Login Account</h2>
+                  <form onSubmit={handleSubmit}>
+                    <div className="mb-3">
+                      <label htmlFor="email" className="form-label">
+                        Email:
+                      </label>
+                      <input
+                        type="email"
+                        className="form-control"
+                        name="email"
+                        value={email}
+                        placeholder="Enter your Email"
+                        onChange={handleOnChange}
+                      />
+                      {errors.email && (
+                        <div className="invalid-feedback d-block">
+                          {errors.email}
+                        </div>
+                      )}
+                    </div>
+                    <div className="mb-3">
+                      <label htmlFor="password" className="form-label">
+                        Password:
+                      </label>
+                      <input
+                        type="password"
+                        className={`form-control ${
+                          errors.password ? "is-invalid" : ""
+                        }`}
+                        name="password"
+                        value={password}
+                        placeholder="Enter your password"
+                        onChange={handleOnChange}
+                      />
+                      {errors.password && (
+                        <div className="invalid-feedback d-block">
+                          {errors.password}
+                        </div>
+                      )}
+                    </div>
+                    <button type="submit" className="btn btn-primary btn-block">
+                      Submit
+                    </button>
+                  </form>
+                  <div className="mt-3 text-center">
+                    <p className="mb-0">Don't have an Account? </p>
+                    <Link to={"/signup"}>Sign Up</Link>
                   </div>
-                  <div className="mb-3">
-                    <label htmlFor="password" className="form-label">
-                      Password:
-                    </label>
-                    <input
-                      type="password"
-                      className={`form-control ${
-                        errors.password ? "is-invalid" : ""
-                      }`}
-                      name="password"
-                      value={password}
-                      placeholder="Enter your password"
-                      onChange={handleOnChange}
-                    />
-                    {errors.password && (
-                      <div className="invalid-feedback d-block">
-                        {errors.password}
-                      </div>
-                    )}
-                  </div>
-                  <button type="submit" className="btn btn-primary btn-block">
-                    Submit
-                  </button>
-                </form>
-                <div className="mt-3 text-center">
-                  <p className="mb-0">Don't have an Account? </p>
-                  <Link to={"/signup"}>Sign Up</Link>
+                  {submitError && (
+                    <div className="text-danger mt-3 text-center">
+                      {submitError}
+                    </div>
+                  )}
                 </div>
-                {submitError && (
-                  <div className="text-danger mt-3 text-center">
-                    {submitError}
-                  </div>
-                )}
               </div>
             </div>
           </div>
         </div>
+        <ToastContainer />
       </div>
     </>
   );

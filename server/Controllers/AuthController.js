@@ -81,8 +81,8 @@ module.exports.login = async (req, res, next) => {
       existsUser.otp = hashedOtp;
       await existsUser.save();
       return res.status(201).json({
-        success: false,
-        message: "A OTP has sent to your email to get it verified first",
+        success: true,
+        message: "A OTP has sent to your email to get it verified",
         id: existsUser._id,
       });
     }
@@ -115,7 +115,10 @@ module.exports.login = async (req, res, next) => {
 
 module.exports.logout = async (req, res, next) => {
   try {
-    res.clearCookie("token");
+    res.clearCookie("token", {
+      secure: true,
+      sameSite: "None",
+    });
     // console.log(res.cookie.token);
     res.status(200).json({ success: true, message: "Successfully Logout" });
   } catch (error) {

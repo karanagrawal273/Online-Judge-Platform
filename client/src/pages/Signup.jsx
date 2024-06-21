@@ -17,6 +17,21 @@ const Signup = () => {
   const { firstname, lastname, phone, email, password } = inputValue;
   const [errors, setErrors] = useState({});
   const [submitError, setSubmitError] = useState("");
+  const handleSuccess = (msg) => {
+    toast.success(msg, {
+      position: "top-right",
+    });
+  };
+  const handleError = (err) => {
+    toast.warning(err, {
+      position: "bottom-left",
+    });
+  };
+  const handleWarning = (war) => {
+    toast.error(war, {
+      position: "top-center",
+    });
+  };
   const validateForm = (data, cnfpas) => {
     const errors = {};
     if (!data.firstname.trim()) {
@@ -63,7 +78,6 @@ const Signup = () => {
     const newErrors = validateForm(inputValue, confirmPassword);
     setErrors(newErrors);
     if (Object.keys(newErrors).length === 0) {
-      // console.log(inputValue);
       try {
         const response = await axios.post(
           `${import.meta.env.VITE_BACKEND_URL}/register`,
@@ -73,7 +87,6 @@ const Signup = () => {
           { withCredentials: true }
         );
         const { success, message } = response.data;
-
         if (success) {
           setInputValue({
             firstname: "",
@@ -82,13 +95,11 @@ const Signup = () => {
             email: "",
             password: "",
           });
-          navigate("/");
+          handleWarning(message);
+          setTimeout(() => {
+            navigate("/");
+          }, 1500);
         }
-        // if (!response.ok) {
-        //   const errorData = await response.json();
-        //   throw new Error(errorData.message || "Something went wrong!");
-        // }
-        console.log(response);
       } catch (error) {
         setInputValue({
           firstname: "",
@@ -99,7 +110,7 @@ const Signup = () => {
         });
         setConfirmPassword("");
         setSubmitError(error.response.data.message);
-        console.log(error.response.data.message);
+        handleError(error.response.data.message);
       }
     } else {
       setInputValue({
@@ -118,140 +129,143 @@ const Signup = () => {
   return (
     <>
       <Navbar />
-      <div className="container-fluid">
-        <div className="row justify-content-center align-items-center mt-3">
-          <div className="col-md-6 col-lg-4">
-            <div className="card shadow rounded-3 border-primary">
-              <div className="card-body p-4 p-md-5">
-                <h2 className="display-5 text-center mb-4">Signup Account</h2>
-                <form onSubmit={handleSubmit}>
-                  <div className="mb-3">
-                    <label htmlFor="firstname" className="form-label">
-                      First Name:
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      name="firstname"
-                      value={firstname}
-                      placeholder="Enter your First Name"
-                      onChange={handleOnChange}
-                    />
-                    {errors.firstname && (
-                      <div className="invalid-feedback d-block">
-                        {errors.firstname}
-                      </div>
-                    )}
+      <div>
+        <div className="container-fluid">
+          <div className="row justify-content-center align-items-center mt-3">
+            <div className="col-md-6 col-lg-4">
+              <div className="card shadow rounded-3 border-primary">
+                <div className="card-body p-4 p-md-5">
+                  <h2 className="display-5 text-center mb-4">Signup Account</h2>
+                  <form onSubmit={handleSubmit}>
+                    <div className="mb-3">
+                      <label htmlFor="firstname" className="form-label">
+                        First Name:
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        name="firstname"
+                        value={firstname}
+                        placeholder="Enter your First Name"
+                        onChange={handleOnChange}
+                      />
+                      {errors.firstname && (
+                        <div className="invalid-feedback d-block">
+                          {errors.firstname}
+                        </div>
+                      )}
+                    </div>
+                    <div className="mb-3">
+                      <label htmlFor="lastname" className="form-label">
+                        Last Name:
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        name="lastname"
+                        value={lastname}
+                        placeholder="Enter your Last Name"
+                        onChange={handleOnChange}
+                      />
+                      {errors.lastname && (
+                        <div className="invalid-feedback d-block">
+                          {errors.lastname}
+                        </div>
+                      )}
+                    </div>
+                    <div className="mb-3">
+                      <label htmlFor="phone" className="form-label">
+                        Phone Number:
+                      </label>
+                      <input
+                        type="tel"
+                        className="form-control"
+                        name="phone"
+                        value={phone}
+                        placeholder="Enter your Phone Number"
+                        onChange={handleOnChange}
+                      />
+                      {errors.phone && (
+                        <div className="invalid-feedback d-block">
+                          {errors.phone}
+                        </div>
+                      )}
+                    </div>
+                    <div className="mb-3">
+                      <label htmlFor="email" className="form-label">
+                        Email:
+                      </label>
+                      <input
+                        type="email"
+                        className="form-control"
+                        name="email"
+                        value={email}
+                        placeholder="Enter your Email"
+                        onChange={handleOnChange}
+                      />
+                      {errors.email && (
+                        <div className="invalid-feedback d-block">
+                          {errors.email}
+                        </div>
+                      )}
+                    </div>
+                    <div className="mb-3">
+                      <label htmlFor="password" className="form-label">
+                        Password:
+                      </label>
+                      <input
+                        type="password"
+                        className={`form-control ${
+                          errors.password ? "is-invalid" : ""
+                        }`}
+                        name="password"
+                        value={password}
+                        placeholder="Enter your password"
+                        onChange={handleOnChange}
+                      />
+                      {errors.password && (
+                        <div className="invalid-feedback d-block">
+                          {errors.password}
+                        </div>
+                      )}
+                    </div>
+                    <div className="mb-3">
+                      <label htmlFor="confirmPassword" className="form-label">
+                        Confirm Password:
+                      </label>
+                      <input
+                        type="password"
+                        className="form-control"
+                        name="confirmPassword"
+                        value={confirmPassword}
+                        placeholder="Enter the same Password"
+                        onChange={handleOnChange1}
+                      />
+                      {errors.confPass && (
+                        <div className="invalid-feedback d-block">
+                          {errors.confPass}
+                        </div>
+                      )}
+                    </div>
+                    <button type="submit" className="btn btn-primary btn-block">
+                      Submit
+                    </button>
+                  </form>
+                  <div className="mt-3 text-center">
+                    <p className="mb-0">Already have an account? </p>
+                    <Link to={"/login"}>Login</Link>
                   </div>
-                  <div className="mb-3">
-                    <label htmlFor="lastname" className="form-label">
-                      Last Name:
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      name="lastname"
-                      value={lastname}
-                      placeholder="Enter your Last Name"
-                      onChange={handleOnChange}
-                    />
-                    {errors.lastname && (
-                      <div className="invalid-feedback d-block">
-                        {errors.lastname}
-                      </div>
-                    )}
-                  </div>
-                  <div className="mb-3">
-                    <label htmlFor="phone" className="form-label">
-                      Phone Number:
-                    </label>
-                    <input
-                      type="tel"
-                      className="form-control"
-                      name="phone"
-                      value={phone}
-                      placeholder="Enter your Phone Number"
-                      onChange={handleOnChange}
-                    />
-                    {errors.phone && (
-                      <div className="invalid-feedback d-block">
-                        {errors.phone}
-                      </div>
-                    )}
-                  </div>
-                  <div className="mb-3">
-                    <label htmlFor="email" className="form-label">
-                      Email:
-                    </label>
-                    <input
-                      type="email"
-                      className="form-control"
-                      name="email"
-                      value={email}
-                      placeholder="Enter your Email"
-                      onChange={handleOnChange}
-                    />
-                    {errors.email && (
-                      <div className="invalid-feedback d-block">
-                        {errors.email}
-                      </div>
-                    )}
-                  </div>
-                  <div className="mb-3">
-                    <label htmlFor="password" className="form-label">
-                      Password:
-                    </label>
-                    <input
-                      type="password"
-                      className={`form-control ${
-                        errors.password ? "is-invalid" : ""
-                      }`}
-                      name="password"
-                      value={password}
-                      placeholder="Enter your password"
-                      onChange={handleOnChange}
-                    />
-                    {errors.password && (
-                      <div className="invalid-feedback d-block">
-                        {errors.password}
-                      </div>
-                    )}
-                  </div>
-                  <div className="mb-3">
-                    <label htmlFor="confirmPassword" className="form-label">
-                      Confirm Password:
-                    </label>
-                    <input
-                      type="password"
-                      className="form-control"
-                      name="confirmPassword"
-                      value={confirmPassword}
-                      placeholder="Enter the same Password"
-                      onChange={handleOnChange1}
-                    />
-                    {errors.confPass && (
-                      <div className="invalid-feedback d-block">
-                        {errors.confPass}
-                      </div>
-                    )}
-                  </div>
-                  <button type="submit" className="btn btn-primary btn-block">
-                    Submit
-                  </button>
-                </form>
-                <div className="mt-3 text-center">
-                  <p className="mb-0">Already have an account? </p>
-                  <Link to={"/login"}>Login</Link>
+                  {submitError && (
+                    <div className="text-danger mt-3 text-center">
+                      {submitError}
+                    </div>
+                  )}
                 </div>
-                {submitError && (
-                  <div className="text-danger mt-3 text-center">
-                    {submitError}
-                  </div>
-                )}
               </div>
             </div>
           </div>
         </div>
+        <ToastContainer />
       </div>
     </>
   );
