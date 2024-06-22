@@ -42,7 +42,6 @@ module.exports.register = async (req, res, next) => {
     res.status(200).json({
       message: "Successfully registered !!",
       success: true,
-      // existsAdmin,
     });
     next();
   } catch (error) {
@@ -79,9 +78,6 @@ module.exports.login = async (req, res, next) => {
       expiresIn: "1d",
     });
 
-    existsAdmin.token = token;
-    existsAdmin.password = undefined;
-    // console.log(token);
     const options = {
       expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
       withCredentials: true,
@@ -93,7 +89,6 @@ module.exports.login = async (req, res, next) => {
     res.status(200).json({
       message: "Successfully Logged in!!",
       success: true,
-      // token,
     });
     next();
   } catch (error) {
@@ -102,7 +97,10 @@ module.exports.login = async (req, res, next) => {
 };
 module.exports.logout = async (req, res, next) => {
   try {
-    res.clearCookie("adminToken");
+    res.clearCookie("adminToken", {
+      secure: true,
+      sameSite: "None",
+    });
     res
       .status(200)
       .json({ success: true, message: "Admin Successfully Logout" });

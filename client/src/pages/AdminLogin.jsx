@@ -1,11 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 import Navbar from "../components/Navbar.jsx";
 import "bootstrap/dist/css/bootstrap.css";
 
 const Login = () => {
   const navigate = useNavigate();
+  const handleSuccess = (msg) => {
+    toast.success(msg, {
+      position: "top-right",
+    });
+  };
+  const handleError = (err) => {
+    toast.error(err, {
+      position: "bottom-left",
+    });
+  };
   useEffect(() => {
     const verifyAdminCookie = async () => {
       try {
@@ -69,17 +80,17 @@ const Login = () => {
             email: "",
             password: "",
           });
-          navigate("/");
-          // console.log(response);
+          handleSuccess("Admin Successfully logged in");
+          setTimeout(() => {
+            navigate("/");
+          }, 1500);
         } else {
-          // console.log(success);
           setInputValue({
             email: "",
             password: "",
           });
           setSubmitError("login error");
-          console.log("login error");
-          // console.log(message);
+          handleError(message);
         }
       } catch (error) {
         setInputValue({
@@ -87,7 +98,7 @@ const Login = () => {
           password: "",
         });
         setSubmitError(error.response.data.message);
-        console.log(error.response.data.message);
+        handleError(error.response.data.message);
       }
     } else {
       setInputValue({
@@ -103,7 +114,10 @@ const Login = () => {
     <>
       <Navbar />
       <div className="container-fluid ">
-        <div className="row justify-content-center align-items-center" style={{marginTop:"100px"}}>
+        <div
+          className="row justify-content-center align-items-center"
+          style={{ marginTop: "100px" }}
+        >
           <div className="col-md-6 col-lg-4">
             <div className="card shadow-lg rounded-3 border-primary">
               <div className="card-body p-4 p-md-5">
@@ -164,6 +178,7 @@ const Login = () => {
             </div>
           </div>
         </div>
+        <ToastContainer />
       </div>
     </>
   );

@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar.jsx";
 import "bootstrap/dist/css/bootstrap.css";
 
@@ -84,13 +84,16 @@ const UserProfile = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {userSubmissions.slice().reverse().map((submission, index) => (
-                    <tr key={index}>
-                      <td>{submission.problemTitle}</td>
-                      <td>{submission.verdict}</td>
-                      <td>{submission.timeTaken}</td>
-                    </tr>
-                  ))}
+                  {userSubmissions
+                    .slice()
+                    .reverse()
+                    .map((submission, index) => (
+                      <tr key={index}>
+                        <td>{submission.problemTitle}</td>
+                        <td>{submission.verdict}</td>
+                        <td>{submission.timeTaken}</td>
+                      </tr>
+                    ))}
                 </tbody>
               </table>
             </div>

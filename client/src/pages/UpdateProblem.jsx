@@ -1,10 +1,23 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 import Navbar from "../components/Navbar.jsx";
 import "bootstrap/dist/css/bootstrap.css";
-const UpdateProblem = (props) => {
+const UpdateProblem = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const id = location.state.id;
+  const handleSuccess = (msg) => {
+    toast.success(msg, {
+      position: "top-right",
+    });
+  };
+  const handleError = (err) => {
+    toast.error(err, {
+      position: "bottom-left",
+    });
+  };
   useEffect(() => {
     const verifyCookie = async () => {
       try {
@@ -14,17 +27,20 @@ const UpdateProblem = (props) => {
           { withCredentials: true }
         );
         if (!response.data.success) {
-          console.log("Admin token not found Please login first");
-          navigate("/adminlogin");
+          handleError("Please login as Admin");
+          setTimeout(() => {
+            navigate("/adminlogin");
+          }, 1500);
         }
       } catch (error) {
-        console.log(error.response.data.message);
-        navigate("/adminlogin");
+        handleError("Please login as Admin");
+        setTimeout(() => {
+          navigate("/adminlogin");
+        }, 1500);
       }
     };
     verifyCookie();
   }, []);
-  const id = useParams().id;
   // console.log(id);
   const [values, setValues] = useState({
     title: "",
@@ -102,8 +118,15 @@ const UpdateProblem = (props) => {
           },
           { withCredentials: true }
         );
-        console.log("problem Successfully Updated");
-        navigate("/problems");
+        const { success, message } = response.data;
+        if (success) {
+          handleSuccess("Problem Updated Successfully");
+          setTimeout(() => {
+            navigate("/problems");
+          }, 1500);
+        } else {
+          handleError(message);
+        }
       } catch (error) {
         setValues({
           title: "",
@@ -117,6 +140,7 @@ const UpdateProblem = (props) => {
           testcasesOutput: "",
         });
         setSubmitError(error.response.data.message);
+        handleError(error.response.data.message);
       }
     } else {
       setValues({
@@ -143,13 +167,13 @@ const UpdateProblem = (props) => {
               <div className="card-body p-4 p-md-5">
                 <h2 className="display-6 text-center mb-4">Update Problem</h2>
                 <form onSubmit={handleSubmit}>
-                  <div class="mb-3">
-                    <label for="title" class="form-label">
+                  <div className="mb-3">
+                    <label htmlFor="title" className="form-label">
                       Title:
                     </label>
                     <input
                       type="text"
-                      class="form-control"
+                      className="form-control"
                       name="title"
                       value={title}
                       placeholder="Enter Title"
@@ -161,12 +185,12 @@ const UpdateProblem = (props) => {
                       </div>
                     )}
                   </div>
-                  <div class="mb-3">
-                    <label for="statement" class="form-label">
+                  <div className="mb-3">
+                    <label htmlFor="statement" className="form-label">
                       Statement:
                     </label>
                     <textarea
-                      class="form-control"
+                      className="form-control"
                       rows="3"
                       name="statement"
                       value={statement}
@@ -179,8 +203,8 @@ const UpdateProblem = (props) => {
                       </div>
                     )}
                   </div>
-                  <div class="mb-3">
-                    <label for="difficulty" class="form-label">
+                  <div className="mb-3">
+                    <label htmlFor="difficulty" className="form-label">
                       Difficulty:
                     </label>
                     <select
@@ -200,12 +224,12 @@ const UpdateProblem = (props) => {
                       </div>
                     )}
                   </div>
-                  <div class="mb-3">
-                    <label for="inputConstraints" class="form-label">
+                  <div className="mb-3">
+                    <label htmlFor="inputConstraints" className="form-label">
                       Input Constraints:
                     </label>
                     <textarea
-                      class="form-control"
+                      className="form-control"
                       rows="3"
                       name="inputConstraints"
                       value={inputConstraints}
@@ -218,12 +242,12 @@ const UpdateProblem = (props) => {
                       </div>
                     )}
                   </div>
-                  <div class="mb-3">
-                    <label for="sampleInput" class="form-label">
+                  <div className="mb-3">
+                    <label htmlFor="sampleInput" className="form-label">
                       Sample Input:
                     </label>
                     <textarea
-                      class="form-control"
+                      className="form-control"
                       rows="3"
                       name="sampleInput"
                       value={sampleInput}
@@ -236,12 +260,12 @@ const UpdateProblem = (props) => {
                       </div>
                     )}
                   </div>
-                  <div class="mb-3">
-                    <label for="outputConstraints" class="form-label">
+                  <div className="mb-3">
+                    <label htmlFor="outputConstraints" className="form-label">
                       Output Constraints:
                     </label>
                     <textarea
-                      class="form-control"
+                      className="form-control"
                       rows="3"
                       name="outputConstraints"
                       value={outputConstraints}
@@ -254,12 +278,12 @@ const UpdateProblem = (props) => {
                       </div>
                     )}
                   </div>
-                  <div class="mb-3">
-                    <label for="sampleOutput" class="form-label">
+                  <div className="mb-3">
+                    <label htmlFor="sampleOutput" className="form-label">
                       Sample Output:
                     </label>
                     <textarea
-                      class="form-control"
+                      className="form-control"
                       rows="3"
                       name="sampleOutput"
                       value={sampleOutput}
@@ -272,12 +296,12 @@ const UpdateProblem = (props) => {
                       </div>
                     )}
                   </div>
-                  <div class="mb-3">
-                    <label for="testcasesInput" class="form-label">
+                  <div className="mb-3">
+                    <label htmlFor="testcasesInput" className="form-label">
                       Testcases Input:
                     </label>
                     <textarea
-                      class="form-control"
+                      className="form-control"
                       rows="3"
                       name="testcasesInput"
                       value={testcasesInput}
@@ -290,12 +314,12 @@ const UpdateProblem = (props) => {
                       </div>
                     )}
                   </div>
-                  <div class="mb-3">
-                    <label for="testcasesOutput" class="form-label">
+                  <div className="mb-3">
+                    <label htmlFor="testcasesOutput" className="form-label">
                       Testcases Output:
                     </label>
                     <textarea
-                      class="form-control"
+                      className="form-control"
                       rows="3"
                       name="testcasesOutput"
                       value={testcasesOutput}
@@ -324,6 +348,7 @@ const UpdateProblem = (props) => {
             </div>
           </div>
         </div>
+        <ToastContainer />
       </div>
     </>
   );

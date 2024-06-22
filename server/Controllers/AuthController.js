@@ -1,7 +1,6 @@
 const User = require("../Model/User.js");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const crypto = require("crypto");
 const SendEmail = require("../utils/SendEmail.js");
 const OtpGenerate = require("../utils/OtpGenerate.js");
 
@@ -87,25 +86,20 @@ module.exports.login = async (req, res, next) => {
       });
     }
     const token = jwt.sign({ id: existsUser._id }, process.env.SECRET_KEY, {
-      expiresIn: "1h",
+      expiresIn: "1d",
     });
 
-    // console.log(token);
     const options = {
-      expires: new Date(Date.now() + 1 * 60 * 60 * 1000),
+      expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
       withCredentials: true,
-      // httpOnly: true,
       secure: true,
       sameSite: "None",
-      // path: "/",
-      // domain: "http://localhost:5173",
     };
 
     res.cookie("token", token, options);
     res.status(200).json({
       message: "Successfully Logged in!!",
       success: true,
-      // token,
     });
     next();
   } catch (error) {
@@ -119,7 +113,6 @@ module.exports.logout = async (req, res, next) => {
       secure: true,
       sameSite: "None",
     });
-    // console.log(res.cookie.token);
     res.status(200).json({ success: true, message: "Successfully Logout" });
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });
@@ -166,7 +159,7 @@ module.exports.forgotPassword = async (req, res, next) => {
     if (!user) {
       return res
         .status(404)
-        .json({ success: false, message: "User Not Found" });
+        .json({ success: false, message: "Enter Registerd Email" });
     }
     const otp = await OtpGenerate();
     const hashedOtp = await bcrypt.hash(otp, 10);
@@ -200,7 +193,7 @@ module.exports.updatePassword = async (req, res, next) => {
       await user.save();
       res.status(200).json({
         success: true,
-        message: "Password Updated successfully. You can login",
+        message: "Password Updated successfully. You can login Now",
       });
       next();
     } else {

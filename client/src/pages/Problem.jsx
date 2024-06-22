@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from "react";
-import {
-  useLoaderData,
-  useLocation,
-  useNavigate,
-  useParams,
-} from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 import Editor from "react-simple-code-editor";
 import { highlight, languages } from "prismjs/components/prism-core";
 import "prismjs/components/prism-clike";
@@ -26,7 +22,16 @@ const Problem = () => {
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [verdict, setVerdict] = useState("");
-
+  const handleSuccess = (msg) => {
+    toast.success(msg, {
+      position: "top-right",
+    });
+  };
+  const handleError = (err) => {
+    toast.error(err, {
+      position: "bottom-left",
+    });
+  };
   const id = location.state.id;
   const [errors, setErrors] = useState({
     langErr: "",
@@ -90,6 +95,13 @@ int main() {
         {},
         { withCredentials: true }
       );
+      const { success, message } = response.data;
+      if (!success) {
+        handleError("Please Login first");
+        setTimeout(() => {
+          navigate("/login");
+        }, 1500);
+      }
       const values = { language, code };
       const newErrors = validateProblem(values);
       setErrors(newErrors);
@@ -124,10 +136,12 @@ int main() {
         }
       }
     } catch (error) {
-      navigate("/login");
+      handleError("Please Login first");
+      setTimeout(() => {
+        navigate("/login");
+      }, 1500);
     }
   };
-  // const [userId, setUserId] = useState("");
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -136,6 +150,13 @@ int main() {
         {},
         { withCredentials: true }
       );
+      const { success, message } = userResponse.data;
+      if (!success) {
+        handleError("Please Login first");
+        setTimeout(() => {
+          navigate("/login");
+        }, 1500);
+      }
       const values = { language, code };
       const newErrors = validateProblem(values);
       setErrors(newErrors);
@@ -169,9 +190,14 @@ int main() {
                 submission,
                 { withCredentials: true }
               );
-              console.log(submissionResponse.data.message);
+              const { success, message } = submissionResponse.data;
+              if (success) {
+                handleSuccess("Submission Added Successfully");
+              } else {
+                handleError(message);
+              }
             } catch (error) {
-              console.log("some error occured", error);
+              handleError(error.response.data.message);
             }
           } else {
             setErrors({
@@ -188,7 +214,10 @@ int main() {
         }
       }
     } catch (error) {
-      navigate("/login");
+      handleError("Please Login first");
+      setTimeout(() => {
+        navigate("/login");
+      }, 1500);
     }
   };
   const formatTime = (time) => {
@@ -209,13 +238,12 @@ int main() {
           withCredentials: true,
         }
       );
-      // const userId = response.data.user._id;
-      // console.log(userId);
       setSubmissions(response.data.user.submissions);
-      // console.log(response.data.user.submissions);
     } catch (error) {
-      navigate(`/login`);
-      console.log(error.response.data.message);
+      handleError("Please login first");
+      setTimeout(() => {
+        navigate(`/login`);
+      }, 1500);
     }
   };
   const problemDetail = () => {
@@ -224,204 +252,214 @@ int main() {
   return (
     <>
       <Navbar />
-      <div className="container mt-4">
-        <div className="row">
-          {/* Problem Details Section */}
-          <div className="col-lg-6 mb-4">
-            <div
-              className="card bg-primary bg-opacity-50 "
-              style={{ color: "black" }}
-            >
-              <div className="card-body">
-                <div className="mb-4">
-                  <h3>{problem.title}</h3>
-                </div>
-                <div>
-                  <button onClick={problemDetail}>Problem</button>
-                  <button onClick={userSubmissions}>Submissions</button>
-                </div>
-                <br></br>
-                {showProblem ? (
+      <div>
+        <div className="container mt-4">
+          <div className="row">
+            {/* Problem Details Section */}
+            <div className="col-lg-6 mb-4">
+              <div
+                className="card bg-primary bg-opacity-50 "
+                style={{ color: "black" }}
+              >
+                <div className="card-body">
+                  <div className="mb-4">
+                    <h3>{problem.title}</h3>
+                  </div>
                   <div>
-                    <p>{problem.statement}</p>
-                    <div className="mb-3">
-                      <h4>Difficulty:</h4> {problem.difficulty}
-                    </div>
-                    {((problem.input && problem.input.constraints) ||
-                      (problem.output && problem.output.constraints)) && (
+                    <button onClick={problemDetail}>Problem</button>
+                    <button onClick={userSubmissions}>Submissions</button>
+                  </div>
+                  <br></br>
+                  {showProblem ? (
+                    <div>
+                      <p>{problem.statement}</p>
                       <div className="mb-3">
-                        <h4>Constraints:</h4> {problem.input.constraints}{" "}
-                        <br></br> {problem.output.constraints}
+                        <h4>Difficulty:</h4> {problem.difficulty}
                       </div>
-                    )}
-                    {((problem.input && problem.input.sample) ||
-                      (problem.output && problem.output.sample)) && (
-                      <>
+                      {((problem.input && problem.input.constraints) ||
+                        (problem.output && problem.output.constraints)) && (
                         <div className="mb-3">
-                          <h4>Sample Input and Output:</h4>
+                          <h4>Constraints:</h4> {problem.input.constraints}{" "}
+                          <br></br> {problem.output.constraints}
                         </div>
-                        <table className="table table-bordered">
-                          <thead className="thead-dark">
-                            <tr>
-                              <th scope="col">Input</th>
-                              <th scope="col">Output</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td>{problem.input.sample}</td>
-                              <td>{problem.output.sample}</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </>
+                      )}
+                      {((problem.input && problem.input.sample) ||
+                        (problem.output && problem.output.sample)) && (
+                        <>
+                          <div className="mb-3">
+                            <h4>Sample Input and Output:</h4>
+                          </div>
+                          <table className="table table-bordered">
+                            <thead className="thead-dark">
+                              <tr>
+                                <th scope="col">Input</th>
+                                <th scope="col">Output</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>{problem.input.sample}</td>
+                                <td>{problem.output.sample}</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </>
+                      )}
+                    </div>
+                  ) : (
+                    <>
+                      <h4>Your Submissions</h4>
+                      <div className="card-body">
+                        <div className="table-responsive">
+                          <table className="table table-bordered table-hover">
+                            <thead className="thead-dark">
+                              <tr>
+                                <th scope="col">Language</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Time Taken</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {submissions
+                                .slice()
+                                .reverse()
+                                .filter(
+                                  (submission) => submission.problemId === id
+                                )
+                                .map((sub, index) => (
+                                  <tr key={index}>
+                                    <td>
+                                      {(sub.language === "cpp" && <>C++</>) ||
+                                        (sub.language === "java" && <>Java</>)}
+                                    </td>
+                                    <td>{sub.verdict}</td>
+                                    <td>{sub.timeTaken}</td>
+                                  </tr>
+                                ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Code Editor Section */}
+            <div className="col-lg-6">
+              <div
+                className="card bg-primary bg-opacity-50 "
+                style={{ color: "black" }}
+              >
+                <div className="card-body">
+                  <div className="mb-3">
+                    <label className="form-label">Language:</label>
+                    <select
+                      className="form-select mb-2"
+                      name="language"
+                      value={language}
+                      onChange={(e) => {
+                        setLanguage(e.target.value);
+                      }}
+                    >
+                      <option value="cpp">C++</option>
+                      <option value="java">Java</option>
+                      {/* <option value="py">Python</option> */}
+                    </select>
+                    {errors.langErr && (
+                      <div className="text-danger">{errors.langErr}</div>
                     )}
                   </div>
-                ) : (
-                  <>
-                    <h4>Your Submissions</h4>
-                    <div className="card-body">
-                      <div className="table-responsive">
-                        <table className="table table-bordered table-hover">
-                          <thead className="thead-dark">
-                            <tr>
-                              <th scope="col">Language</th>
-                              <th scope="col">Status</th>
-                              <th scope="col">Time Taken</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {submissions
-                              .slice()
-                              .reverse()
-                              .filter(submission => submission.problemId === id)
-                              .map((sub, index) => (
-                                <tr key={index}>
-                                  <td>{((sub.language==='cpp') && (<>C++</>)) || ((sub.language==='java') && (<>Java</>))}</td>
-                                  <td>{sub.verdict}</td>
-                                  <td>{sub.timeTaken}</td>
-                                </tr>
-                              ))}
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </>
-                )}
-              </div>
-            </div>
-          </div>
-
-          {/* Code Editor Section */}
-          <div className="col-lg-6">
-            <div
-              className="card bg-primary bg-opacity-50 "
-              style={{ color: "black" }}
-            >
-              <div className="card-body">
-                <div className="mb-3">
-                  <label className="form-label">Language:</label>
-                  <select
-                    className="form-select mb-2"
-                    name="language"
-                    value={language}
-                    onChange={(e) => {
-                      setLanguage(e.target.value);
-                    }}
-                  >
-                    <option value="cpp">C++</option>
-                    <option value="java">Java</option>
-                    {/* <option value="py">Python</option> */}
-                  </select>
-                  {errors.langErr && (
-                    <div className="text-danger">{errors.langErr}</div>
-                  )}
-                </div>
-                <div className="mb-3" style={{ minHeight: "300px" }}>
-                  {" "}
-                  {/* Increased height */}
-                  <label className="form-label">Write Code here:</label>
-                  <Editor
-                    className="form-control"
-                    style={{
-                      minHeight: "300px",
-                      fontFamily: '"Fira code", "Fira Mono", monospace',
-                      fontSize: 13,
-                      outline: "none",
-                      border: "none",
-                      overflow: "auto",
-                    }} // Ensures a minimum height
-                    // name="code"
-                    value={code}
-                    onValueChange={(code) => setCode(code)}
-                    highlight={(code) => highlight(code, languages.js)}
-                  />
-                  {errors.codeErr && (
-                    <div className="text-danger">{errors.codeErr}</div>
-                  )}
-                </div>
-                <button
-                  onClick={handleRun}
-                  className="btn btn-light mb-2"
-                  type="button"
-                >
-                  Run
-                </button>
-                <button
-                  onClick={handleSubmit}
-                  className="btn btn-light mb-2 ms-2"
-                  type="button"
-                >
-                  Submit
-                </button>
-                {errors.subErr && (
-                  <div className="text-danger">{errors.subErr}</div>
-                )}
-              </div>
-            </div>
-
-            {/* Solve Area Section */}
-            <div
-              className="card bg-primary bg-opacity-50 mt-4"
-              style={{ color: "black" }}
-            >
-              <div className="card-body row">
-                <div className="col">
-                  <div className="mb-3">
-                    <label className="form-label">Input:</label>
-                    <textarea
+                  <div className="mb-3" style={{ minHeight: "300px" }}>
+                    {" "}
+                    {/* Increased height */}
+                    <label className="form-label">Write Code here:</label>
+                    <Editor
                       className="form-control"
-                      style={{ minHeight: "100px" }}
-                      name="input"
-                      value={input}
-                      placeholder="Enter your Input"
-                      onChange={(e) => {
-                        setInput(e.target.value);
-                      }}
+                      style={{
+                        minHeight: "300px",
+                        fontFamily: '"Fira code", "Fira Mono", monospace',
+                        fontSize: 13,
+                        outline: "none",
+                        border: "none",
+                        overflow: "auto",
+                      }} // Ensures a minimum height
+                      // name="code"
+                      value={code}
+                      onValueChange={(code) => setCode(code)}
+                      highlight={(code) => highlight(code, languages.js)}
                     />
+                    {errors.codeErr && (
+                      <div className="text-danger">{errors.codeErr}</div>
+                    )}
                   </div>
+                  <button
+                    onClick={handleRun}
+                    className="btn btn-light mb-2"
+                    type="button"
+                  >
+                    Run
+                  </button>
+                  <button
+                    onClick={handleSubmit}
+                    className="btn btn-light mb-2 ms-2"
+                    type="button"
+                  >
+                    Submit
+                  </button>
+                  {errors.subErr && (
+                    <div className="text-danger">{errors.subErr}</div>
+                  )}
                 </div>
-                {output && (
+              </div>
+
+              {/* Solve Area Section */}
+              <div
+                className="card bg-primary bg-opacity-50 mt-4"
+                style={{ color: "black" }}
+              >
+                <div className="card-body row">
                   <div className="col">
-                    <div className="mb-3">Output: {output}</div>
+                    <div className="mb-3">
+                      <label className="form-label">Input:</label>
+                      <textarea
+                        className="form-control"
+                        style={{ minHeight: "100px" }}
+                        name="input"
+                        value={input}
+                        placeholder="Enter your Input"
+                        onChange={(e) => {
+                          setInput(e.target.value);
+                        }}
+                      />
+                    </div>
                   </div>
-                )}
-                {verdict && (
-                  <div className="col">
-                    <div className="mb-3">Verdict: {verdict}</div>
-                  </div>
-                )}
+                  {output && (
+                    <div className="col">
+                      <div className="mb-3">Output: {output}</div>
+                    </div>
+                  )}
+                  {verdict && (
+                    <div className="col">
+                      <div className="mb-3">Verdict: {verdict}</div>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Time Elapsed Section */}
-        { (showProblem) && (<div className="fixed-bottom mb-4">
-          <p className="text-primary">
-            &emsp;Time Elapsed: {formatTime(seconds)}
-          </p>
-        </div>)}
+          {/* Time Elapsed Section */}
+          {showProblem && (
+            <div className="fixed-bottom mb-4">
+              <p className="text-primary">
+                &emsp;Time Elapsed: {formatTime(seconds)}
+              </p>
+            </div>
+          )}
+        </div>
+        <ToastContainer />
       </div>
     </>
   );

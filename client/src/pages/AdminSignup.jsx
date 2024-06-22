@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 import Navbar from "../components/Navbar.jsx";
 import "bootstrap/dist/css/bootstrap.css";
 const Signup = () => {
@@ -15,6 +16,16 @@ const Signup = () => {
   const { fullName, phone, email, password } = inputValue;
   const [errors, setErrors] = useState({});
   const [submitError, setSubmitError] = useState("");
+  const handleSuccess = (msg) => {
+    toast.success(msg, {
+      position: "top-right",
+    });
+  };
+  const handleError = (err) => {
+    toast.error(err, {
+      position: "bottom-left",
+    });
+  };
   const validateForm = (data, cnfpas) => {
     const errors = {};
     if (!data.fullName.trim()) {
@@ -76,13 +87,13 @@ const Signup = () => {
             email: "",
             password: "",
           });
-          navigate("/");
+          handleSuccess("Admin Successfully Registered");
+          setTimeout(() => {
+            navigate("/");
+          }, 1500);
+        } else {
+          handleError(message);
         }
-        // if (!response.ok) {
-        //   const errorData = await response.json();
-        //   throw new Error(errorData.message || "Something went wrong!");
-        // }
-        console.log(response);
       } catch (error) {
         setInputValue({
           fullName: "",
@@ -92,7 +103,7 @@ const Signup = () => {
         });
         setConfirmPassword("");
         setSubmitError(error.response.data.message);
-        console.log(error.response.data.message);
+        handleError(error.response.data.message);
       }
     } else {
       setInputValue({
@@ -103,7 +114,6 @@ const Signup = () => {
       });
       setConfirmPassword("");
       setSubmitError("form submission failed");
-      console.log("form submission failed");
     }
   };
 
@@ -226,6 +236,7 @@ const Signup = () => {
             </div>
           </div>
         </div>
+        <ToastContainer />
       </div>
     </>
   );

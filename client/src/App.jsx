@@ -26,7 +26,7 @@ function App() {
         <Route path="/problems" element={<Problems />} />
         <Route path="/problem/:title" element={<Problem />} />
         <Route path="/addProblem" element={<AddProblem />} />
-        <Route path="/updateProblem/:id" element={<UpdateProblem />} />
+        <Route path="/updateProblem" element={<UpdateProblem />} />
         <Route path="/deleteProblem" element={<DeleteProblem />} />
         <Route path="/adminLogin" element={<AdminLogin />} />
         <Route path="/adminSignup" element={<AdminSignup />} />

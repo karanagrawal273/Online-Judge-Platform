@@ -1,11 +1,21 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 import Navbar from "../components/Navbar.jsx";
 import "bootstrap/dist/css/bootstrap.css";
-const AddProblem = (props) => {
+const AddProblem = () => {
   const navigate = useNavigate();
-
+  const handleSuccess = (msg) => {
+    toast.success(msg, {
+      position: "top-right",
+    });
+  };
+  const handleError = (err) => {
+    toast.error(err, {
+      position: "bottom-left",
+    });
+  };
   useEffect(() => {
     const verifyCookie = async () => {
       try {
@@ -15,18 +25,21 @@ const AddProblem = (props) => {
           { withCredentials: true }
         );
         if (!response.data.success) {
-          console.log("admin token not found Please login first");
-          navigate("/adminlogin");
+          handleError("Please login as Admin");
+          setTimeout(() => {
+            navigate("/adminlogin");
+          }, 1500);
         }
       } catch (error) {
         console.log(error.response.data.message);
-        navigate("/adminlogin");
+        handleError("Please login as Admin");
+        setTimeout(() => {
+          navigate("/adminlogin");
+        }, 1500);
       }
     };
     verifyCookie();
   }, []);
-  const id = useParams().id;
-  // console.log(id);
   const [values, setValues] = useState({
     title: "",
     statement: "",
@@ -102,8 +115,15 @@ const AddProblem = (props) => {
           },
           { withCredentials: true }
         );
-        console.log("Problem Successfully Added");
-        navigate("/problems");
+        const { success, message } = response.data;
+        if (success) {
+          handleSuccess("Problem Added Successfully");
+          setTimeout(() => {
+            navigate("/problems");
+          }, 1000);
+        } else {
+          handleError(message);
+        }
       } catch (error) {
         setValues({
           title: "",
@@ -117,6 +137,7 @@ const AddProblem = (props) => {
           testcasesOutput: "",
         });
         setSubmitError(error.response.data.message);
+        handleError(error.response.data.message);
       }
     } else {
       setValues({
@@ -324,6 +345,7 @@ const AddProblem = (props) => {
             </div>
           </div>
         </div>
+        <ToastContainer />
       </div>
     </>
   );

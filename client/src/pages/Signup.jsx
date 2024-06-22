@@ -23,13 +23,8 @@ const Signup = () => {
     });
   };
   const handleError = (err) => {
-    toast.warning(err, {
+    toast.error(err, {
       position: "bottom-left",
-    });
-  };
-  const handleWarning = (war) => {
-    toast.error(war, {
-      position: "top-center",
     });
   };
   const validateForm = (data, cnfpas) => {
@@ -86,7 +81,7 @@ const Signup = () => {
           },
           { withCredentials: true }
         );
-        const { success, message } = response.data;
+        const { success, message, id } = response.data;
         if (success) {
           setInputValue({
             firstname: "",
@@ -95,9 +90,9 @@ const Signup = () => {
             email: "",
             password: "",
           });
-          handleWarning(message);
+          handleSuccess(message);
           setTimeout(() => {
-            navigate("/");
+            navigate("/otp", { state: { id } });
           }, 1500);
         }
       } catch (error) {

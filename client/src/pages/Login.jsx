@@ -13,12 +13,12 @@ const Login = () => {
     });
   };
   const handleError = (err) => {
-    toast.warning(err, {
+    toast.error(err, {
       position: "bottom-left",
     });
   };
   const handleWarning = (war) => {
-    toast.error(war, {
+    toast.warning(war, {
       position: "top-center",
     });
   };
@@ -87,7 +87,7 @@ const Login = () => {
           if (id) {
             handleWarning(`Please verify first ${message}`);
             setTimeout(() => {
-              navigate("/");
+              navigate("/otp", { state: { id } });
             }, 1500);
           } else {
             handleSuccess("Successfully logged in");

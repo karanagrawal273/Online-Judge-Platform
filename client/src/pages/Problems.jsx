@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 import DeleteProblem from "./DeleteProblem";
 import "bootstrap/dist/css/bootstrap.css";
 
@@ -8,7 +9,17 @@ const Problems = () => {
   const [problems, setProblems] = useState([]);
   const [difficulty, setDifficulty] = useState("");
   const [name, setName] = useState("");
-
+  const navigate = useNavigate();
+  const handleSuccess = (msg) => {
+    toast.success(msg, {
+      position: "top-right",
+    });
+  };
+  const handleError = (err) => {
+    toast.error(err, {
+      position: "bottom-left",
+    });
+  };
   const handleOnChange = (e) => {
     setDifficulty(e.target.value);
   };
@@ -20,10 +31,8 @@ const Problems = () => {
           {},
           { withCredentials: true }
         );
-        // console.log(response);
         if (!response.data.success) {
           console.log("token not found");
-          // navigate("/login");
         } else {
           setName(response.data.user.firstname);
         }
@@ -64,56 +73,76 @@ const Problems = () => {
       return <DeleteProblem obj={res} key={i} />;
     });
   };
-
+  const handleAdd = async () => {
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/admin/`,
+        {},
+        { withCredentials: true }
+      );
+      navigate("/addproblem");
+    } catch (error) {
+      handleError("please login as Admin");
+      setTimeout(() => {
+        navigate("/adminlogin");
+      }, 1500);
+    }
+  };
   return (
     <>
-      <nav className="navbar bg-primary navbar-expand-lg" data-bs-theme="dark">
-        <div className="container-fluid">
-          <a className="navbar-brand text-white" href="/">
-            Online Judge
-          </a>
-        </div>
-        <div className="d-flex align-items-center">
-          {name !== "" && (
-            <a className="nav-link me-3 text-white" href="/userprofile">
-              {name}
+      <div>
+        <nav
+          className="navbar bg-primary navbar-expand-lg"
+          data-bs-theme="dark"
+        >
+          <div className="container-fluid">
+            <a className="navbar-brand text-white" href="/">
+              Online Judge
             </a>
-          )}
-        </div>
-      </nav>
-      <div className="container mt-4">
-        {/* Select Dropdown */}
-        <div className="mb-4 d-flex justify-content-start align-items-center">
-          <h3 className="me-3 fw-bold text-primary">Filter:</h3>
-          <select
-            className="form-select form-select-lg"
-            aria-label="Default select example"
-            name="difficulty"
-            onChange={handleOnChange}
-            style={{ width: "200px" }}
-          >
-            <option value="">Select Difficulty</option>
-            <option value="easy">Easy</option>
-            <option value="medium">Medium</option>
-            <option value="hard">Hard</option>
-          </select>
-        </div>
+          </div>
+          <div className="d-flex align-items-center">
+            {name !== "" && (
+              <a className="nav-link me-3 text-white" href="/userprofile">
+                {name}
+              </a>
+            )}
+          </div>
+        </nav>
+        <div className="container mt-4">
+          {/* Select Dropdown */}
+          <div className="mb-4 d-flex justify-content-start align-items-center">
+            <h3 className="me-3 fw-bold text-primary">Filter:</h3>
+            <select
+              className="form-select form-select-lg"
+              aria-label="Default select example"
+              name="difficulty"
+              onChange={handleOnChange}
+              style={{ width: "200px" }}
+            >
+              <option value="">Select Difficulty</option>
+              <option value="easy">Easy</option>
+              <option value="medium">Medium</option>
+              <option value="hard">Hard</option>
+            </select>
+          </div>
 
-        {/* Problems Section */}
-        <div className="card shadow">
-          <div className="card-header bg-primary text-white">
-            <h5 className="mb-0">Problems List</h5>
-          </div>
-          <div className="card-body">
-            <div className="d-flex justify-content-between align-items-center mb-3">
-              <h6 className="card-title mb-0">Current Problems</h6>
-              <Link to="/addProblem" className="btn btn-primary">
-                Add Problem
-              </Link>
+          {/* Problems Section */}
+          <div className="card shadow">
+            <div className="card-header bg-primary text-white">
+              <h5 className="mb-0">Problems List</h5>
             </div>
-            <ul className="list-group">{problemList()}</ul>
+            <div className="card-body">
+              <div className="d-flex justify-content-between align-items-center mb-3">
+                <h6 className="card-title mb-0">Current Problems</h6>
+                <button onClick={handleAdd} className="btn btn-primary">
+                  Add Problem
+                </button>
+              </div>
+              <ul className="list-group">{problemList()}</ul>
+            </div>
           </div>
         </div>
+        <ToastContainer />
       </div>
     </>
   );

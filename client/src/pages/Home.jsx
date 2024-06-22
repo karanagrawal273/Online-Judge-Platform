@@ -27,17 +27,14 @@ const Home = () => {
           {},
           { withCredentials: true }
         );
-        // console.log('here'+response);
         if (!response.data.success) {
           console.log("token not found");
-          // navigate("/login");
         } else {
           handleSuccess(`Hello ${response.data.user.firstname}`);
           setName(response.data.user.firstname);
         }
       } catch (error) {
         console.log(error.response.data.message);
-        // navigate("/login");
       }
     };
     const verifyAdminCookie = async () => {
@@ -47,21 +44,16 @@ const Home = () => {
           {},
           { withCredentials: true }
         );
-        // console.log(response);
         if (!response.data.success) {
           console.log("Admin token not found");
-          // navigate("/login");
         } else {
           setAdmin(response.data.user);
-          handleSuccess(`Hello Admin ${response.data.user}`);
+          handleSuccess(`Hello Admin`);
         }
       } catch (error) {
         console.log(error.response.data.message);
-
-        // navigate("/login");
       }
     };
-
     verifyCookie();
     verifyAdminCookie();
   }, []);
@@ -72,12 +64,9 @@ const Home = () => {
         {},
         { withCredentials: true }
       );
-      // console.log(response);
       if (!response.data.success) {
         handleError("Some Error Occurred. While logout");
       } else {
-        // removeCookie('token');
-        Cookies.remove("token");
         handleSuccess(response.data.message);
         setTimeout(() => {
           navigate("/login");
