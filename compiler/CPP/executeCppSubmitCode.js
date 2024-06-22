@@ -16,7 +16,7 @@ const executeCppSubmitCode = async (
     fs.mkdirSync(inputPath, { recursive: true });
   }
   const jobId = path.basename(filePath).split(".")[0];
-  const outPath = path.join(outputPath, `${jobId}.out`);
+  const outPath = path.join(outputPath, `${jobId}.exe`);
   const inPath = path.join(inputPath, `${jobId}.txt`);
 
   try {
@@ -31,7 +31,7 @@ const executeCppSubmitCode = async (
     await fs.writeFileSync(inPath, inputs[0]);
     const out = await new Promise((resolve, reject) => {
       const process = exec(
-        `g++ ${filePath} -o ${outPath} && cd ${outputPath} && ./${jobId}.out < ${inPath}`,
+        `g++ ${filePath} -o ${outPath} && cd ${outputPath} && .\\${jobId}.exe < ${inPath}`,
         (error, stdout, stderr) => {
           if (error) {
             reject(error);
@@ -60,7 +60,7 @@ const executeCppSubmitCode = async (
       await fs.writeFileSync(inPath, inputs[i]);
       const out = await new Promise((resolve, reject) => {
         const process = exec(
-          `cd ${outputPath} && ./${jobId}.out < ${inPath}`,
+          `cd ${outputPath} && .\\${jobId}.exe < ${inPath}`,
           (error, stdout, stderr) => {
             if (error) {
               reject(error);
