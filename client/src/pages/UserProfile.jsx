@@ -22,8 +22,6 @@ const UserProfile = () => {
         } else {
           setUserDetails(response.data.user);
           setUserSubmissions(response.data.user.submissions);
-          // console.log(response.data.user);
-          // console.log(userSubmissions);
         }
       } catch (error) {
         console.log(error);

@@ -63,7 +63,7 @@ module.exports.login = async (req, res, next) => {
     if (!existsUser) {
       return res.status(404).json({
         success: false,
-        message: "User doesn't get Registered",
+        message: "User doesn't get Registered. Please Register first",
       });
     }
 
@@ -131,8 +131,6 @@ module.exports.verifyWithOTP = async (req, res, next) => {
     if (!otp) {
       return res.status(404).json({ success: false, message: "OTP not found" });
     }
-    const enteredOtp = String(otp);
-
     const validOtp = await bcrypt.compare(otp, user.otp);
     if (validOtp) {
       user.otp = null;
@@ -159,7 +157,7 @@ module.exports.forgotPassword = async (req, res, next) => {
     if (!user) {
       return res
         .status(404)
-        .json({ success: false, message: "Enter Registerd Email" });
+        .json({ success: false, message: "Enter Registered Email" });
     }
     const otp = await OtpGenerate();
     const hashedOtp = await bcrypt.hash(otp, 10);

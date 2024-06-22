@@ -5,9 +5,7 @@ const jwt = require("jsonwebtoken");
 module.exports.adminVerification = (req, res) => {
   try {
     const adminToken = req.cookies.adminToken;
-    // console.log(token);
     if (!adminToken) {
-      // console.log("token not found 1");
       return res.status(404).json({
         success: false,
         message: "Admin authentication failed",
@@ -17,11 +15,10 @@ module.exports.adminVerification = (req, res) => {
       if (error) {
         return res
           .status(404)
-          .json({ success: false, message: "User authentication failed" });
+          .json({ success: false, message: "Admin authentication failed" });
       } else {
         const admin = await Admin.findById(data.id);
         if (admin) {
-          // console.log(admin.firstname);
           return res.status(200).json({ success: true, admin: admin.fullName });
         } else
           return res

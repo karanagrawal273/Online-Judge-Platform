@@ -373,7 +373,6 @@ int main() {
                   </div>
                   <div className="mb-3" style={{ minHeight: "300px" }}>
                     {" "}
-                    {/* Increased height */}
                     <label className="form-label">Write Code here:</label>
                     <Editor
                       className="form-control"
@@ -384,8 +383,7 @@ int main() {
                         outline: "none",
                         border: "none",
                         overflow: "auto",
-                      }} // Ensures a minimum height
-                      // name="code"
+                      }} 
                       value={code}
                       onValueChange={(code) => setCode(code)}
                       highlight={(code) => highlight(code, languages.js)}
