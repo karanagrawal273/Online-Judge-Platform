@@ -11,29 +11,38 @@ Build a platform that runs and compiles user submitted code for a programming pr
 <h2>Pages:</h2>
 
 1. Home Page
-
+  <image src="Screenshot_pages/1.jpg" />
+  
 2. Login Page
-
-3. Forgot Password
-
-4. SignUp Page
-
-5. Admin Login Page
-
-6. Problem List Page
-
-7. Add Problem Page
-
-8. Update Problem Page
-
-9. Problem page
-
-10. User Submission Page for this Problem
-
-11. User Profile Page
-
-12. Leaderboard Page
-
+ <image src="Screenshot_pages/2.jpg" />
+ 
+3. SignUp Page
+ <image src="Screenshot_pages/4.jpg" />
+ 
+4. Admin Login Page
+ <image src="Screenshot_pages/5.jpg" />
+ 
+5. Problem List Page
+ <image src="Screenshot_pages/6.jpg" />
+ 
+6. Add Problem Page
+ <image src="Screenshot_pages/7.jpg" />
+ 
+7. Update Problem Page
+ <image src="Screenshot_pages/8.jpg" />
+ 
+8. Problem page
+ <image src="Screenshot_pages/9.jpg" />
+ 
+9. User Submission Page for this Problem
+ <image src="Screenshot_pages/10.jpg" />
+ 
+10. User Profile Page
+ <image src="Screenshot_pages/11.jpg" />
+ 
+11. Leaderboard Page
+ <image src="Screenshot_pages/12.jpg" />
+ 
 
 <h2>Problem Statement:</h2>
 A coding challenge is a timed event where a set of coding problems is provided to pre-registered participants. Their objective is to solve these problems within the designated timeframe. Once solutions are submitted, they undergo evaluation against undisclosed test cases. Scores are allocated based on the accuracy and efficiency of the solutions. This process ensures fair and unbiased assessment of participants’ coding abilities. The platform responsible for hosting such challenges is commonly referred to as an Online Judge. It serves as the central hub for organising, distributing and evaluating coding challenges, facilitating participation from a global community of programmers. Through these challenges, participants can test their skills, learn from others, and compete in a supportive environment, fostering growth and development in the field of coding. Examples of Online Judges are LeetCode, GeeksForGeeks, Codeforces, etc.
