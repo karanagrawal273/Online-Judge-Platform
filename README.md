@@ -20,21 +20,19 @@ Build a platform that runs and compiles user submitted code for a programming pr
 
 5. Admin Login Page
 
-6. Admin SignUp Page
+6. Problem List Page
 
-7. Problem List Page
+7. Add Problem Page
 
-8. Add Problem Page
+8. Update Problem Page
 
-9. Update Problem Page
+9. Problem page
 
-10. Problem page
+10. User Submission Page for this Problem
 
-11. User Submission Page for this Problem
+11. User Profile Page
 
-12. User Profile Page
-
-13. Leaderboard Page
+12. Leaderboard Page
 
 
 <h2>Problem Statement:</h2>
