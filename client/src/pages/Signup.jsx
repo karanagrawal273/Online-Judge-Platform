@@ -81,7 +81,7 @@ const Signup = () => {
           },
           { withCredentials: true }
         );
-        const { success, message, id } = response.data;
+        const { success, message } = response.data;
         if (success) {
           setInputValue({
             firstname: "",
@@ -92,7 +92,7 @@ const Signup = () => {
           });
           handleSuccess(message);
           setTimeout(() => {
-            navigate("/otp", { state: { id } });
+            navigate("/");
           }, 1500);
         }
       } catch (error) {

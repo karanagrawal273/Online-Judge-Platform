@@ -78,23 +78,16 @@ const Login = () => {
           },
           { withCredentials: true }
         );
-        const { success, message, id } = response.data;
+        const { success, message } = response.data;
         if (success) {
           setInputValue({
             email: "",
             password: "",
           });
-          if (id) {
-            handleWarning(`Please verify first ${message}`);
-            setTimeout(() => {
-              navigate("/otp", { state: { id } });
-            }, 1500);
-          } else {
-            handleSuccess("Successfully logged in");
-            setTimeout(() => {
-              navigate("/");
-            }, 1500);
-          }
+          handleSuccess("Successfully logged in");
+          setTimeout(() => {
+            navigate("/");
+          }, 1500);
         } else {
           setInputValue({
             email: "",

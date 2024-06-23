@@ -31,16 +31,33 @@ module.exports.register = async (req, res, next) => {
       password: hashedPass,
     });
 
-    const otp = await OtpGenerate();
-    const hashedOtp = await bcrypt.hash(otp, 10);
-    existsUser.otp = hashedOtp;
-    await existsUser.save();
-    await SendEmail(existsUser.email, "Verify User with OTP", otp);
+    // const otp = await OtpGenerate();
+    // const hashedOtp = await bcrypt.hash(otp, 10);
+    // existsUser.otp = hashedOtp;
+    // await existsUser.save();
+    // await SendEmail(existsUser.email, "Verify User with OTP", otp);
+    // res.status(200).json({
+    //   message:
+    //     "Successfully registered !! An Otp Sent to you on your Email for Verification",
+    //   success: true,
+    //   id: existsUser._id,
+    // });
+
+    const token = jwt.sign({ id: existsUser._id }, process.env.SECRET_KEY, {
+      expiresIn: "1d",
+    });
+   
+    const options = {
+      expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
+      withCredentials: true,
+      secure: true,
+      sameSite: "None",
+    };
+
+    res.cookie("token", token, options);
     res.status(200).json({
-      message:
-        "Successfully registered !! An Otp Sent to you on your Email for Verification",
+      message: "Successfully Registered",
       success: true,
-      id: existsUser._id,
     });
     next();
   } catch (error) {
@@ -73,18 +90,18 @@ module.exports.login = async (req, res, next) => {
         .status(404)
         .json({ success: false, message: "Invalid login credentials" });
     }
-    if (!existsUser.verified) {
-      const otp = await OtpGenerate();
-      await SendEmail(existsUser.email, "Verify User with OTP", otp);
-      const hashedOtp = await bcrypt.hash(otp, 10);
-      existsUser.otp = hashedOtp;
-      await existsUser.save();
-      return res.status(201).json({
-        success: true,
-        message: "A OTP has sent to your email to get it verified",
-        id: existsUser._id,
-      });
-    }
+    // if (!existsUser.verified) {
+    //   const otp = await OtpGenerate();
+    //   await SendEmail(existsUser.email, "Verify User with OTP", otp);
+    //   const hashedOtp = await bcrypt.hash(otp, 10);
+    //   existsUser.otp = hashedOtp;
+    //   await existsUser.save();
+    //   return res.status(201).json({
+    //     success: true,
+    //     message: "A OTP has sent to your email to get it verified",
+    //     id: existsUser._id,
+    //   });
+    // }
     const token = jwt.sign({ id: existsUser._id }, process.env.SECRET_KEY, {
       expiresIn: "1d",
     });
