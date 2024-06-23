@@ -178,9 +178,9 @@ const Login = () => {
                       {submitError}
                     </div>
                   )}
-                  <div className="mt-3 text-center">
+                  {/* <div className="mt-3 text-center">
                     <Link to={"/forgotpassword"}>Forgot Password</Link>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
