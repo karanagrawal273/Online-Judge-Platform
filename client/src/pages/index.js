@@ -13,3 +13,5 @@ export { default as Leaderboard } from "./Leaderboard";
 export { default as ForgotPassword } from "./ForgotPassword";
 export { default as OtpFillForm } from "./OtpFillForm";
 export { default as UpdatePassword } from "./UpdatePassword";
+export { default as ContactUs } from "./ContactUs";
+export { default as AboutUs } from "./AboutUs";

@@ -15,6 +15,8 @@ import {
   ForgotPassword,
   OtpFillForm,
   UpdatePassword,
+  ContactUs,
+  AboutUs,
 } from "./pages";
 function App() {
   return (
@@ -35,6 +37,8 @@ function App() {
         <Route path="/forgotpassword" element={<ForgotPassword />} />
         <Route path="/otp" element={<OtpFillForm />} />
         <Route path="/passwordupdate" element={<UpdatePassword />} />
+        <Route path="/contactus" element={<ContactUs />} />
+        <Route path="/aboutus" element={<AboutUs />} />
       </Routes>
     </div>
   );

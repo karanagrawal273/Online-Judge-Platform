@@ -211,7 +211,7 @@ const Home = () => {
               <h5>Connect</h5>
               <ul className="list-unstyled">
                 <li>
-                  <a href="#" className="text-white">
+                  <a href="/contactus" className="text-white">
                     Contact Us
                   </a>
                 </li>
