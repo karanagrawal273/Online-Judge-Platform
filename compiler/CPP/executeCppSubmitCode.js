@@ -31,7 +31,7 @@ const executeCppSubmitCode = async (
     await fs.writeFileSync(inPath, inputs[0]);
     const out = await new Promise((resolve, reject) => {
       const process = exec(
-        `g++ ${filePath} -o ${outPath} && cd ${outputPath} && .\\${jobId}.exe < ${inPath}`,
+        `g++ ${filePath} -o ${outPath} && cd ${outputPath} && ./${jobId}.exe < ${inPath}`,
         (error, stdout, stderr) => {
           if (error) {
             reject(error);
@@ -60,7 +60,7 @@ const executeCppSubmitCode = async (
       await fs.writeFileSync(inPath, inputs[i]);
       const out = await new Promise((resolve, reject) => {
         const process = exec(
-          `cd ${outputPath} && .\\${jobId}.exe < ${inPath}`,
+          `cd ${outputPath} && ./${jobId}.exe < ${inPath}`,
           (error, stdout, stderr) => {
             if (error) {
               reject(error);
@@ -74,7 +74,7 @@ const executeCppSubmitCode = async (
         setTimeout(() => {
           process.kill();
           reject(new Error("TLE,  process terminated"));
-        }, 1000);
+        }, 2000);
       });
       if (!outputs.length) {
         if (out != "") {
